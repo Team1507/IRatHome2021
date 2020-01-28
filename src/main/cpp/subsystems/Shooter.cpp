@@ -37,10 +37,7 @@ void Shooter::StopFeeder(){}
 void Shooter::StopShooter(){}
 
 
-void Shooter::CarouselSpinForward(){}
-
-
-void Shooter::CarouselSpinReverse(){}
+void Shooter::SetCarouselPower(){}
 
 
 void Shooter::CarouselStop(){}

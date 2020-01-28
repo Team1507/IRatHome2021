@@ -8,9 +8,11 @@
 
 class Shooter : public frc::Subsystem {
     private:
-        WPI_TalonFX m_leftShooterMotor{LEFT_SHOOTER_FALCON_ADDRESS};
-        WPI_TalonFX m_rightShooterMotor{RIGHT_SHOOTER_FALCON_ADDRESS};
-        WPI_TalonFX m_feederMotor{FEEDER_CAN_ADDRESS};
+        WPI_TalonFX m_leftShooterMotor{LEFT_SHOOTER_FALCON_ID};
+        WPI_TalonFX m_rightShooterMotor{RIGHT_SHOOTER_FALCON_ID};
+        WPI_TalonFX m_feederMotor{FEEDER_CAN_ID};
+        WPI_VictorSPX m_carouselMotor{CAROUSEL_CAN_ID};
+        
     public:
         Shooter();
         void InitDefaultCommand() override;
@@ -24,8 +26,7 @@ class Shooter : public frc::Subsystem {
         void RetractRamp(void);
         void StopFeeder(void);
         void StopShooter(void);
-        void CarouselSpinForward(void);
-        void CarouselSpinReverse(void);
+        void SetCarouselPower(void);
         void CarouselStop(void);
 
 };
