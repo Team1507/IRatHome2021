@@ -19,4 +19,13 @@ class Shooter : public frc::Subsystem {
         int GetShooterEncoder(void);
         double GetShooterVelocity(void);
         void SetFeederVelocity(double velocityRPM);
+        bool GetShooterPhotoEye(void);
+        void ExtendRamp(void);
+        void RetractRamp(void);
+        void StopFeeder(void);
+        void StopShooter(void);
+        void CarouselSpinForward(void);
+        void CarouselSpinReverse(void);
+        void CarouselStop(void);
+
 };
