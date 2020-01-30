@@ -1,14 +1,26 @@
 #include "subsystems/Intake.h"
+#define INTAKE_PERCENT .7 //can change
+
 
 Intake::Intake() : Subsystem("ExampleSubsystem") {}
+
 
 void Intake::InitDefaultCommand() {}
 
 
-void Intake::IntakeBackward(){}
+void Intake::IntakeBackward()
+{
+    m_intakeMotor.Set(ControlMode::PercentOutput, -INTAKE_PERCENT);
+}
 
 
-void Intake::IntakeStop(){}
+void Intake::IntakeStop()
+{
+    m_intakeMotor.Set(ControlMode::PercentOutput, 0);  
+}
 
 
-void Intake::IntakeForward(){}
+void Intake::IntakeForward()
+{
+    m_intakeMotor.Set(ControlMode::PercentOutput, INTAKE_PERCENT);   
+}

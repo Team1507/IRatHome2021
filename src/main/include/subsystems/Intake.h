@@ -13,4 +13,5 @@ class Intake : public frc::Subsystem {
         void IntakeForward(void);
         void IntakeStop(void);    
         void IntakeBackward(void);
+        
 };  

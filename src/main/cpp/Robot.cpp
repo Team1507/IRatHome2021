@@ -1,11 +1,13 @@
 #include "Robot.h"
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-
+#include "subsystems/Shooter.h"
 
 Drivetrain Robot::m_drivetrain;
 Odometry   Robot::m_odometry;
 frc::Timer Robot::m_timer;
+
+Shooter Robot::m_shooter;
 //Must be last
 OI Robot::m_oi;
 
@@ -18,7 +20,7 @@ void Robot::RobotInit() {
 
     //*************************** INIT ******************************
     std::cout<<"RobotInit"<<std::endl;
-    std::cout<<"R5-D4 Skippy"<<std::endl;
+    std::cout<<"DotMatrix"<<std::endl;
     std::cout<<"Version: " << __DATE__ <<"  "<<__TIME__<<std::endl<<std::endl; 
     //****** Subsystems Init ******
     m_drivetrain.InitFalcons();
@@ -81,7 +83,7 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic() 
 { 
 
-
+    m_shooter.ShooterPeriodic();
 
     frc::Scheduler::GetInstance()->Run();
 }
