@@ -1,0 +1,57 @@
+#include "commands/AutoBallAtTrench.h"
+
+#include "frc/commands/WaitCommand.h"
+
+#include "commands/CmdDriveManual.h"
+#include "commands/CmdDriveVelRampTest.h"
+#include "commands/CmdPrintAutoText.h"
+#include "commands/CmdDriveFwdEncoder.h"
+#include "commands/CmdDriveFwdGyro.h"
+#include "commands/CmdDriveRevEncoder.h"
+#include "commands/CmdDriveRevGyro.h"
+#include "commands/CmdDriveClearAll.h"
+#include "commands/CmdDriveTurn2Angle.h"
+#include "commands/CmdSetIntake.h"
+#include "commands/CmdTurnToLimelight.h"
+#include "commands/CmdSetFeederVelocity.h"
+#include "commands/CmdSetCarouselPower.h"
+#include "commands/CmdSetShooterVelocity.h"
+
+
+AutoBallAtTrench::AutoBallAtTrench() 
+{
+  	AddSequential(new CmdPrintAutoText("GrpAutoDriveTest Begin"));
+    AddSequential(new CmdDriveClearAll());
+    //***************************************************
+    //AddSequential(new CmdLoggingEnable(true));
+
+                  //CmdDriveRevGyro(double power, double heading, double distance, bool stop, double timeout
+    AddSequential(new CmdSetIntake( true ));
+
+    AddSequential(new CmdDriveRevGyro( 0.2, 0.0, 150, true, 0.0));
+
+    AddSequential(new CmdDriveFwdGyro( 0.2, 0.0, 75, true, 0.0));
+
+    AddSequential(new CmdTurnToLimelight);
+
+    AddSequential(new CmdSetCarouselPower(.50));
+
+    AddSequential(new CmdSetShooterVelocity(100));
+
+    AddSequential(new frc::WaitCommand(1.0));
+
+    
+
+    AddSequential(new CmdSetFeederVelocity(100));
+
+
+
+
+
+
+
+
+
+
+    // AddSequential(new CmdDriveTurn2Angle( 0.15, -15.0  ));
+}

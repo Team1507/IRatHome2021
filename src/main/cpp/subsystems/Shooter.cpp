@@ -16,11 +16,13 @@
 #define IDLE_RPM        100
 
 
-bool poop;
-//poopoo
+bool m_isShooting = false;
+/*poopoo
 //^^ hehe funny, get it? cause poop is a funny word. -Jack 
 //no. -Cory
 //yes -ben L.
+// ha ha -ty
+*/  
 
 Shooter::Shooter() : Subsystem("ShooterSubsystem") {} 
 
@@ -47,34 +49,25 @@ void Shooter::ShooterPeriodic()
     if((povAngle == 0) && isPovCenter)
     {
         SetShooterVelocity(TRENCH_RPM);
-        //ball intake off?
         isPovCenter = false;
         std::cout<<"trench"<<std::endl;
     }
     else if((povAngle == 180)&& isPovCenter)
     {
         SetShooterVelocity(LOW_GOAL_RPM);
-        //ball intake off?
         isPovCenter = false;
         std::cout<<"low goal"<<std::endl;
     }
     else if((povAngle == 270) && isPovCenter)
     {
         SetShooterVelocity(LINE_RPM);
-        //ball intake off?
         isPovCenter = false;
         std::cout<<"line"<<std::endl;
     }
     
-
-
-
-
-
-    
-
     //shooter button, right trigger, this is for after we aim
-    if (Robot::m_oi.GetOperatorGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_TRIG) >= 0.5)
+    bool m_isTriggerPressed = (Robot::m_oi.GetOperatorGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_TRIG) >= 0.5);
+    if (m_isTriggerPressed)
     {
         //shooter should already be at shooting speed
         SetCarouselPower(CAROUSEL_SHOOTING_POWER);
@@ -83,14 +76,14 @@ void Shooter::ShooterPeriodic()
         //deflector deployed for some reason?
         //feeder
 
-        poop = true;
+        m_isShooting = true;
 
     }
-    else if(poop)
+    else if(m_isShooting && !(m_isTriggerPressed))
     {
-        //shooter at shooter speed
-        //stop carousel 
-
+        //shooter at shooter speed still
+        //stop carousel
+        m_isShooting = false; 
     }
 
     //this will go from aiming to default driving, this is the 'reset' button
@@ -101,14 +94,9 @@ void Shooter::ShooterPeriodic()
         SetCarouselPower(CAROUSEL_IDLE_POWER);
         SetFeederVelocity(0);
         //REENABLE ball intake
-        poop = false;
+        m_isShooting = false;
         std::cout<<"Back to driving"<<std::endl;
     }
-
-
-
-
-
 
 }
 

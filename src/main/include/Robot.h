@@ -12,11 +12,13 @@
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Odometry.h"
 #include "subsystems/Shooter.h"
+#include "subsystems/Intake.h"
 
 class Robot : public frc::TimedRobot {
  public:
 
     static Drivetrain m_drivetrain;
+    static Intake m_intake;
     static Odometry m_odometry;
     static frc::Timer m_timer;
     static OI m_oi;

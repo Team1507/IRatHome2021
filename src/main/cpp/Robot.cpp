@@ -2,12 +2,15 @@
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "subsystems/Shooter.h"
+#include "subsystems/Intake.h"
 
 Drivetrain Robot::m_drivetrain;
 Odometry   Robot::m_odometry;
 frc::Timer Robot::m_timer;
 
 Shooter Robot::m_shooter;
+Intake Robot::m_intake;
+
 //Must be last
 OI Robot::m_oi;
 
