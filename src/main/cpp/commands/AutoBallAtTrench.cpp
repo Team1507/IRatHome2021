@@ -1,7 +1,5 @@
 #include "commands/AutoBallAtTrench.h"
-
 #include "frc/commands/WaitCommand.h"
-
 #include "commands/CmdDriveManual.h"
 #include "commands/CmdDriveVelRampTest.h"
 #include "commands/CmdPrintAutoText.h"
@@ -16,42 +14,51 @@
 #include "commands/CmdSetFeederVelocity.h"
 #include "commands/CmdSetCarouselPower.h"
 #include "commands/CmdSetShooterVelocity.h"
+#include "commands/CmdStopShooter.h"
+#include "commands/CmdStopFeeder.h"
+#include "commands/CmdStopCarousel.h"
 
+#define SHOOTER_SHOOTING_VELOCITY 1234 //number
+#define SHOOTER_IDLE_VELOCITY     234
+#define CAROUSEL_SHOOTING_POWER   .4      //ofc will be changed
+#define CAROUSEL_IDLE_POWER       .2
 
 AutoBallAtTrench::AutoBallAtTrench() 
 {
   	AddSequential(new CmdPrintAutoText("GrpAutoDriveTest Begin"));
     AddSequential(new CmdDriveClearAll());
-    //***************************************************
     //AddSequential(new CmdLoggingEnable(true));
-
-                  //CmdDriveRevGyro(double power, double heading, double distance, bool stop, double timeout
+    //CmdDriveRevGyro(double power, double heading, double distance, bool stop, double timeout
+    
+    //***************************************************
     AddSequential(new CmdSetIntake( true ));
 
-    AddSequential(new CmdDriveRevGyro( 0.2, 0.0, 150, true, 0.0));
+    AddSequential(new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY));
 
-    AddSequential(new CmdDriveFwdGyro( 0.2, 0.0, 75, true, 0.0));
+    AddSequential(new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
 
-    AddSequential(new CmdTurnToLimelight);
+    AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 150, true, 0.0));
 
-    AddSequential(new CmdSetCarouselPower(.50));
+    AddSequential(new CmdDriveFwdGyro( 0.2, 0.0, 200, true, 0.0));
 
-    AddSequential(new CmdSetShooterVelocity(100));
-
-    AddSequential(new frc::WaitCommand(1.0));
-
+    //power, angle
+    AddSequential(new CmdDriveTurn2Angle(.5, -10));
     
+    AddSequential(new CmdTurnToLimelight() );
 
-    AddSequential(new CmdSetFeederVelocity(100));
+    AddSequential(new CmdSetShooterVelocity(SHOOTER_SHOOTING_VELOCITY));
 
+    AddSequential(new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER));
 
+    AddSequential(new CmdSetFeederVelocity(SHOOTER_SHOOTING_VELOCITY));
 
+    AddSequential(new frc::WaitCommand(10.0));
 
+    AddSequential(new CmdStopFeeder());
 
+    AddSequential(new CmdStopShooter());
 
-
-
-
+    AddSequential(new CmdStopCarousel());
 
     // AddSequential(new CmdDriveTurn2Angle( 0.15, -15.0  ));
 }
