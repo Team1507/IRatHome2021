@@ -1,30 +1,19 @@
 #include "subsystems/Shooter.h"
 #include "Robot.h"
+#include "frc/smartdashboard/SmartDashboard.h"
 #define SHOOTER_KF_CONSTANT .0575    //we'll need to fix this and adjust it later or else itll die
 #define FEEDER_KF_CONSTANT  .68      //we'll need to adjust this later too
 #define SHOOTER_PID_SLOT 0
 #define FEEDER_PID_SLOT  1
 
-#define CAROUSEL_SHOOTING_POWER .7   //probably will change later REEEEEEE
-#define CAROUSEL_IDLE_POWER     .5   //wIlL Be aDjUsTeD
-#define FEEDER_SHOOTING_VELOCITY 600 //will change, like kids voices
 
 
-#define TRENCH_RPM      500 //these will DEFINATLY CHANGE LATER ON, these values are temporary
-#define LINE_RPM        400
-#define LOW_GOAL_RPM    200
-#define IDLE_RPM        100
 
+Shooter::Shooter() : Subsystem("ShooterSubsystem") 
+{
+    m_isShooting = false;
+} 
 
-bool m_isShooting = false;
-/*poopoo
-//^^ hehe funny, get it? cause poop is a funny word. -Jack 
-//no. -Cory
-//yes -ben L.
-// ha ha -ty
-*/  
-
-Shooter::Shooter() : Subsystem("ShooterSubsystem") {} 
 
 
 void Shooter::InitDefaultCommand() {}
@@ -48,19 +37,19 @@ void Shooter::ShooterPeriodic()
     //this is to enable the shooting speed, after we have 5 balls
     if((povAngle == 0) && isPovCenter)
     {
-        SetShooterVelocity(TRENCH_RPM);
+        SetShooterVelocity(SHOOTER_TRENCH_VELOCITY);
         isPovCenter = false;
         std::cout<<"trench"<<std::endl;
     }
     else if((povAngle == 180)&& isPovCenter)
     {
-        SetShooterVelocity(LOW_GOAL_RPM);
+        SetShooterVelocity(SHOOTER_LOW_GOAL_VELOCITY);
         isPovCenter = false;
         std::cout<<"low goal"<<std::endl;
     }
     else if((povAngle == 270) && isPovCenter)
     {
-        SetShooterVelocity(LINE_RPM);
+        SetShooterVelocity(SHOOTER_LINE_VELOCITY);
         isPovCenter = false;
         std::cout<<"line"<<std::endl;
     }
@@ -90,7 +79,7 @@ void Shooter::ShooterPeriodic()
     //done shooting button, back to default
     if(Robot::m_oi.GetOperatorGamepad()->GetRawButtonPressed(GAMEPADMAP_BUTTON_RBUMP))
     {
-        SetShooterVelocity(IDLE_RPM);
+        SetShooterVelocity(SHOOTER_IDLE_VELOCITY);
         SetCarouselPower(CAROUSEL_IDLE_POWER);
         SetFeederVelocity(0);
         //REENABLE ball intake
@@ -99,9 +88,6 @@ void Shooter::ShooterPeriodic()
     }
 
 }
-
-
-
 
 
 void Shooter::ShooterInit()
@@ -115,6 +101,18 @@ void Shooter::ShooterInit()
     //right motor following
     m_rightShooterMotor.Follow(m_leftShooterMotor);
     m_rightShooterMotor.SetInverted(true);
+
+    // *********************************************************
+    // TEMP CODE
+    frc::SmartDashboard::PutNumber("CAROUSEL_SHOOTING_POWER", 0.0);
+    frc::SmartDashboard::PutNumber("CAROUSEL_IDLE_POWER", 0.0);
+    frc::SmartDashboard::PutNumber("FEEDER_SHOOTING_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER_TRENCH_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER_LINE_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER_LOW_GOAL_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER_IDLE_VELOCITY", 0.0);
+
+
 }
 
 

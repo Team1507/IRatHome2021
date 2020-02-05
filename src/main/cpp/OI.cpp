@@ -2,7 +2,7 @@
 //#include <frc/WPILib.h>   //DO NOT INCLUDE THIS
 
 #include <frc/smartdashboard/SmartDashboard.h>
-
+#include "commands/AutoJustShoot.h"
 #include "commands/CmdDriveClearAll.h"
 #include "commands/GrpAutoDriveTest.h"
 
@@ -15,10 +15,8 @@ OI::OI() {
     m_operatorgamepad = new frc::Joystick(1);
 
     frc::SmartDashboard::PutData("CmdDriveClearAll",    new CmdDriveClearAll( ) );
-
+    frc::SmartDashboard::PutData("AutoShoot",               new AutoJustShoot());
     frc::SmartDashboard::PutData("GrpAutoDriveTest",    new GrpAutoDriveTest( ) );
-
-
 
 }
 

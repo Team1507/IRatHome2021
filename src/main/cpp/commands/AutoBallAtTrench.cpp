@@ -17,11 +17,8 @@
 #include "commands/CmdStopShooter.h"
 #include "commands/CmdStopFeeder.h"
 #include "commands/CmdStopCarousel.h"
+#include "subsystems/Shooter.h"
 
-#define SHOOTER_SHOOTING_VELOCITY 1234 //number
-#define SHOOTER_IDLE_VELOCITY     234
-#define CAROUSEL_SHOOTING_POWER   .4      //ofc will be changed
-#define CAROUSEL_IDLE_POWER       .2
 
 AutoBallAtTrench::AutoBallAtTrench() 
 {
@@ -46,11 +43,11 @@ AutoBallAtTrench::AutoBallAtTrench()
     
     AddSequential(new CmdTurnToLimelight() );
 
-    AddSequential(new CmdSetShooterVelocity(SHOOTER_SHOOTING_VELOCITY));
+    AddSequential(new CmdSetShooterVelocity(SHOOTER_TRENCH_VELOCITY));
 
     AddSequential(new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER));
 
-    AddSequential(new CmdSetFeederVelocity(SHOOTER_SHOOTING_VELOCITY));
+    AddSequential(new CmdSetFeederVelocity(FEEDER_SHOOTING_VELOCITY));
 
     AddSequential(new frc::WaitCommand(10.0));
 

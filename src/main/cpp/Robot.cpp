@@ -28,7 +28,7 @@ void Robot::RobotInit() {
     //****** Subsystems Init ******
     m_drivetrain.InitFalcons();
     m_odometry.Reset();
-
+    m_shooter.ShooterInit();
     // //Auto Chooser
     // m_chooser.SetDefaultOption("Default Auto", &m_defaultAuto);
     // m_chooser.AddOption("My Auto", &m_myAuto);
