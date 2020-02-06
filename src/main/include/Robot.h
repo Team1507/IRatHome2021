@@ -13,6 +13,7 @@
 #include "subsystems/Odometry.h"
 #include "subsystems/Shooter.h"
 #include "subsystems/Intake.h"
+#include "subsystems/DriverFeedback.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -23,6 +24,7 @@ class Robot : public frc::TimedRobot {
     static frc::Timer m_timer;
     static OI m_oi;
     static Shooter m_shooter;
+    static DriverFeedback m_driverFeedback;
 
     void RobotInit() override;
     void RobotPeriodic() override;

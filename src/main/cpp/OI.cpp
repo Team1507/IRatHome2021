@@ -7,6 +7,7 @@
 #include "commands/GrpAutoDriveTest.h"
 
 
+
 OI::OI() {
   // Process operator interface input here.
 
@@ -15,9 +16,8 @@ OI::OI() {
     m_operatorgamepad = new frc::Joystick(1);
 
     frc::SmartDashboard::PutData("CmdDriveClearAll",    new CmdDriveClearAll( ) );
-    frc::SmartDashboard::PutData("AutoShoot",               new AutoJustShoot());
+    frc::SmartDashboard::PutData("AutoShoot",              new AutoJustShoot( ) );
     frc::SmartDashboard::PutData("GrpAutoDriveTest",    new GrpAutoDriveTest( ) );
-
 }
 
 frc::Joystick* OI::GetDriverGamepad() 

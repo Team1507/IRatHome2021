@@ -3,6 +3,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "subsystems/Shooter.h"
 #include "subsystems/Intake.h"
+#include "subsystems/DriverFeedback.h"
+
 
 Drivetrain Robot::m_drivetrain;
 Odometry   Robot::m_odometry;
@@ -10,6 +12,8 @@ frc::Timer Robot::m_timer;
 
 Shooter Robot::m_shooter;
 Intake Robot::m_intake;
+
+DriverFeedback Robot::m_driverFeedback;
 
 //Must be last
 OI Robot::m_oi;
@@ -127,7 +131,7 @@ void Write2Dashboard(void)
     frc::SmartDashboard::PutNumber("Curr_X",    Robot::m_odometry.GetX() );
     frc::SmartDashboard::PutNumber("Curr_Y",    Robot::m_odometry.GetY() );
     frc::SmartDashboard::PutNumber("Curr_Vel",  Robot::m_odometry.GetVel() );
-
+    
 
     //Time
     //frc::SmartDashboard::PutNumber("FPGATime2",  Robot::m_timer->GetFPGATimestamp() );   //(double) sec
