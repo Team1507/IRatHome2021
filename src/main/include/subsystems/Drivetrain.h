@@ -12,7 +12,7 @@ class Drivetrain : public frc::Subsystem {
     private:
         WPI_TalonFX m_leftMotorFront  { LEFTDRIVE_FRONT_CAN_ID };
         WPI_TalonFX m_leftMotorBack   { LEFTDRIVE_BACK_CAN_ID  };
-        WPI_TalonFX m_rightMotorFront { LEFTDRIVE_FRONT_CAN_ID };
+        WPI_TalonFX m_rightMotorFront { RIGHTDRIVE_FRONT_CAN_ID };
         WPI_TalonFX m_rightMotorBack  { RIGHTDRIVE_BACK_CAN_ID };
 
         frc::DifferentialDrive m_differentialDrive{ m_leftMotorFront, m_rightMotorFront};

@@ -2,6 +2,7 @@
 #include "subsystems/Shooter.h"
 #include "Robot.h"
 
+
 CmdSetCarouselPower::CmdSetCarouselPower( double power ) 
 {
   m_power = power;
@@ -9,12 +10,20 @@ CmdSetCarouselPower::CmdSetCarouselPower( double power )
 
 void CmdSetCarouselPower::Initialize() 
 {
-  Robot::m_shooter.SetCarouselPower( m_power );
+  frc::SmartDashboard::PutNumber("Carousel Power", 0);
+  //Robot::m_shooter.SetCarouselPower( m_power );
 }
 
-void CmdSetCarouselPower::Execute() {}
+void CmdSetCarouselPower::Execute()
+{
 
-bool CmdSetCarouselPower::IsFinished() { return true; }
+  double power = frc::SmartDashboard::GetNumber("Carousel Power", 0);
+  Robot::m_shooter.SetCarouselPower( power );
+}
+
+
+
+bool CmdSetCarouselPower::IsFinished() { return false; }
 
 void CmdSetCarouselPower::End() {}
 

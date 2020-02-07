@@ -24,3 +24,7 @@ void Intake::IntakeForward()
 {
     m_intakeMotor.Set(ControlMode::PercentOutput, INTAKE_PERCENT);   
 }
+void Intake::IntakeForward(double power)
+{
+    m_intakeMotor.Set(ControlMode::PercentOutput, power);   
+}

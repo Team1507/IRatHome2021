@@ -14,9 +14,9 @@ Drivetrain::Drivetrain() : Subsystem("Drivetrain")
     std::cout<<"InDrivetrain"<<std::endl;
 }
 
-void Drivetrain::InitDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // SetDefaultCommand(new MySpecialCommand());
+
+void Drivetrain::InitDefaultCommand() 
+{
     SetDefaultCommand( new CmdDriveWithGamepad() );    
 }
 
@@ -25,15 +25,21 @@ void Drivetrain::InitFalcons(void)
 {
     std::cout<<"Drivetrain: Falcon Init"<<std::endl;
 
+    //reset
+    m_leftMotorFront.ConfigFactoryDefault();
+    m_leftMotorBack.ConfigFactoryDefault();
+    m_rightMotorFront.ConfigFactoryDefault();
+    m_rightMotorBack.ConfigFactoryDefault();
+
     //Setup up Back motors as followers
     m_leftMotorBack.Follow( m_leftMotorFront );
     m_rightMotorBack.Follow( m_rightMotorFront );
 
     //Set Inverted
-    m_leftMotorFront.SetInverted( false );
-    m_leftMotorBack.SetInverted( false );
-    m_rightMotorFront.SetInverted( false );
-    m_rightMotorBack.SetInverted( false );
+    m_leftMotorFront.SetInverted( true );
+    m_leftMotorBack.SetInverted( true );
+    m_rightMotorFront.SetInverted( true );
+    m_rightMotorBack.SetInverted( true );
 
     //Set Brake Mode
     m_leftMotorFront.SetNeutralMode(NeutralMode::Brake);
@@ -46,8 +52,6 @@ void Drivetrain::InitFalcons(void)
     m_leftMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
     m_rightMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
     m_rightMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
-
-
 }
 
 
@@ -58,7 +62,7 @@ void Drivetrain::Drive( double left, double right )
     //m_rightMotorFront.Set(ControlMode::PercentOutput, right );
     //m_rightMotorBack.Set(ControlMode::PercentOutput, right );
     
-    m_differentialDrive.TankDrive(-left,-right,false);
+    m_differentialDrive.TankDrive(left,right,false);
 
 }
 
@@ -110,15 +114,15 @@ void Drivetrain::DriveWithGamepad( void )
 	if (fabs(yR)>= DEADBAND) yR +=  (yR>0)? -DEADBAND : +DEADBAND;
 	if (fabs(xR)>= DEADBAND) xR +=  (xR>0)? -DEADBAND : +DEADBAND;
 
-	// //TankDrive
-	// yL *= MAX_DRIVE_POWER;	
-	// yR *= MAX_DRIVE_POWER;	
-  	// m_differentialDrive.TankDrive( yL,  yR,  false);
+	//TankDrive
+	yL *= MAX_DRIVE_POWER;	
+	yR *= MAX_DRIVE_POWER;	
+  	m_differentialDrive.TankDrive( -yL,  -yR,  false);
 
-	//Arcade Drive
-	yL *= MAX_DRIVE_POWER;
-	xR *= MAX_TURN_POWER;
-	m_differentialDrive.ArcadeDrive(yL,-xR,  true);
+	// //Arcade Drive
+	// yL *= MAX_DRIVE_POWER;
+	// xR *= MAX_TURN_POWER;
+	// m_differentialDrive.ArcadeDrive(yL,-xR,  true);
 }
 
 

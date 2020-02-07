@@ -31,7 +31,7 @@ void Shooter::ShooterPeriodic()
     if(povAngle == -1)
     {
         isPovCenter = true;
-        std::cout<<"nothing pressed"<<std::endl;
+        //std::cout<<"nothing pressed"<<std::endl;
     }
 
     //this is to enable the shooting speed, after we have 5 balls
@@ -39,19 +39,19 @@ void Shooter::ShooterPeriodic()
     {
         SetShooterVelocity(SHOOTER_TRENCH_VELOCITY);
         isPovCenter = false;
-        std::cout<<"trench"<<std::endl;
+        //std::cout<<"trench"<<std::endl;
     }
     else if((povAngle == 180)&& isPovCenter)
     {
         SetShooterVelocity(SHOOTER_LOW_GOAL_VELOCITY);
         isPovCenter = false;
-        std::cout<<"low goal"<<std::endl;
+        //std::cout<<"low goal"<<std::endl;
     }
     else if((povAngle == 270) && isPovCenter)
     {
         SetShooterVelocity(SHOOTER_LINE_VELOCITY);
         isPovCenter = false;
-        std::cout<<"line"<<std::endl;
+        //std::cout<<"line"<<std::endl;
     }
     
     //shooter button, right trigger, this is for after we aim
@@ -84,7 +84,7 @@ void Shooter::ShooterPeriodic()
         SetFeederVelocity(0);
         //REENABLE ball intake
         m_isShooting = false;
-        std::cout<<"Back to driving"<<std::endl;
+        //std::cout<<"Back to driving"<<std::endl;
     }
 
 }

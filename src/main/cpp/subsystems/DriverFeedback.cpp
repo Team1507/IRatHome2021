@@ -1,6 +1,5 @@
 #include "Robot.h"
 #include <iostream>
-// #include "frc/WPILib.h"
 #include "ctre/Phoenix.h"
 #include "subsystems/DriverFeedback.h"
 #include <frc/GenericHID.h>
@@ -9,10 +8,7 @@
 
 DriverFeedback::DriverFeedback() : Subsystem("ExampleSubsystem") {}
 
-void DriverFeedback::InitDefaultCommand() {
-  // Set the default command for a subsystem here.
-  // SetDefaultCommand(new MySpecialCommand());
-}
+void DriverFeedback::InitDefaultCommand() {}
 
 void DriverFeedback::RumbleOn(void)
 {
@@ -31,6 +27,3 @@ void DriverFeedback::RumbleOff(void)
 	Robot::m_oi.GetOperatorGamepad()->SetRumble(frc::GenericHID::kLeftRumble, 0.0);
 	Robot::m_oi.GetOperatorGamepad()->SetRumble(frc::GenericHID::kRightRumble, 0.0);
 }
-
-// frc::SmartDashboard::PutData("Rumble_On ", DriverFeedback::RumbleOn());
-// frc::SmartDashboard::PutData("Rumble_Off ", DriverFeedback::RumbleOff());

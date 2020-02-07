@@ -1,5 +1,4 @@
 #include "OI.h"
-//#include <frc/WPILib.h>   //DO NOT INCLUDE THIS
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "commands/AutoJustShoot.h"
@@ -7,6 +6,10 @@
 #include "commands/GrpAutoDriveTest.h"
 
 
+#include "commands/CmdTest1.h"
+#include "commands/CmdTest2.h"
+#include "commands/CmdSetCarouselPower.h"
+#include "commands/CmdSetIntake.h"
 
 OI::OI() {
   // Process operator interface input here.
@@ -15,9 +18,16 @@ OI::OI() {
     m_drivergamepad = new frc::Joystick(0);
     m_operatorgamepad = new frc::Joystick(1);
 
-    frc::SmartDashboard::PutData("CmdDriveClearAll",    new CmdDriveClearAll( ) );
-    frc::SmartDashboard::PutData("AutoShoot",              new AutoJustShoot( ) );
-    frc::SmartDashboard::PutData("GrpAutoDriveTest",    new GrpAutoDriveTest( ) );
+    frc::SmartDashboard::PutData("CmdDriveClearAll", new CmdDriveClearAll());
+    frc::SmartDashboard::PutData("AutoShoot", new AutoJustShoot());
+    frc::SmartDashboard::PutData("GrpAutoDriveTest", new GrpAutoDriveTest());
+
+    //frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
+    //frc::SmartDashboard::PutData("TEST 2", new CmdTest2());
+    frc::SmartDashboard::PutData("TEST 1", new CmdSetCarouselPower(0));
+    frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
+
+
 }
 
 frc::Joystick* OI::GetDriverGamepad() 

@@ -11,6 +11,8 @@ class Intake : public frc::Subsystem {
         Intake();
         void InitDefaultCommand() override;
         void IntakeForward(void);
+        
+        void IntakeForward(double power);
         void IntakeStop(void);    
         void IntakeBackward(void);
         
