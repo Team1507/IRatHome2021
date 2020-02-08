@@ -27,7 +27,7 @@ void Robot::RobotInit() {
 
     //*************************** INIT ******************************
     std::cout<<"RobotInit"<<std::endl;
-    std::cout<<"DotMatrix"<<std::endl;
+    std::cout<<"FRC2020: Infinite Recharge ~~~DotMatrix~~~"<<std::endl;
     std::cout<<"Version: " << __DATE__ <<"  "<<__TIME__<<std::endl<<std::endl; 
     //****** Subsystems Init ******
     m_drivetrain.InitFalcons();
