@@ -15,6 +15,7 @@
 #include "subsystems/Shooter.h"
 #include "subsystems/Intake.h"
 #include "subsystems/DriverFeedback.h"
+#include "subsystems/BallDeflector.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -26,6 +27,7 @@ class Robot : public frc::TimedRobot {
     static OI m_oi;
     static Shooter m_shooter;
     static DriverFeedback m_driverFeedback;
+    static BallDeflector m_ballDeflector;
 
     void RobotInit() override;
     void RobotPeriodic() override;

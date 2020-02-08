@@ -15,6 +15,8 @@ Intake Robot::m_intake;
 
 DriverFeedback Robot::m_driverFeedback;
 
+BallDeflector Robot::m_ballDeflector;
+
 //Must be last
 OI Robot::m_oi;
 

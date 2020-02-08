@@ -147,10 +147,16 @@ bool Shooter::GetShooterPhotoEye()
 }
 
 
-void Shooter::ExtendRamp(){}
+void Shooter::ExtendRamp()
+{
+    m_shooterramp.Set(true);
+}
 
 
-void Shooter::RetractRamp(){}
+void Shooter::RetractRamp()
+{
+    m_shooterramp.Set(false);
+}
 
 
 void Shooter::StopFeeder()

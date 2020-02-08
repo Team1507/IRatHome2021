@@ -3,6 +3,7 @@
 #include <frc/commands/Subsystem.h>
 #include "ctre/Phoenix.h"
 #include "RobotMap.h"
+#include <frc/Solenoid.h>
 
 #define CAROUSEL_SHOOTING_POWER   .7  //probably will change later REEEEEEE
 #define CAROUSEL_IDLE_POWER       .5  //wIlL Be aDjUsTeD
@@ -20,9 +21,9 @@ class Shooter : public frc::Subsystem {
         WPI_TalonFX m_rightShooterMotor {RIGHT_SHOOTER_FALCON_ID};
         WPI_TalonFX m_feederMotor       {FEEDER_CAN_ID};
         WPI_VictorSPX m_carouselMotor   {CAROUSEL_CAN_ID};
-
+        frc::Solenoid m_shooterramp     {PCM_CAN_ID,0}; 
         bool m_isShooting;
-
+        
         
 
         

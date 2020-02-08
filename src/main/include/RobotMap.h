@@ -27,5 +27,10 @@
 #define DEFLECTOR_MOTOR_CAN_ID  14
 
 //**********MISC CONSTANTS**********
-#define PDP_CAN_ID              16      //idek if were gonna use these
+#define PDP_CAN_ID              18      
 #define PCM_CAN_ID              15
+
+//**********CANIFIER CONSTANTS***********
+#define CANIFIER_TOP_CAN_ID     16
+#define CANIFIER_BOT_CAN_ID     17
+
