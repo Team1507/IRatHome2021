@@ -29,6 +29,9 @@ void Robot::RobotInit() {
     std::cout<<"RobotInit"<<std::endl;
     std::cout<<"FRC2020: Infinite Recharge ~~~DotMatrix~~~"<<std::endl;
     std::cout<<"Version: " << __DATE__ <<"  "<<__TIME__<<std::endl<<std::endl; 
+    //Small Change in Robot Init
+
+
     //****** Subsystems Init ******
     m_drivetrain.InitFalcons();
     m_odometry.Reset();
