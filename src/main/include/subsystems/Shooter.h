@@ -21,7 +21,7 @@ class Shooter : public frc::Subsystem {
         WPI_TalonFX m_rightShooterMotor {RIGHT_SHOOTER_FALCON_ID};
         WPI_TalonFX m_feederMotor       {FEEDER_CAN_ID};
         WPI_VictorSPX m_carouselMotor   {CAROUSEL_CAN_ID};
-        frc::Solenoid m_shooterramp     {PCM_CAN_ID,0}; 
+        frc::Solenoid m_shooterramp     {PCM_CAN_ID,PCM_RAMP_ID}; 
         bool m_isShooting;
         
         
@@ -31,8 +31,8 @@ class Shooter : public frc::Subsystem {
     public:
         Shooter();
         void InitDefaultCommand() override;
-        void ShooterPeriodic(void);
         void ShooterInit(void);
+        void ShooterPeriodic(void);
         void SetShooterVelocity(double velocityRPM);
         int GetShooterEncoder(void);
         double GetShooterVelocity(void);

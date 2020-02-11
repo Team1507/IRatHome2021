@@ -29,6 +29,7 @@
 //**********MISC CONSTANTS**********
 #define PDP_CAN_ID              18      
 #define PCM_CAN_ID              15
+#define PCM_RAMP_ID             0
 
 //**********CANIFIER CONSTANTS***********
 #define CANIFIER_TOP_CAN_ID     16

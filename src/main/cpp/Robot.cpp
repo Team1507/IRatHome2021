@@ -69,7 +69,7 @@ void Robot::AutonomousInit()
 {
 
     std::cout<<"Auto Init"<<std::endl;
-    std::cout<<"****NOTHING TO DO!!!*****"<<std::endl;
+    std::cout<<"*****NOTHING TO DO!!!*****"<<std::endl;
 
     // m_autonomousCommand = m_chooser.GetSelected();
     // if (m_autonomousCommand != nullptr) { m_autonomousCommand->Start();   }

@@ -7,16 +7,40 @@
 #define FEEDER_PID_SLOT  1
 
 
-
-
 Shooter::Shooter() : Subsystem("ShooterSubsystem") 
 {
     m_isShooting = false;
 } 
 
 
-
 void Shooter::InitDefaultCommand() {}
+
+
+void Shooter::ShooterInit()
+{
+    m_leftShooterMotor.ConfigFactoryDefault();
+    m_rightShooterMotor.ConfigFactoryDefault();
+    
+    //everything will be written to "m_leftShooterMotor" for the shooter
+    m_leftShooterMotor.SetNeutralMode(NeutralMode::Coast);
+    m_leftShooterMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
+    //PID constants
+    m_leftShooterMotor.Config_kF(SHOOTER_PID_SLOT, SHOOTER_KF_CONSTANT, 0);    
+    m_feederMotor.Config_kF(FEEDER_PID_SLOT, FEEDER_KF_CONSTANT, 0);
+    //right motor following and set inverted
+    m_rightShooterMotor.Follow(m_leftShooterMotor);
+    m_leftShooterMotor.SetInverted(true);
+
+    // *********************************************************
+    // TEMP CODE
+    frc::SmartDashboard::PutNumber("CAROUSEL_SHOOTING_POWER", 0.0);
+    frc::SmartDashboard::PutNumber("CAROUSEL_IDLE_POWER", 0.0);
+    frc::SmartDashboard::PutNumber("FEEDER_SHOOTING_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER_TRENCH_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER_LINE_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER_LOW_GOAL_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER_IDLE_VELOCITY", 0.0);
+}
 
 
 void Shooter::ShooterPeriodic()
@@ -90,30 +114,7 @@ void Shooter::ShooterPeriodic()
 }
 
 
-void Shooter::ShooterInit()
-{
-    //everything will be written to "m_leftShooterMotor" for the shooter
-    m_leftShooterMotor.SetNeutralMode(NeutralMode::Brake);
-    m_leftShooterMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
-    //PID constants
-    m_leftShooterMotor.Config_kF(SHOOTER_PID_SLOT, SHOOTER_KF_CONSTANT, 0);    
-    m_feederMotor.Config_kF(FEEDER_PID_SLOT, FEEDER_KF_CONSTANT, 0);
-    //right motor following
-    m_rightShooterMotor.Follow(m_leftShooterMotor);
-    m_rightShooterMotor.SetInverted(true);
 
-    // *********************************************************
-    // TEMP CODE
-    frc::SmartDashboard::PutNumber("CAROUSEL_SHOOTING_POWER", 0.0);
-    frc::SmartDashboard::PutNumber("CAROUSEL_IDLE_POWER", 0.0);
-    frc::SmartDashboard::PutNumber("FEEDER_SHOOTING_VELOCITY", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER_TRENCH_VELOCITY", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER_LINE_VELOCITY", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER_LOW_GOAL_VELOCITY", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER_IDLE_VELOCITY", 0.0);
-
-
-}
 
 
 void Shooter::SetShooterVelocity(double velocityRPM)

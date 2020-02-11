@@ -10,7 +10,7 @@
 #include "commands/CmdTest2.h"
 #include "commands/CmdSetCarouselPower.h"
 #include "commands/CmdSetIntake.h"
-
+#include "commands/CmdSetFeederVelocity.h"
 OI::OI() {
   // Process operator interface input here.
 
@@ -26,7 +26,9 @@ OI::OI() {
     //frc::SmartDashboard::PutData("TEST 2", new CmdTest2());
     //frc::SmartDashboard::PutData("TEST 1", new CmdSetCarouselPower(0));
     frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
-
+    
+    
+    //frc::SmartDashboard::PutData("CmdSetShooterVelocity", new CmdSetFeederVelocity())
 
 }
 
