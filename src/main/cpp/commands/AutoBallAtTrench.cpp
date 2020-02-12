@@ -22,7 +22,7 @@
 
 AutoBallAtTrench::AutoBallAtTrench() 
 {
-  	AddSequential(new CmdPrintAutoText("GrpAutoDriveTest Begin"));
+  	AddSequential(new CmdPrintAutoText("AUTO BALL AT TRENCH"));
     AddSequential(new CmdDriveClearAll());
     //AddSequential(new CmdLoggingEnable(true));
     //CmdDriveRevGyro(double power, double heading, double distance, bool stop, double timeout

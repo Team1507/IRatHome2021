@@ -1,11 +1,31 @@
 #include "subsystems/Intake.h"
+#include "Robot.h"
 #define INTAKE_PERCENT .7 //can change
 
 
-Intake::Intake() : Subsystem("ExampleSubsystem") {}
+Intake::Intake() : Subsystem("ExampleSubsystem") 
+{
+    SmartDashboard::PutNumber("INTAKE_POWER", 0);
+}
 
 
 void Intake::InitDefaultCommand() {}
+
+
+void Intake::IntakePeriodic()
+{
+    bool isTriggerPressed = (Robot::m_oi.GetOperatorGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_TRIG) >= .5);
+    if( isTriggerPressed && !m_isIntaking )
+    {
+        IntakeForward();
+        m_isIntaking = true;
+    }
+    else if( !isTriggerPressed && m_isIntaking )
+    {
+        IntakeStop();
+        m_isIntaking = false;
+    }
+}
 
 
 void Intake::IntakeBackward()
@@ -22,8 +42,12 @@ void Intake::IntakeStop()
 
 void Intake::IntakeForward()
 {
-    m_intakeMotor.Set(ControlMode::PercentOutput, INTAKE_PERCENT);   
+    //temp code to read off the smart dashboard
+    double percent = frc::SmartDashboard::GetNumber("INTAKE_PERCENT", 0);
+    m_intakeMotor.Set(ControlMode::PercentOutput, percent);   
 }
+
+
 void Intake::IntakeForward(double power)
 {
     m_intakeMotor.Set(ControlMode::PercentOutput, power);   

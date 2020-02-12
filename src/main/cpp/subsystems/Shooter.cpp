@@ -1,10 +1,11 @@
 #include "subsystems/Shooter.h"
 #include "Robot.h"
 #include "frc/smartdashboard/SmartDashboard.h"
+
 #define SHOOTER_KF_CONSTANT .0575    //we'll need to fix this and adjust it later or else itll die
 #define FEEDER_KF_CONSTANT  .68      //we'll need to adjust this later too
 #define SHOOTER_PID_SLOT 0
-#define FEEDER_PID_SLOT  1
+#define FEEDER_PID_SLOT  0
 
 
 Shooter::Shooter() : Subsystem("ShooterSubsystem") 
@@ -20,26 +21,38 @@ void Shooter::ShooterInit()
 {
     m_leftShooterMotor.ConfigFactoryDefault();
     m_rightShooterMotor.ConfigFactoryDefault();
+    m_feederMotor.ConfigFactoryDefault();
     
     //everything will be written to "m_leftShooterMotor" for the shooter
     m_leftShooterMotor.SetNeutralMode(NeutralMode::Coast);
+    m_rightShooterMotor.SetNeutralMode(NeutralMode::Coast);
+    m_feederMotor.SetNeutralMode(NeutralMode::Coast);
+
+    //encoder
     m_leftShooterMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
+    m_feederMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
+    
     //PID constants
     m_leftShooterMotor.Config_kF(SHOOTER_PID_SLOT, SHOOTER_KF_CONSTANT, 0);    
     m_feederMotor.Config_kF(FEEDER_PID_SLOT, FEEDER_KF_CONSTANT, 0);
+    
     //right motor following and set inverted
-    m_rightShooterMotor.Follow(m_leftShooterMotor);
     m_leftShooterMotor.SetInverted(true);
+    m_rightShooterMotor.SetInverted(false);
+    m_feederMotor.SetInverted(false);
 
-    // *********************************************************
+    //set follow
+    m_rightShooterMotor.Follow(m_leftShooterMotor);
+
+    //*********************************************************
     // TEMP CODE
-    frc::SmartDashboard::PutNumber("CAROUSEL_SHOOTING_POWER", 0.0);
-    frc::SmartDashboard::PutNumber("CAROUSEL_IDLE_POWER", 0.0);
-    frc::SmartDashboard::PutNumber("FEEDER_SHOOTING_VELOCITY", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER_TRENCH_VELOCITY", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER_LINE_VELOCITY", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER_LOW_GOAL_VELOCITY", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER_IDLE_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("CAROUSEL_POWER", 0.0);
+    frc::SmartDashboard::PutNumber("FEEDER_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("SHOOTER Kf", 0);
+    frc::SmartDashboard::PutNumber("SHOOTER Kp", 0);
+    frc::SmartDashboard::PutNumber("FEEDER Kf", 0);
+    frc::SmartDashboard::PutNumber("FEEDER Kp", 0);
 }
 
 
@@ -80,22 +93,23 @@ void Shooter::ShooterPeriodic()
     
     //shooter button, right trigger, this is for after we aim
     bool m_isTriggerPressed = (Robot::m_oi.GetOperatorGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_TRIG) >= 0.5);
-    if (m_isTriggerPressed)
+    if (m_isTriggerPressed && !m_isShooting)
     {
         //shooter should already be at shooting speed
         SetCarouselPower(CAROUSEL_SHOOTING_POWER);
         SetFeederVelocity(FEEDER_SHOOTING_VELOCITY);
+        ExtendRamp();
         //intake ?
         //deflector deployed for some reason?
         //feeder
-
         m_isShooting = true;
-
     }
-    else if(m_isShooting && !(m_isTriggerPressed))
+    else if(m_isShooting && !m_isTriggerPressed)
     {
-        //shooter at shooter speed still
-        //stop carousel
+        //shooter at shooting speed still
+        SetCarouselPower(CAROUSEL_IDLE_POWER);
+        RetractRamp();
+        StopFeeder();
         m_isShooting = false; 
     }
 
@@ -105,22 +119,21 @@ void Shooter::ShooterPeriodic()
     {
         SetShooterVelocity(SHOOTER_IDLE_VELOCITY);
         SetCarouselPower(CAROUSEL_IDLE_POWER);
-        SetFeederVelocity(0);
+        StopFeeder();
+        RetractRamp();
         //REENABLE ball intake
         m_isShooting = false;
         //std::cout<<"Back to driving"<<std::endl;
     }
-
 }
-
-
-
 
 
 void Shooter::SetShooterVelocity(double velocityRPM)
 {
-    // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms 
-    m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600); //targetVelocity is in ticks/100ms
+    // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
+    double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
+    //m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600);
+    m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
 }
 
 
@@ -138,13 +151,9 @@ double Shooter::GetShooterVelocity()
 
 void Shooter::SetFeederVelocity(double velocityRPM)
 {
-    m_feederMotor.Set(ControlMode::Velocity ,velocityRPM * 4096 / 600);
-}
-
-
-bool Shooter::GetShooterPhotoEye() 
-{
-    return "poo" == "pee"; //Mr. Sielski said to make it return false so I did
+    double tempV = SmartDashboard::GetNumber("FEEDER_VELOCITY", 0);
+    m_feederMotor.Set(ControlMode::Velocity ,tempV * 4096 / 600);
+    //m_feederMotor.Set(ControlMode::Velocity ,velocityRPM * 4096 / 600);
 }
 
 
@@ -174,7 +183,9 @@ void Shooter::StopShooter()
 
 void Shooter::SetCarouselPower(double percent)
 {
-    m_carouselMotor.Set(ControlMode::PercentOutput, percent);
+    double tempP = SmartDashboard::GetNumber("CAROUSEL_VELOCITY", 0);
+    m_carouselMotor.Set(ControlMode::PercentOutput, tempP);
+    //m_carouselMotor.Set(ControlMode::PercentOutput, percent);
 }
 
 

@@ -8,10 +8,15 @@
 #include "commands/CmdStopCarousel.h"
 #include "commands/CmdStopFeeder.h"
 #include "subsystems/Shooter.h"
+#include "commands/CmdPrintAutoText.h"
+#include "commands/CmdDriveClearAll.h"
 
 
 AutoJustShoot::AutoJustShoot() 
 {
+    AddSequential( new CmdDriveClearAll());
+    AddSequential( new CmdPrintAutoText("****** CMD JUST SHOOT ******"));
+
     //Spool up shooter
     AddSequential( new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY)); 
     AddSequential( new frc::WaitCommand(2.0));

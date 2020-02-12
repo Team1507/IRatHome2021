@@ -5,6 +5,10 @@
 #include "subsystems/Intake.h"
 #include "subsystems/DriverFeedback.h"
 
+#include "commands/AutoDoNothing.h"
+#include "commands/AutoDriveStr8.h"
+#include "commands/AutoJustShoot.h"
+#include "commands/AutoBallAtTrench.h"
 
 Drivetrain Robot::m_drivetrain;
 Odometry   Robot::m_odometry;
@@ -38,11 +42,14 @@ void Robot::RobotInit() {
     m_drivetrain.InitFalcons();
     m_odometry.Reset();
     m_shooter.ShooterInit();
-    // //Auto Chooser
-    // m_chooser.SetDefaultOption("Default Auto", &m_defaultAuto);
-    // m_chooser.AddOption("My Auto", &m_myAuto);
-    // frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
+    //Auto Chooser
+    m_chooser.SetDefaultOption("Default Auto", new AutoDoNothing);
+    m_chooser.AddOption("Auto Drive Str8", new AutoDriveStr8);
+    m_chooser.AddOption("Auto Just Shoot", new AutoJustShoot);
+    m_chooser.AddOption("Auto Ball at trench",new AutoBallAtTrench);
+    
+    frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 
 
@@ -67,12 +74,10 @@ void Robot::DisabledPeriodic()
 
 void Robot::AutonomousInit() 
 {
-
     std::cout<<"Auto Init"<<std::endl;
-    std::cout<<"*****NOTHING TO DO!!!*****"<<std::endl;
 
-    // m_autonomousCommand = m_chooser.GetSelected();
-    // if (m_autonomousCommand != nullptr) { m_autonomousCommand->Start();   }
+    m_autonomousCommand = m_chooser.GetSelected();
+    if (m_autonomousCommand != nullptr) { m_autonomousCommand->Start();   }
 }
 
 
