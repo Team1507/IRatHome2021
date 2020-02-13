@@ -4,6 +4,7 @@
 #include "subsystems/Shooter.h"
 #include "subsystems/Intake.h"
 #include "subsystems/DriverFeedback.h"
+#include "subsystems/ControlPanel.h"
 
 #include "commands/AutoDoNothing.h"
 #include "commands/AutoDriveStr8.h"
@@ -16,6 +17,7 @@ frc::Timer Robot::m_timer;
 
 Shooter Robot::m_shooter;
 Intake Robot::m_intake;
+ControlPanel Robot::m_controlPanel;
 
 DriverFeedback Robot::m_driverFeedback;
 
@@ -145,6 +147,9 @@ void Write2Dashboard(void)
     frc::SmartDashboard::PutNumber("Curr_Y",    Robot::m_odometry.GetY() );
     frc::SmartDashboard::PutNumber("Curr_Vel",  Robot::m_odometry.GetVel() );
     
+    //limit switch
+    frc::SmartDashboard::PutNumber("TopLimitSwitch", Robot::m_controlPanel.isTopSwitchPress());
+    frc::SmartDashboard::PutNumber("BottomLimitSwitch", Robot::m_controlPanel.isBottomSwitchPress());
 
     //Time
     //frc::SmartDashboard::PutNumber("FPGATime2",  Robot::m_timer->GetFPGATimestamp() );   //(double) sec

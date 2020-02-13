@@ -16,12 +16,14 @@
 #include "subsystems/Intake.h"
 #include "subsystems/DriverFeedback.h"
 #include "subsystems/BallDeflector.h"
+#include "subsystems/ControlPanel.h"
 
 class Robot : public frc::TimedRobot {
  public:
 
     static Drivetrain m_drivetrain;
     static Intake m_intake;
+    static ControlPanel m_controlPanel;
     static Odometry m_odometry;
     static frc::Timer m_timer;
     static OI m_oi;

@@ -5,12 +5,13 @@
 #include "commands/CmdDriveClearAll.h"
 #include "commands/GrpAutoDriveTest.h"
 
-
+#include "GamepadMap.h"
 #include "commands/CmdTest1.h"
 #include "commands/CmdTest2.h"
 #include "commands/CmdSetCarouselPower.h"
 #include "commands/CmdSetIntake.h"
 #include "commands/CmdSetFeederVelocity.h"
+#include "commands/CmdSpinnerDeploy.h"
 OI::OI() {
   // Process operator interface input here.
 
@@ -29,6 +30,12 @@ OI::OI() {
     
     
     //frc::SmartDashboard::PutData("CmdSetShooterVelocity", new CmdSetFeederVelocity())
+    //buttons
+    m_spinnerDeployToggle = new frc::JoystickButton(m_operatorgamepad,GAMEPADMAP_BUTTON_A);
+    m_spinnerDeployToggle->WhenPressed(new CmdSpinnerDeploy());
+
+
+
 
 }
 
