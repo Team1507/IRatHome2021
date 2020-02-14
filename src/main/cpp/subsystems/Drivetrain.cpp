@@ -179,7 +179,7 @@ double Drivetrain::GetGyroRate(void)
 {
 	return m_ahrs.GetRate();
 }
-
+//ed was here
 void Drivetrain::ZeroGyro(void)
 {
   	std::cout<<"ZeroGyro"<<std::endl;
