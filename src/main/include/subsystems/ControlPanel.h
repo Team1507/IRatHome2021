@@ -24,7 +24,9 @@ class ControlPanel : public frc::Subsystem {
         bool GetIsDeployed( void );
         void DeployControl(void);
         void RetractControl(void);
-        void StopControl(void);     
+        void TURBODeployControl(void);
+        void TURBORetractControl(void);
+        void StopControl(void);   
 
         int GetColor(void); //return type not determined (most likely 1 red, 2 green etc...)
         void SpinControl(void);

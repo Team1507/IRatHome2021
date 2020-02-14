@@ -26,6 +26,7 @@ OI::OI() {
     frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
     //frc::SmartDashboard::PutData("TEST 2", new CmdTest2());
     //frc::SmartDashboard::PutData("TEST 1", new CmdSetCarouselPower(0));
+    //sielski wuz here :)
     frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
     
     

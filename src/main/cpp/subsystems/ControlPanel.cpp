@@ -2,6 +2,8 @@
 
 #define DEPLOYPOWWER .1
 #define RETRACTPOWWER .1
+#define TURBOPOWERDEPOLYPOWER .5
+#define TURBOPOWERRETRACTPOWER .5
 
 ControlPanel::ControlPanel() : Subsystem("ExampleSubsystem") 
 {
@@ -29,6 +31,11 @@ bool ControlPanel::isBottomSwitchPress()
     return m_bottomSwitch.Get();
 }
 
+void ControlPanel::TURBODeployControl()
+{
+    m_isDeployed = true;
+    m_deployMotor.Set(TURBOPOWERDEPOLYPOWER);
+}
 
 void ControlPanel::DeployControl()
 {
@@ -36,13 +43,16 @@ void ControlPanel::DeployControl()
     m_deployMotor.Set(DEPLOYPOWWER);
 }
 
-
+void ControlPanel::TURBORetractControl()
+{
+    m_isDeployed = false;
+    m_deployMotor.Set(TURBOPOWERRETRACTPOWER);
+}
 void ControlPanel::RetractControl()
 {
     m_isDeployed = false;
     m_deployMotor.Set(RETRACTPOWWER);
 }
-
 
 int ControlPanel::GetColor(){}
 
