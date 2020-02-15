@@ -18,6 +18,7 @@ class ControlPanel : public frc::Subsystem {
         //color sensor idek what this is yet
     public:
         ControlPanel();
+        void ControlPanelPeriodic();
         void InitDefaultCommand() override;
         bool isTopSwitchPress( void );
         bool isBottomSwitchPress( void );
@@ -27,7 +28,7 @@ class ControlPanel : public frc::Subsystem {
         void TURBODeployControl(void);
         void TURBORetractControl(void);
         void StopControl(void);   
-
+        void HoldTopControl(void);
         int GetColor(void); //return type not determined (most likely 1 red, 2 green etc...)
         void SpinControl(void);
         void StopSpinControl(void);
