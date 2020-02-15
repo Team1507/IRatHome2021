@@ -5,11 +5,14 @@
 #include "RobotMap.h"
 class Climber : public frc::Subsystem {
  private:
-    //WINCH HERE
+   WPI_VictorSPX m_leftWinchMotor {LEFT_WINCH_CAN_ID};
+   WPI_VictorSPX m_rightWinchMotor{RIGHT_WINCH_CAN_ID};
+   WPI_VictorSPX m_lightsaber {LIGHTSABER_CAN_ID};
+    
  public:
   Climber();
+  void ClimberPeriodic();
   void InitDefaultCommand() override;
-  void ExtendLightsaber();
-  void RetractLightsaber();
-  void UseWinch();
+  void MoveLightsaber(double power);
+  void RetractWinch();
 };

@@ -1,6 +1,9 @@
 #include "Robot.h"
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/AddressableLED.h>
+#include <frc/DriverStation.h>
+
 #include "subsystems/Shooter.h"
 #include "subsystems/Intake.h"
 #include "subsystems/DriverFeedback.h"
@@ -10,6 +13,9 @@
 #include "commands/AutoDriveStr8.h"
 #include "commands/AutoJustShoot.h"
 #include "commands/AutoBallAtTrench.h"
+#include "subsystems/LED.h"
+#include "subsystems/Climber.h"
+
 
 Drivetrain Robot::m_drivetrain;
 Odometry   Robot::m_odometry;
@@ -18,10 +24,11 @@ frc::Timer Robot::m_timer;
 Shooter Robot::m_shooter;
 Intake Robot::m_intake;
 ControlPanel Robot::m_controlPanel;
+BallDeflector Robot::m_ballDeflector;
+LED Robot::m_led;
+Climber Robot::m_climber;
 
 DriverFeedback Robot::m_driverFeedback;
-
-BallDeflector Robot::m_ballDeflector;
 
 //Must be last
 OI Robot::m_oi;
@@ -32,12 +39,10 @@ void Write2Dashboard(void);
 
 
 void Robot::RobotInit() {
-
     //*************************** INIT ******************************
     std::cout<<"RobotInit"<<std::endl;
     std::cout<<"FRC2020: Infinite Recharge ~~~DotMatrix~~~"<<std::endl;
     std::cout<<"Version: " << __DATE__ <<"  "<<__TIME__<<std::endl<<std::endl; 
-    //Small Change in Robot Init
 
 
     //****** Subsystems Init ******
@@ -52,6 +57,21 @@ void Robot::RobotInit() {
     m_chooser.AddOption("Auto Ball at trench",new AutoBallAtTrench);
     
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+    if(m_ds.GetAlliance() == DriverStation::kRed)
+    {
+        m_led.SetAllLEDColor(255, 0, 0);
+        //std::cout<<"We are on the RED alliance"<<std::endl;
+    }
+    else if(m_ds.GetAlliance() == DriverStation::kBlue)
+    {
+        m_led.SetAllLEDColor(0,0,255);
+        //std::cout<<"We are on the BLUE allinace"<<std::endl;
+    }
+    else
+    {
+        m_led.SetAllLEDColor(255,255,0);
+    }
+
 }
 
 
@@ -102,9 +122,10 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic() 
 { 
-
     m_shooter.ShooterPeriodic();
-
+    m_intake.IntakePeriodic();
+    m_controlPanel.ControlPanelPeriodic();
+    
     frc::Scheduler::GetInstance()->Run();
 }
 
@@ -155,4 +176,6 @@ void Write2Dashboard(void)
     //frc::SmartDashboard::PutNumber("FPGATime2",  Robot::m_timer->GetFPGATimestamp() );   //(double) sec
     //frc::SmartDashboard::PutNumber("FPGATime1",  frc::Timer::GetFPGATimestamp() );   //(double) sec
     //frc::SmartDashboard::PutNumber("Timer",      Robot::m_timer->Get() );                //Manual Timer sec
+    //LEDS BAYBEE
+ 
 }

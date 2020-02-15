@@ -15,6 +15,7 @@ void Intake::InitDefaultCommand() {}
 void Intake::IntakePeriodic()
 {
     bool isTriggerPressed = (Robot::m_oi.GetOperatorGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_TRIG) >= .5);
+    
     if( isTriggerPressed && !m_isIntaking )
     {
         IntakeForward();
@@ -43,7 +44,7 @@ void Intake::IntakeStop()
 void Intake::IntakeForward()
 {
     //temp code to read off the smart dashboard
-    double percent = frc::SmartDashboard::GetNumber("INTAKE_PERCENT", 0);
+    double percent = -(frc::SmartDashboard::GetNumber("INTAKE_POWER", 0));
     m_intakeMotor.Set(ControlMode::PercentOutput, percent);   
 }
 

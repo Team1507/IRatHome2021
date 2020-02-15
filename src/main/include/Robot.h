@@ -6,6 +6,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/Timer.h>
 #include <iostream>
+#include <frc/AddressableLED.h>
+#include <frc/DriverStation.h>
 
 #include "GamepadMap.h"
 #include "OI.h"
@@ -17,8 +19,9 @@
 #include "subsystems/DriverFeedback.h"
 #include "subsystems/BallDeflector.h"
 #include "subsystems/ControlPanel.h"
+#include "subsystems/LED.h"
+#include "subsystems/Climber.h"
  
-
 class Robot : public frc::TimedRobot {
  public:
 
@@ -31,6 +34,9 @@ class Robot : public frc::TimedRobot {
     static Shooter m_shooter;
     static DriverFeedback m_driverFeedback;
     static BallDeflector m_ballDeflector;
+    static LED m_led;
+    static Climber m_climber;
+   //  static DriverStation m_ds;
 
     void RobotInit() override;
     void RobotPeriodic() override;

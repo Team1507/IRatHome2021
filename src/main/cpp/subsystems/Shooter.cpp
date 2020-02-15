@@ -39,7 +39,7 @@ void Shooter::ShooterInit()
     //right motor following and set inverted
     m_leftShooterMotor.SetInverted(true);
     m_rightShooterMotor.SetInverted(false);
-    m_feederMotor.SetInverted(false);
+    m_feederMotor.SetInverted(true);
 
     //set follow
     m_rightShooterMotor.Follow(m_leftShooterMotor);
@@ -99,6 +99,7 @@ void Shooter::ShooterPeriodic()
         SetCarouselPower(CAROUSEL_SHOOTING_POWER);
         SetFeederVelocity(FEEDER_SHOOTING_VELOCITY);
         ExtendRamp();
+        std::cout<<"r trig is working"<<std::endl;
         //intake ?
         //deflector deployed for some reason?
         //feeder
@@ -152,8 +153,9 @@ double Shooter::GetShooterVelocity()
 void Shooter::SetFeederVelocity(double velocityRPM)
 {
     double tempV = SmartDashboard::GetNumber("FEEDER_VELOCITY", 0);
-    m_feederMotor.Set(ControlMode::Velocity ,tempV * 4096 / 600);
+    //m_feederMotor.Set(ControlMode::Velocity ,tempV * 4096 / 600);
     //m_feederMotor.Set(ControlMode::Velocity ,velocityRPM * 4096 / 600);
+    m_feederMotor.Set(ControlMode::PercentOutput ,tempV);
 }
 
 
@@ -183,7 +185,7 @@ void Shooter::StopShooter()
 
 void Shooter::SetCarouselPower(double percent)
 {
-    double tempP = SmartDashboard::GetNumber("CAROUSEL_VELOCITY", 0);
+    double tempP = SmartDashboard::GetNumber("CAROUSEL_POWER", 0);
     m_carouselMotor.Set(ControlMode::PercentOutput, tempP);
     //m_carouselMotor.Set(ControlMode::PercentOutput, percent);
 }
