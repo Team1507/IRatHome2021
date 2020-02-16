@@ -4,6 +4,7 @@
 #include "ctre/Phoenix.h"
 #include "RobotMap.h"
 #include <frc/DigitalInput.h>
+#include <rev/ColorSensorV3.h>
 
 class ControlPanel : public frc::Subsystem {
     private:

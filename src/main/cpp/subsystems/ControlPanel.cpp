@@ -12,6 +12,7 @@
 #define HOLDING_TOP  2
 #define GOING_DOWN   3
 
+static rev::ColorSensorV3 m_ColorsensorV3{frc::I2C::Port::kOnboard};
 
 ControlPanel::ControlPanel() : Subsystem("ExampleSubsystem") 
 {
@@ -148,7 +149,36 @@ void ControlPanel::HoldTopControl()
     m_deployMotor.Set(HOLDING_TOP);
 }
 
-int ControlPanel::GetColor(){}
+int ControlPanel::GetColor(){ 
+    frc::Color color = m_ColorsensorV3.GetColor();
+    double red = color.red;
+    double blue = color.blue;
+    double green = color.green;
+
+
+    if(green > .47 && red < .21)
+    {
+        //the color is green
+        return 1;
+    }
+    if(red > .4)
+    {
+        //the color is red
+        return 2;
+    }
+    if(green > .5 && red > .27)
+    {
+        //the color is yellow
+        return 3;
+    }    
+    if(blue > .3)
+    {
+        //the color is blue
+        return 4;
+    }
+    //dosent see a color
+    return 0;
+}
 
 
 void ControlPanel::SpinControl(){}
