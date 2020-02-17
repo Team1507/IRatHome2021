@@ -32,8 +32,8 @@ OI::OI() {
     
     //frc::SmartDashboard::PutData("CmdSetShooterVelocity", new CmdSetFeederVelocity())
     //buttons
-    m_spinnerDeployToggle = new frc::JoystickButton(m_operatorgamepad,GAMEPADMAP_BUTTON_A);
-    m_spinnerDeployToggle->WhenPressed(new CmdSpinnerDeploy());
+    //m_spinnerDeployToggle = new frc::JoystickButton(m_operatorgamepad,GAMEPADMAP_BUTTON_A);
+    //m_spinnerDeployToggle->WhenPressed(new CmdSpinnerDeploy());
 
 
 

@@ -1,9 +1,9 @@
 #include "subsystems/ControlPanel.h"
 #include "Robot.h"
 
-#define DEPLOY_POWER .1
-#define RETRACT_POWER .1
-#define TURBO_POWERD_DEPLOY .5
+#define DEPLOY_POWER .2
+#define RETRACT_POWER .2
+#define TURBO_POWERD_DEPLOY .6
 #define TURBO_POWERD_RETRACT .5
 
 
@@ -28,6 +28,8 @@ void ControlPanel::ControlPanelPeriodic()
     bool botLS    = isBottomSwitchPress();
     bool topLS    = isTopSwitchPress();
     bool isButton = Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_A);
+
+    frc::SmartDashboard::PutNumber("CtrlPanel State", movementState);
     
     switch (movementState)
     {
@@ -106,13 +108,13 @@ void ControlPanel::InitDefaultCommand() {}
 
 bool ControlPanel::isTopSwitchPress()
 {
-    return m_topSwitch.Get(); 
+    return not m_topSwitch.Get(); 
 }
 
 
 bool ControlPanel::isBottomSwitchPress()
 {
-    return m_bottomSwitch.Get();
+    return not m_bottomSwitch.Get();
 }
 
 
@@ -133,14 +135,14 @@ void ControlPanel::DeployControl()
 void ControlPanel::TURBORetractControl()
 {
     //m_isDeployed = false;
-    m_deployMotor.Set(TURBO_POWERD_RETRACT);
+    m_deployMotor.Set(-TURBO_POWERD_RETRACT);
 }
 
 
 void ControlPanel::RetractControl()
 {
     m_isDeployed = false;
-    m_deployMotor.Set(RETRACT_POWER);
+    m_deployMotor.Set(-RETRACT_POWER);
 }
 
 

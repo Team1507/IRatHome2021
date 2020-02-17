@@ -1,6 +1,7 @@
 #include "commands/AutoJustShoot.h"
 #include "commands/CmdSetShooterVelocity.h"
 #include "commands/CmdSetFeederVelocity.h"
+#include "commands/CmdSetFeederPower.h"
 #include "commands/CmdExtendRamp.h"
 #include "frc/commands/WaitCommand.h"
 #include "commands/CmdSetCarouselPower.h"
@@ -29,7 +30,8 @@ AutoJustShoot::AutoJustShoot()
 
     //so anyway, I started blastin'
     AddSequential( new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER)); 
-    AddSequential( new CmdSetFeederVelocity(FEEDER_SHOOTING_VELOCITY)); 
+    //AddSequential( new CmdSetFeederVelocity(FEEDER_SHOOTING_VELOCITY)); 
+    AddSequential( new CmdSetFeederPower(FEEDER_SHOOTING_POWER)); 
     AddSequential( new CmdExtendRamp());
     AddSequential( new frc::WaitCommand(5.0));
 

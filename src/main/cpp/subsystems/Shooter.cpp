@@ -30,11 +30,11 @@ void Shooter::ShooterInit()
 
     //encoder
     m_leftShooterMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
-    m_feederMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
+    //m_feederMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);    //No Encoder
     
     //PID constants
     m_leftShooterMotor.Config_kF(SHOOTER_PID_SLOT, SHOOTER_KF_CONSTANT, 0);    
-    m_feederMotor.Config_kF(FEEDER_PID_SLOT, FEEDER_KF_CONSTANT, 0);
+    //m_feederMotor.Config_kF(FEEDER_PID_SLOT, FEEDER_KF_CONSTANT, 0);
     
     //right motor following and set inverted
     m_leftShooterMotor.SetInverted(true);
@@ -47,12 +47,11 @@ void Shooter::ShooterInit()
     //*********************************************************
     // TEMP CODE
     frc::SmartDashboard::PutNumber("CAROUSEL_POWER", 0.0);
-    frc::SmartDashboard::PutNumber("FEEDER_VELOCITY", 0.0);
+    frc::SmartDashboard::PutNumber("FEEDER_POWER", 0.0);
     frc::SmartDashboard::PutNumber("SHOOTER_VELOCITY", 0.0);
     frc::SmartDashboard::PutNumber("SHOOTER Kf", 0);
     frc::SmartDashboard::PutNumber("SHOOTER Kp", 0);
-    frc::SmartDashboard::PutNumber("FEEDER Kf", 0);
-    frc::SmartDashboard::PutNumber("FEEDER Kp", 0);
+
 }
 
 
@@ -97,7 +96,7 @@ void Shooter::ShooterPeriodic()
     {
         //shooter should already be at shooting speed
         SetCarouselPower(CAROUSEL_SHOOTING_POWER);
-        SetFeederVelocity(FEEDER_SHOOTING_VELOCITY);
+        SetFeederPower(FEEDER_SHOOTING_POWER);
         ExtendRamp();
         std::cout<<"r trig is working"<<std::endl;
         //intake ?
@@ -134,7 +133,8 @@ void Shooter::SetShooterVelocity(double velocityRPM)
     // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
     double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
     //m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600);
-    m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
+    //m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
+    m_leftShooterMotor.Set(ControlMode::PercentOutput, tempV ); //For Testing Only!
 }
 
 
@@ -149,15 +149,24 @@ double Shooter::GetShooterVelocity()
     return m_leftShooterMotor.GetSelectedSensorVelocity(SHOOTER_PID_SLOT);
 }
 
+double Shooter::GetShooterPower()
+{
+    return m_leftShooterMotor.Get();
+)
 
 void Shooter::SetFeederVelocity(double velocityRPM)
 {
-    double tempV = SmartDashboard::GetNumber("FEEDER_VELOCITY", 0);
-    //m_feederMotor.Set(ControlMode::Velocity ,tempV * 4096 / 600);
-    //m_feederMotor.Set(ControlMode::Velocity ,velocityRPM * 4096 / 600);
-    m_feederMotor.Set(ControlMode::PercentOutput ,tempV);
+    //No Encoder, Use SetFeederPower instead.
+    // double tempV = SmartDashboard::GetNumber("FEEDER_VELOCITY", 0);
+    // //m_feederMotor.Set(ControlMode::Velocity ,tempV * 4096 / 600);
+    // //m_feederMotor.Set(ControlMode::Velocity ,velocityRPM * 4096 / 600);
+    // m_feederMotor.Set(ControlMode::PercentOutput ,tempV);
 }
-
+void Shooter::SetFeederPower(double power)
+{
+    double tempP = SmartDashboard::GetNumber("FEEDER_POWER", 0);
+    m_feederMotor.Set(ControlMode::PercentOutput ,tempP);
+}
 
 void Shooter::ExtendRamp()
 {

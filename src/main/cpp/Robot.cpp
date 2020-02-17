@@ -57,6 +57,9 @@ void Robot::RobotInit() {
     m_chooser.AddOption("Auto Ball at trench",new AutoBallAtTrench);
     
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+
+
+    //Get Alliance Color set LED front panel
     if(m_ds.GetAlliance() == DriverStation::kRed)
     {
         m_led.SetAllLEDColor(255, 0, 0);
@@ -125,6 +128,7 @@ void Robot::TeleopPeriodic()
     m_shooter.ShooterPeriodic();
     m_intake.IntakePeriodic();
     m_controlPanel.ControlPanelPeriodic();
+    m_climber.ClimberPeriodic();
     
     frc::Scheduler::GetInstance()->Run();
 }
@@ -153,9 +157,9 @@ void Write2Dashboard(void)
     // frc::SmartDashboard::PutNumber("D_R_Trig",    Robot::m_oi->GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_TRIG)  );
 
 	frc::SmartDashboard::PutNumber("LeftEnc",    Robot::m_drivetrain.GetLeftEncoder());
-    frc::SmartDashboard::PutNumber("LeftEnc2",    Robot::m_drivetrain.GetLeftEncoder2());
+    //frc::SmartDashboard::PutNumber("LeftEnc2",    Robot::m_drivetrain.GetLeftEncoder2());
 	frc::SmartDashboard::PutNumber("RightEnc",   Robot::m_drivetrain.GetRightEncoder());  
-	frc::SmartDashboard::PutNumber("RightEnc2",    Robot::m_drivetrain.GetRightEncoder2());
+	//frc::SmartDashboard::PutNumber("RightEnc2",    Robot::m_drivetrain.GetRightEncoder2());
 
 
 	frc::SmartDashboard::PutBoolean("navx_IsConn", Robot::m_drivetrain.IsGyroConnected() );
@@ -169,8 +173,12 @@ void Write2Dashboard(void)
     frc::SmartDashboard::PutNumber("Curr_Vel",  Robot::m_odometry.GetVel() );
     
     //limit switch
-    frc::SmartDashboard::PutNumber("TopLimitSwitch", Robot::m_controlPanel.isTopSwitchPress());
-    frc::SmartDashboard::PutNumber("BottomLimitSwitch", Robot::m_controlPanel.isBottomSwitchPress());
+    frc::SmartDashboard::PutBoolean("CP Top LS", Robot::m_controlPanel.isTopSwitchPress());
+    frc::SmartDashboard::PutBoolean("CP Bottom LS", Robot::m_controlPanel.isBottomSwitchPress());
+
+    //Shooter
+    frc::SmartDashboard::PutNumber("Shooter Velocity",  Robot::m_shooter.GetShooterVelocity() );
+    frc::SmartDashboard::PutNumber("Shooter Power",     Robot::m_shooter.GetShooterPower() );
 
     //Time
     //frc::SmartDashboard::PutNumber("FPGATime2",  Robot::m_timer->GetFPGATimestamp() );   //(double) sec

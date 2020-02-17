@@ -14,5 +14,5 @@ class Climber : public frc::Subsystem {
   void ClimberPeriodic();
   void InitDefaultCommand() override;
   void MoveLightsaber(double power);
-  void RetractWinch();
+
 };

@@ -12,6 +12,7 @@
 #include "commands/CmdSetIntake.h"
 #include "commands/CmdTurnToLimelight.h"
 #include "commands/CmdSetFeederVelocity.h"
+#include "commands/CmdSetFeederPower.h"
 #include "commands/CmdSetCarouselPower.h"
 #include "commands/CmdSetShooterVelocity.h"
 #include "commands/CmdStopShooter.h"
@@ -47,7 +48,8 @@ AutoBallAtTrench::AutoBallAtTrench()
 
     AddSequential(new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER));
 
-    AddSequential(new CmdSetFeederVelocity(FEEDER_SHOOTING_VELOCITY));
+    //AddSequential(new CmdSetFeederVelocity(FEEDER_SHOOTING_VELOCITY));
+    AddSequential(new CmdSetFeederPower(FEEDER_SHOOTING_POWER));
 
     AddSequential(new frc::WaitCommand(10.0));
 

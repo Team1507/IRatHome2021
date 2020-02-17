@@ -10,8 +10,8 @@ class ControlPanel : public frc::Subsystem {
     private:
         bool m_isDeployed;
 
-        frc::DigitalInput m_bottomSwitch{0};
-        frc::DigitalInput m_topSwitch{1};
+        frc::DigitalInput m_bottomSwitch{1};
+        frc::DigitalInput m_topSwitch{0};
 
         //servo
         WPI_VictorSPX m_deployMotor{CP_DEPLOY_CAN_ID};

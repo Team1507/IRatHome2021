@@ -5,10 +5,11 @@
 #include "RobotMap.h"
 #include <frc/Solenoid.h>
 
-#define CAROUSEL_SHOOTING_POWER   .7  //probably will change later REEEEEEE
-#define CAROUSEL_IDLE_POWER       .5  //wIlL Be aDjUsTeD
-#define FEEDER_SHOOTING_VELOCITY  600 //will change, like kids voices
-#define SHOOTER_TRENCH_VELOCITY   500 //these will DEFINITELY CHANGE LATER ON, these values are temporary
+#define CAROUSEL_SHOOTING_POWER   0.7  //probably will change later REEEEEEE
+#define CAROUSEL_IDLE_POWER       0.5  //wIlL Be aDjUsTeD
+#define FEEDER_SHOOTING_POWER     0.5  //will change, like kids voices
+
+#define SHOOTER_TRENCH_VELOCITY   500  //these will DEFINITELY CHANGE LATER ON, these values are temporary
 #define SHOOTER_LINE_VELOCITY     400
 #define SHOOTER_LOW_GOAL_VELOCITY 200
 #define SHOOTER_IDLE_VELOCITY     100
@@ -23,10 +24,6 @@ class Shooter : public frc::Subsystem {
         WPI_VictorSPX m_carouselMotor   {CAROUSEL_CAN_ID};
         frc::Solenoid m_shooterramp     {PCM_CAN_ID,PCM_RAMP_ID}; 
         bool m_isShooting;
-        
-        
-
-        
 
     public:
         Shooter();
@@ -36,7 +33,9 @@ class Shooter : public frc::Subsystem {
         void SetShooterVelocity(double velocityRPM);
         int GetShooterEncoder(void);
         double GetShooterVelocity(void);
+        double GetShooterPower();
         void SetFeederVelocity(double velocityRPM);
+        void SetFeederPower(double power);
         void ExtendRamp(void);
         void RetractRamp(void);
         void StopFeeder(void);
