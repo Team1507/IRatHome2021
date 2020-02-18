@@ -9,7 +9,6 @@
 
 #define SPINNER_POWER   0.3
 
-
 #define BOTTOM_STATE 0
 #define GOING_UP     1
 #define HOLDING_TOP  2
@@ -105,17 +104,17 @@ void ControlPanel::ControlPanelPeriodic()
     //Spinner State Machine
     //More smarts need to go here.
     //if( (movementState == HOLDING_TOP) && isSpin )
-    if(  isSpin )
+    static bool spinFlag = false;
+    if( (movementState == HOLDING_TOP) && isSpin && !spinFlag)
     {
         SpinControl();
+        spinFlag = true;
     }
-    else
+    else if(spinFlag && !isSpin)
     {
         StopSpinControl();
+        spinFlag = false;
     }
-    
-
-
 }
 
 
@@ -142,7 +141,6 @@ bool ControlPanel::isBottomSwitchPress()
 
 void ControlPanel::TURBODeployControl()
 {
-    //m_isDeployed = true;
     m_deployMotor.Set(TURBO_POWER_DEPLOY);
 }
 
@@ -156,7 +154,6 @@ void ControlPanel::DeployControl()
 
 void ControlPanel::TURBORetractControl()
 {
-    //m_isDeployed = false;
     m_deployMotor.Set(-TURBO_POWER_RETRACT);
 }
 
