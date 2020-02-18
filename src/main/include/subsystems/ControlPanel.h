@@ -31,6 +31,7 @@ class ControlPanel : public frc::Subsystem {
         void StopControl(void);   
         void HoldTopControl(void);
         int GetColor(void); //return type not determined (most likely 1 red, 2 green etc...)
+        
         void SpinControl(void);
         void StopSpinControl(void);
 

@@ -152,7 +152,7 @@ double Shooter::GetShooterVelocity()
 double Shooter::GetShooterPower()
 {
     return m_leftShooterMotor.Get();
-)
+}
 
 void Shooter::SetFeederVelocity(double velocityRPM)
 {

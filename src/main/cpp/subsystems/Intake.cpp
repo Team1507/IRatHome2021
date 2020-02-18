@@ -15,13 +15,19 @@ void Intake::InitDefaultCommand() {}
 void Intake::IntakePeriodic()
 {
     bool isTriggerPressed = (Robot::m_oi.GetOperatorGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_TRIG) >= .5);
+    bool isBumperPressed  = (Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_LBUMP) );
     
     if( isTriggerPressed && !m_isIntaking )
     {
         IntakeForward();
         m_isIntaking = true;
     }
-    else if( !isTriggerPressed && m_isIntaking )
+    else if( isBumperPressed && !m_isIntaking )
+    {
+        IntakeBackward();
+        m_isIntaking = true;
+    }
+    else if( m_isIntaking )
     {
         IntakeStop();
         m_isIntaking = false;
@@ -31,7 +37,7 @@ void Intake::IntakePeriodic()
 
 void Intake::IntakeBackward()
 {
-    m_intakeMotor.Set(ControlMode::PercentOutput, -INTAKE_PERCENT);
+    m_intakeMotor.Set(ControlMode::PercentOutput, INTAKE_PERCENT);
 }
 
 

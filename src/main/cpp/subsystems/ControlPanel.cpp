@@ -1,10 +1,13 @@
 #include "subsystems/ControlPanel.h"
 #include "Robot.h"
 
-#define DEPLOY_POWER .2
-#define RETRACT_POWER .2
-#define TURBO_POWERD_DEPLOY .6
-#define TURBO_POWERD_RETRACT .5
+#define HOLD_POWER     0.1 
+#define DEPLOY_POWER   0.6
+#define RETRACT_POWER  0.25
+#define TURBO_POWER_DEPLOY  0.9
+#define TURBO_POWER_RETRACT 1.0
+
+#define SPINNER_POWER   0.3
 
 
 #define BOTTOM_STATE 0
@@ -27,14 +30,17 @@ void ControlPanel::ControlPanelPeriodic()
 
     bool botLS    = isBottomSwitchPress();
     bool topLS    = isTopSwitchPress();
-    bool isButton = Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_A);
+
+    bool isDeploy = Robot::m_oi.GetOperatorGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_Y) < -0.5;
+    bool isSpin   = Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_A);
 
     frc::SmartDashboard::PutNumber("CtrlPanel State", movementState);
     
+    //Spinner Deploy State Machine   
     switch (movementState)
     {
     case BOTTOM_STATE:  //this state brings it back to the bottom
-        if(isButton)
+        if(isDeploy)
         {
             movementState = GOING_UP;//start moving up
         }
@@ -55,7 +61,7 @@ void ControlPanel::ControlPanelPeriodic()
             DeployControl();
         }
 
-        if(!isButton) 
+        if(!isDeploy) 
         {
             movementState = GOING_DOWN;
         }
@@ -65,7 +71,7 @@ void ControlPanel::ControlPanelPeriodic()
         {
             movementState = GOING_UP;
         }
-        if(!isButton) 
+        if(!isDeploy) 
         {
             movementState = GOING_DOWN;
         }
@@ -85,7 +91,7 @@ void ControlPanel::ControlPanelPeriodic()
             RetractControl();
         }
 
-        if(isButton) 
+        if(isDeploy) 
         {
             movementState = GOING_UP;
         }
@@ -94,6 +100,22 @@ void ControlPanel::ControlPanelPeriodic()
         std::cout<<"SOS!!!!!"<<std::endl;
         break;
     }
+
+
+    //Spinner State Machine
+    //More smarts need to go here.
+    //if( (movementState == HOLDING_TOP) && isSpin )
+    if(  isSpin )
+    {
+        SpinControl();
+    }
+    else
+    {
+        StopSpinControl();
+    }
+    
+
+
 }
 
 
@@ -121,7 +143,7 @@ bool ControlPanel::isBottomSwitchPress()
 void ControlPanel::TURBODeployControl()
 {
     //m_isDeployed = true;
-    m_deployMotor.Set(TURBO_POWERD_DEPLOY);
+    m_deployMotor.Set(TURBO_POWER_DEPLOY);
 }
 
 
@@ -135,7 +157,7 @@ void ControlPanel::DeployControl()
 void ControlPanel::TURBORetractControl()
 {
     //m_isDeployed = false;
-    m_deployMotor.Set(-TURBO_POWERD_RETRACT);
+    m_deployMotor.Set(-TURBO_POWER_RETRACT);
 }
 
 
@@ -148,7 +170,7 @@ void ControlPanel::RetractControl()
 
 void ControlPanel::HoldTopControl()
 {
-    m_deployMotor.Set(HOLDING_TOP);
+    m_deployMotor.Set(HOLD_POWER);
 }
 
 int ControlPanel::GetColor(){ 
@@ -183,8 +205,6 @@ int ControlPanel::GetColor(){
 }
 
 
-void ControlPanel::SpinControl(){}
-
 
 void ControlPanel::StopControl()
 {
@@ -192,4 +212,12 @@ void ControlPanel::StopControl()
 }
 
 
-void ControlPanel::StopSpinControl(){}
+        
+void ControlPanel::SpinControl(void)
+{
+    m_spinnerMotor.Set( -SPINNER_POWER );
+}
+void ControlPanel::StopSpinControl(void)
+{
+    m_spinnerMotor.Set( 0.0 );
+}

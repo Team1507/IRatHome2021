@@ -177,8 +177,8 @@ void Write2Dashboard(void)
     frc::SmartDashboard::PutBoolean("CP Bottom LS", Robot::m_controlPanel.isBottomSwitchPress());
 
     //Shooter
-    frc::SmartDashboard::PutNumber("Shooter Velocity",  Robot::m_shooter.GetShooterVelocity() );
-    frc::SmartDashboard::PutNumber("Shooter Power",     Robot::m_shooter.GetShooterPower() );
+    frc::SmartDashboard::PutNumber("DBG Shooter Velocity",  Robot::m_shooter.GetShooterVelocity() );
+    frc::SmartDashboard::PutNumber("DBG Shooter Power",     Robot::m_shooter.GetShooterPower() );
 
     //Time
     //frc::SmartDashboard::PutNumber("FPGATime2",  Robot::m_timer->GetFPGATimestamp() );   //(double) sec
