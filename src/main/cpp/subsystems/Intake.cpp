@@ -32,12 +32,18 @@ void Intake::IntakePeriodic()
         IntakeStop();
         m_isIntaking = false;
     }
+
+
+
+
+
+
 }
 
 
 void Intake::IntakeBackward()
 {
-    m_intakeMotor.Set(ControlMode::PercentOutput, INTAKE_PERCENT);
+    m_intakeMotor.Set(ControlMode::PercentOutput, -INTAKE_PERCENT);
 }
 
 

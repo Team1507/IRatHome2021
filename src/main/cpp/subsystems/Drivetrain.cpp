@@ -1,3 +1,4 @@
+
 #include "Robot.h"
 #include "subsystems/Drivetrain.h"
 #include "GamepadMap.h"
@@ -87,7 +88,7 @@ double Drivetrain::GetLeftMotor(void)
 
 
 //Drive limiter
-#define MAX_DRIVE_POWER		0.6
+#define MAX_DRIVE_POWER		1
 #define MAX_TURN_POWER		0.75
 
 

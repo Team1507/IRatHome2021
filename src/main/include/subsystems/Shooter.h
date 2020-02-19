@@ -4,9 +4,10 @@
 #include "ctre/Phoenix.h"
 #include "RobotMap.h"
 #include <frc/Solenoid.h>
+#include <frc/Servo.h>
 
-#define CAROUSEL_SHOOTING_POWER   0.7  //probably will change later REEEEEEE
-#define CAROUSEL_IDLE_POWER       0.5  //wIlL Be aDjUsTeD
+#define CAROUSEL_SHOOTING_POWER   0.3  //probably will change later REEEEEEE
+#define CAROUSEL_IDLE_POWER       0.3  //wIlL Be aDjUsTeD
 #define FEEDER_SHOOTING_POWER     0.5  //will change, like kids voices
 
 #define SHOOTER_TRENCH_VELOCITY   500  //these will DEFINITELY CHANGE LATER ON, these values are temporary
@@ -24,6 +25,8 @@ class Shooter : public frc::Subsystem {
         WPI_VictorSPX m_carouselMotor   {CAROUSEL_CAN_ID};
         frc::Solenoid m_shooterramp     {PCM_CAN_ID,PCM_RAMP_ID}; 
         bool m_isShooting;
+        
+        frc::Servo m_shooterHood {SHOOTER_HOOD_PORT};
 
     public:
         Shooter();
@@ -42,6 +45,7 @@ class Shooter : public frc::Subsystem {
         void StopShooter(void);
         void SetCarouselPower(double percent);
         void CarouselStop(void);
+        void SetHood(int angle);
         
         // ******************************************************
         double m_carouselShootingPower;

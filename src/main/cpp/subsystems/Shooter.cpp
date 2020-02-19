@@ -8,9 +8,14 @@
 #define FEEDER_PID_SLOT  0
 
 
+
+
+
 Shooter::Shooter() : Subsystem("ShooterSubsystem") 
 {
     m_isShooting = false;
+    frc::SmartDashboard::PutNumber("HOOD ANGLE", 0);
+
 } 
 
 
@@ -76,18 +81,22 @@ void Shooter::ShooterPeriodic()
         SetShooterVelocity(SHOOTER_TRENCH_VELOCITY);
         isPovCenter = false;
         //std::cout<<"trench"<<std::endl;
+        SetHood(0);//THE ZERO WILL CHANGE
     }
     else if((povAngle == 180)&& isPovCenter)
     {
         SetShooterVelocity(SHOOTER_LOW_GOAL_VELOCITY);
         isPovCenter = false;
         //std::cout<<"low goal"<<std::endl;
+        SetHood(0);//THE ZERO WILL CHANGE
+
     }
     else if((povAngle == 270) && isPovCenter)
     {
         SetShooterVelocity(SHOOTER_LINE_VELOCITY);
         isPovCenter = false;
         //std::cout<<"line"<<std::endl;
+        SetHood(0);//THE ZERO WILL CHANGE
     }
     
     //shooter button, right trigger, this is for after we aim
@@ -125,6 +134,21 @@ void Shooter::ShooterPeriodic()
         m_isShooting = false;
         //std::cout<<"Back to driving"<<std::endl;
     }
+
+    bool isBumperPressed  = Robot::m_oi.GetOperatorGamepad()->GetRawButtonPressed(GAMEPADMAP_BUTTON_LBUMP);
+    bool isBumperReleased = Robot::m_oi.GetOperatorGamepad()->GetRawButtonReleased(GAMEPADMAP_BUTTON_LBUMP);
+    
+    if(isBumperPressed)
+    {
+        SetCarouselPower(-CAROUSEL_IDLE_POWER);
+    }
+    else if (isBumperReleased)
+    {
+        SetCarouselPower(CAROUSEL_IDLE_POWER);
+    }
+
+
+
 }
 
 
@@ -194,13 +218,21 @@ void Shooter::StopShooter()
 
 void Shooter::SetCarouselPower(double percent)
 {
-    double tempP = SmartDashboard::GetNumber("CAROUSEL_POWER", 0);
-    m_carouselMotor.Set(ControlMode::PercentOutput, tempP);
-    //m_carouselMotor.Set(ControlMode::PercentOutput, percent);
+    // double tempP = SmartDashboard::GetNumber("CAROUSEL_POWER", 0);
+    // m_carouselMotor.Set(ControlMode::PercentOutput, tempP);
+    m_carouselMotor.Set(ControlMode::PercentOutput, percent);
 }
 
 
 void Shooter::CarouselStop()
 {
     m_carouselMotor.Set(ControlMode::PercentOutput, 0);   
+}
+
+
+void Shooter::SetHood(int angle)
+{
+    //max 142, min 40
+    angle = frc::SmartDashboard::GetNumber("HOOD ANGLE", 0);
+    m_shooterHood.SetAngle(angle);
 }

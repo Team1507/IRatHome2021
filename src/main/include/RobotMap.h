@@ -11,6 +11,7 @@
 #define RIGHT_SHOOTER_FALCON_ID 6
 #define FEEDER_CAN_ID           7  //may not be on CAN
 #define CAROUSEL_CAN_ID         9
+#define SHOOTER_HOOD_PORT       0
 
 //**********INTAKE CONSTANTS**********
 #define INTAKE_CAN_ID           8

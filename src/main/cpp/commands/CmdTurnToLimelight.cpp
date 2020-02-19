@@ -9,7 +9,7 @@
 CmdTurnToLimelight::CmdTurnToLimelight() 
 {
     m_Kp = 0.0012;
-    m_minPower = 0.25;
+    m_minPower = 0.15;
     // frc::SmartDashboard::PutNumber( "KP", 0.0 );
     // frc::SmartDashboard::PutNumber( "MinPower", 0.0 );
 
@@ -37,7 +37,7 @@ void CmdTurnToLimelight::Execute()
     double error = m_targetAngle - Robot::m_drivetrain.GetGyroYaw();
     double leftDrive = 0;
     double rightDrive = 0;
-
+    frc::SmartDashboard::PutNumber("ERROR CMDTURN2LIMELIGHT", error);
     if(error > 0)
     {
         // right turn
@@ -56,7 +56,7 @@ void CmdTurnToLimelight::Execute()
         leftDrive  = 0;
         rightDrive = 0;
     }
-    Robot::m_drivetrain.Drive( leftDrive, rightDrive );
+    Robot::m_drivetrain.Drive( -leftDrive, -rightDrive );
 }
 
 
@@ -66,6 +66,7 @@ bool CmdTurnToLimelight::IsFinished()
      
     if(((m_targetAngle - TOLRENCEZONE) <= curr_yaw) && ((m_targetAngle + TOLRENCEZONE) >= curr_yaw)) 
     {
+        std::cout<<"Finished, CMDTURN2LIMELIGHT ERROR: "<<m_targetAngle - curr_yaw<<std::endl;
         return true;
     }
     return false; 
@@ -74,7 +75,6 @@ bool CmdTurnToLimelight::IsFinished()
 void CmdTurnToLimelight::End() 
 {
     Robot::m_drivetrain.Drive(0,0);
-    
     std::cout<< "CmdTurnToLimelight Ended!" << std::endl;
 
 }
