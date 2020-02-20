@@ -5,7 +5,7 @@
 #define SHOOTER_KF_CONSTANT .0575    //we'll need to fix this and adjust it later or else itll die
 #define FEEDER_KF_CONSTANT  .68      //we'll need to adjust this later too
 #define SHOOTER_PID_SLOT 0
-#define FEEDER_PID_SLOT  0
+#define FEEDER_PID_SLOT  0      //BEN L thinks we don't need this anymore since we are just doin power on the shoooter?
 
 
 

@@ -11,6 +11,7 @@
 #define RIGHT_SHOOTER_FALCON_ID 6
 #define FEEDER_CAN_ID           7  //may not be on CAN
 #define CAROUSEL_CAN_ID         9
+
 #define SHOOTER_HOOD_PORT       0
 
 //**********INTAKE CONSTANTS**********
@@ -37,3 +38,6 @@
 #define CANIFIER_TOP_CAN_ID     16
 #define CANIFIER_BOT_CAN_ID     17
 
+//**********PDP CONSTANTS**********
+#define CAROUSEL_PDP_CHANNEL    5
+#define FIVE_VOLT_DISTRIBUTOR          8

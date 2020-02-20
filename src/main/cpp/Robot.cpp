@@ -28,6 +28,8 @@ BallDeflector Robot::m_ballDeflector;
 LED Robot::m_led;
 Climber Robot::m_climber;
 
+PowerDistributionPanel Robot::m_pdp {PDP_CAN_ID};
+
 DriverFeedback Robot::m_driverFeedback;
 
 //Must be last
@@ -185,5 +187,6 @@ void Write2Dashboard(void)
     //frc::SmartDashboard::PutNumber("FPGATime1",  frc::Timer::GetFPGATimestamp() );   //(double) sec
     //frc::SmartDashboard::PutNumber("Timer",      Robot::m_timer->Get() );                //Manual Timer sec
     //LEDS BAYBEE
- 
+    frc::SmartDashboard::PutNumber("CAROUSEL CURRENT", Robot::m_pdp.GetCurrent(CAROUSEL_PDP_CHANNEL));
+    frc::SmartDashboard::PutNumber("5v DISTRIBUTOR CURRENT", Robot::m_pdp.GetCurrent(FIVE_VOLT_DISTRIBUTOR));
 }

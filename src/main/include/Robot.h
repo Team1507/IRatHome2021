@@ -21,6 +21,7 @@
 #include "subsystems/ControlPanel.h"
 #include "subsystems/LED.h"
 #include "subsystems/Climber.h"
+#include "frc/PowerDistributionPanel.h"
  
 class Robot : public frc::TimedRobot {
  public:
@@ -36,6 +37,8 @@ class Robot : public frc::TimedRobot {
     static BallDeflector m_ballDeflector;
     static LED m_led;
     static Climber m_climber;
+
+    static PowerDistributionPanel m_pdp;
    //  static DriverStation m_ds;
 
     void RobotInit() override;
