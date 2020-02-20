@@ -24,7 +24,7 @@ void CmdDriveFwdGyro::Initialize()
 	}
 
 }
-
+//this comment was made at my home -Cory J M, not "ex-Katie's Cory"
 // Called repeatedly when this Command is scheduled to run
 void CmdDriveFwdGyro::Execute() 
 {
