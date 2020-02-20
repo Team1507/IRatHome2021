@@ -33,14 +33,16 @@ AutoBallAtTrench::AutoBallAtTrench()
 
     AddSequential(new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY));
 
-    AddSequential(new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
+    AddSequential(new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER));
 
-    AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 150, true, 0.0));
+    AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 132, true, 0.0));
 
-    AddSequential(new CmdDriveFwdGyro( 0.2, 0.0, 200, true, 0.0));
+    AddSequential(new frc::WaitCommand(0.1));
+
+    AddSequential(new CmdDriveFwdGyro( 0.4, -5.0, 28, true, 0.0));
 
     //power, angle
-    AddSequential(new CmdDriveTurn2Angle(.5, -10));
+    AddSequential(new CmdDriveTurn2Angle(.15, -10));
     
     AddSequential(new CmdTurnToLimelight() );
 
@@ -51,7 +53,7 @@ AutoBallAtTrench::AutoBallAtTrench()
     //AddSequential(new CmdSetFeederVelocity(FEEDER_SHOOTING_VELOCITY));
     AddSequential(new CmdSetFeederPower(FEEDER_SHOOTING_POWER));
 
-    AddSequential(new frc::WaitCommand(10.0));
+    AddSequential(new frc::WaitCommand(3.0));
 
     AddSequential(new CmdStopFeeder());
 

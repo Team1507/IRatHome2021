@@ -5,7 +5,7 @@
 class BallDeflector : public frc::Subsystem {
  private:
  
-  frc::Servo m_linearActuator {0};
+  frc::Servo m_linearActuator {1};
  public:
   BallDeflector();
   void InitDefaultCommand() override;

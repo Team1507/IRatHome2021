@@ -10,20 +10,18 @@ CmdSetCarouselPower::CmdSetCarouselPower( double power )
 
 void CmdSetCarouselPower::Initialize() 
 {
-  frc::SmartDashboard::PutNumber("Carousel Power", 0);
+  //frc::SmartDashboard::PutNumber("Carousel Power", 0);
   //Robot::m_shooter.SetCarouselPower( m_power );
 }
 
 void CmdSetCarouselPower::Execute()
 {
-
-  double power = frc::SmartDashboard::GetNumber("Carousel Power", 0);
-  Robot::m_shooter.SetCarouselPower( power );
+  Robot::m_shooter.SetCarouselPower( m_power);
 }
 
 
 
-bool CmdSetCarouselPower::IsFinished() { return false; }
+bool CmdSetCarouselPower::IsFinished() { return true; }
 
 void CmdSetCarouselPower::End() {}
 

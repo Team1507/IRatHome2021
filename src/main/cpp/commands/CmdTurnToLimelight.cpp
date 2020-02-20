@@ -8,8 +8,8 @@
 
 CmdTurnToLimelight::CmdTurnToLimelight() 
 {
-    m_Kp = 0.0012;
-    m_minPower = 0.15;
+    m_Kp = 0.0015;
+    m_minPower = 0.125;
     // frc::SmartDashboard::PutNumber( "KP", 0.0 );
     // frc::SmartDashboard::PutNumber( "MinPower", 0.0 );
 

@@ -31,7 +31,7 @@ void CmdDriveFwdGyro::Execute()
 	//Don't use GetGyroYaw; if we try to drive on -181 heading, yaw freaks out and goes positive
 	//double errorAngle = Robot::m_drivetrain->GetGyroYaw() - m_heading;
 	double errorAngle = Robot::m_drivetrain.GetGyroAngle() - m_heading;
-	double kp = 0.01; //was 0.05, then 0.04
+	double kp = 0.002; //was 0.05, then 0.04
 
 	Robot::m_drivetrain.Drive(m_power - errorAngle*kp  ,  m_power + errorAngle*kp ); 
 }

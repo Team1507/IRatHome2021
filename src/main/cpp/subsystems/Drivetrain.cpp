@@ -6,8 +6,14 @@
 
 //Drivetrain Constants
 //Encoder TICKS PER INCH Calibration
-const double Drivetrain::LEFT_ENCODER_TPI  = 618.7;			//*** Calibrated 1/21/2020
-const double Drivetrain::RIGHT_ENCODER_TPI = 613.8;			//*** Calibrated 1/21/2020
+const double Drivetrain::LEFT_ENCODER_TPI  = 1148;			//*** Calibrated 1/21/2020
+const double Drivetrain::RIGHT_ENCODER_TPI = 1149;			//*** Calibrated 1/21/2020
+
+
+//Drive limiter
+#define MAX_DRIVE_POWER		1
+#define MAX_TURN_POWER		0.6
+
 
 
 Drivetrain::Drivetrain() : Subsystem("Drivetrain") 
@@ -87,11 +93,6 @@ double Drivetrain::GetLeftMotor(void)
 }
 
 
-//Drive limiter
-#define MAX_DRIVE_POWER		1
-#define MAX_TURN_POWER		0.75
-
-
 void Drivetrain::DriveWithGamepad( void )
 {
 	const double DEADBAND = 0.08;
@@ -115,15 +116,15 @@ void Drivetrain::DriveWithGamepad( void )
 	if (fabs(yR)>= DEADBAND) yR +=  (yR>0)? -DEADBAND : +DEADBAND;
 	if (fabs(xR)>= DEADBAND) xR +=  (xR>0)? -DEADBAND : +DEADBAND;
 
-	//TankDrive
-	yL *= MAX_DRIVE_POWER;	
-	yR *= MAX_DRIVE_POWER;	
-  	m_differentialDrive.TankDrive( -yL,  -yR,  false);
+	// //TankDrive
+	// yL *= MAX_DRIVE_POWER;	
+	// yR *= MAX_DRIVE_POWER;	
+  	// m_differentialDrive.TankDrive( -yL,  -yR,  false);
 
-	// //Arcade Drive
-	// yL *= MAX_DRIVE_POWER;
-	// xR *= MAX_TURN_POWER;
-	// m_differentialDrive.ArcadeDrive(yL,-xR,  true);
+	//Arcade Drive
+	yL *= MAX_DRIVE_POWER;
+	xR *= MAX_TURN_POWER;
+	m_differentialDrive.ArcadeDrive(-yL,xR,  true);
 }
 
 

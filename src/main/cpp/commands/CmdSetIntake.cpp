@@ -8,26 +8,19 @@ CmdSetIntake::CmdSetIntake(bool isRunning)
 }
 void CmdSetIntake::Initialize() 
 {
-    frc::SmartDashboard::PutNumber("Intake Power", 0);
-    // if(m_isRunning)
-    // {
-    //     Robot::m_intake.IntakeForward();
-    // }
-    // else if(!m_isRunning)
-    // {
-    //     Robot::m_intake.IntakeStop();
-    // }
-
+    if(m_isRunning)
+    {
+        Robot::m_intake.IntakeForward();
+    }
+    else if(!m_isRunning)
+    {
+        Robot::m_intake.IntakeStop();
+    }
 }
 
-void CmdSetIntake::Execute() 
-{
-    double power = frc::SmartDashboard::GetNumber("Intake Power", 0);
-    Robot::m_intake.IntakeForward( power );
- 
-}
+void CmdSetIntake::Execute() {}
 
-bool CmdSetIntake::IsFinished() { return false; }
+bool CmdSetIntake::IsFinished() { return true; }
 
 void CmdSetIntake::End() {}
 

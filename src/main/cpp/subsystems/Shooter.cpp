@@ -154,11 +154,14 @@ void Shooter::ShooterPeriodic()
 
 void Shooter::SetShooterVelocity(double velocityRPM)
 {
-    // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
-    double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
-    //m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600);
-    //m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
-    m_leftShooterMotor.Set(ControlMode::PercentOutput, tempV ); //For Testing Only!
+
+    //*** COMMENTED OUT DUE TO BROKEN SHOOTER WHEEL.
+
+    // // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
+    // double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
+    // //m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600);
+    // //m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
+    // m_leftShooterMotor.Set(ControlMode::PercentOutput, tempV ); //For Testing Only!
 }
 
 
@@ -235,4 +238,5 @@ void Shooter::SetHood(int angle)
     //max 142, min 40
     angle = frc::SmartDashboard::GetNumber("HOOD ANGLE", 0);
     m_shooterHood.SetAngle(angle);
+    std::cout<<"HOOD ANGLE: "<<angle<<std::endl;
 }
