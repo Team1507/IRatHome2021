@@ -51,7 +51,8 @@ void Shooter::ShooterInit()
 
     //*********************************************************
     // TEMP CODE
-    frc::SmartDashboard::PutNumber("CAROUSEL_POWER", 0.0);
+    frc::SmartDashboard::PutNumber("CAROUSEL_IDLE_POWER", 0.0);
+    frc::SmartDashboard::PutNumber("CAROUSEL_SHOOTING_POWER", 0.0);
     frc::SmartDashboard::PutNumber("FEEDER_POWER", 0.0);
     frc::SmartDashboard::PutNumber("SHOOTER_VELOCITY", 0.0);
     frc::SmartDashboard::PutNumber("SHOOTER Kf", 0);
@@ -104,7 +105,7 @@ void Shooter::ShooterPeriodic()
     if (m_isTriggerPressed && !m_isShooting)
     {
         //shooter should already be at shooting speed
-        SetCarouselPower(CAROUSEL_SHOOTING_POWER);
+        SetCarouselShootingPower();
         SetFeederPower(FEEDER_SHOOTING_POWER);
         ExtendRamp();
         std::cout<<"r trig is working"<<std::endl;
@@ -116,7 +117,7 @@ void Shooter::ShooterPeriodic()
     else if(m_isShooting && !m_isTriggerPressed)
     {
         //shooter at shooting speed still
-        SetCarouselPower(CAROUSEL_IDLE_POWER);
+        SetCarouselIdlePower();
         RetractRamp();
         StopFeeder();
         m_isShooting = false; 
@@ -127,7 +128,7 @@ void Shooter::ShooterPeriodic()
     if(Robot::m_oi.GetOperatorGamepad()->GetRawButtonPressed(GAMEPADMAP_BUTTON_RBUMP))
     {
         SetShooterVelocity(SHOOTER_IDLE_VELOCITY);
-        SetCarouselPower(CAROUSEL_IDLE_POWER);
+        SetCarouselIdlePower();
         StopFeeder();
         RetractRamp();
         //REENABLE ball intake
@@ -154,14 +155,11 @@ void Shooter::ShooterPeriodic()
 
 void Shooter::SetShooterVelocity(double velocityRPM)
 {
-
-    //*** COMMENTED OUT DUE TO BROKEN SHOOTER WHEEL.
-
-    // // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
-    // double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
-    // //m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600);
-    // //m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
-    // m_leftShooterMotor.Set(ControlMode::PercentOutput, tempV ); //For Testing Only!
+    // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
+    double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
+    //m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600);
+    //m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
+    m_leftShooterMotor.Set(ControlMode::PercentOutput, tempV ); //For Testing Only!
 }
 
 
@@ -178,7 +176,7 @@ double Shooter::GetShooterVelocity()
 
 double Shooter::GetShooterPower()
 {
-    return m_leftShooterMotor.Get();
+    return m_leftShooterMotor.GetMotorOutputPercent();
 }
 
 void Shooter::SetFeederVelocity(double velocityRPM)
@@ -224,6 +222,20 @@ void Shooter::SetCarouselPower(double percent)
     // double tempP = SmartDashboard::GetNumber("CAROUSEL_POWER", 0);
     // m_carouselMotor.Set(ControlMode::PercentOutput, tempP);
     m_carouselMotor.Set(ControlMode::PercentOutput, percent);
+}
+
+
+void Shooter::SetCarouselIdlePower(void)
+{
+    double tempVar = frc::SmartDashboard::GetNumber("CAROUSEL_IDLE_POWER", 0.0);
+    SetCarouselPower(tempVar);
+}
+
+
+void Shooter::SetCarouselShootingPower(void)
+{
+    double tempVar = frc::SmartDashboard::GetNumber("CAROUSEL_SHOOTING_POWER", 0.0);
+    SetCarouselPower(tempVar);
 }
 
 

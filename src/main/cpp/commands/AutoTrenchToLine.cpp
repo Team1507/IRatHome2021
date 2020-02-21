@@ -18,7 +18,11 @@
 #include "commands/CmdSetShooterVelocity.h"
 #include "commands/CmdStopShooter.h"
 #include "commands/CmdStopFeeder.h"
+#include "commands/CmdExtendRamp.h"
+#include "commands/CmdRetractRamp.h"
 #include "commands/CmdStopCarousel.h"
+#include "commands/CmdAdjustHood.h"
+#include "Commands/CmdDriveClearEncoderV2.h"
 
 AutoTrenchToLine::AutoTrenchToLine() 
 {
@@ -29,26 +33,38 @@ AutoTrenchToLine::AutoTrenchToLine()
     
     //***************************************************
     AddSequential(new CmdSetIntake( true ));
-    AddSequential(new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY));
-    AddSequential(new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER));
+    AddSequential(new CmdAdjustHood(LINE_HOOD_ANGLE));
+    AddSequential(new CmdSetShooterVelocity(SHOOTER_TRENCH_VELOCITY));
+    AddSequential(new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
     AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 132, true, 0.0));
     AddSequential(new frc::WaitCommand(0.1));
 
     //Hit 'em with that uno reverse card
-    AddSequential(new CmdDriveFwdGyro(.4, -5.0, 20, true, 0.0));//drive forward at an angle to avoid hitting wall
-    AddSequential(new CmdDriveTurn2Angle(.15, -45)); //turn to get towards the middle
-    AddSequential(new CmdDriveFwdGyro(.4, -45, 24, true, 0.0));//drive forward a distance at an angle
-    AddSequential(new CmdDriveTurn2Angle(.4, 0)); //realign facing the thingy
-    //we may need to drive forward again
+
+    AddSequential(new CmdDriveFwdGyro(.4, -5.0, 40, false, 0.0));//drive forward at an angle to avoid hitting wall
+    //AddSequential(new CmdDriveTurn2Angle(.15, -45)); //turn to get towards the middle
+    
+    AddSequential(new CmdDriveClearEncoderV2() );
+    AddSequential(new CmdDriveFwdGyro(.4, -82.0, 55, false, 0.0));//drive forward a distance at an angle
+   // AddSequential(new CmdDriveTurn2Angle(.2, 0)); //realign facing the thingy
+    //Turn2Angle not working.  Why???
+    
+    AddSequential(new CmdDriveClearEncoderV2() );
+    AddSequential(new CmdDriveFwdGyro(.4, 10.0, 50, true, 0.0));
+
+    AddSequential(new frc::WaitCommand(0.1));
     AddSequential(new CmdTurnToLimelight());
 
     //so anyway i started blastin
     AddSequential(new CmdSetShooterVelocity(SHOOTER_LINE_VELOCITY));
     AddSequential(new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER));
     AddSequential(new CmdSetFeederPower(FEEDER_SHOOTING_POWER));
+    
+    AddSequential(new CmdExtendRamp());
 
     //ok we done blasting now
-    AddSequential(new frc::WaitCommand(3.0));
+    AddSequential(new frc::WaitCommand(5.0));
+    AddSequential(new CmdRetractRamp());
     AddSequential(new CmdStopFeeder());
     AddSequential(new CmdStopShooter());
     AddSequential(new CmdStopCarousel());

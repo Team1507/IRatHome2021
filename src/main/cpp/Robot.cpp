@@ -13,6 +13,7 @@
 #include "commands/AutoDriveStr8.h"
 #include "commands/AutoJustShoot.h"
 #include "commands/AutoBallAtTrench.h"
+#include "commands/AutoTrenchToLine.h"
 #include "subsystems/LED.h"
 #include "subsystems/Climber.h"
 
@@ -53,10 +54,11 @@ void Robot::RobotInit() {
     m_shooter.ShooterInit();
 
     //Auto Chooser
-    m_chooser.SetDefaultOption("Default Auto", new AutoDoNothing);
-    m_chooser.AddOption("Auto Drive Str8", new AutoDriveStr8);
-    m_chooser.AddOption("Auto Just Shoot", new AutoJustShoot);
-    m_chooser.AddOption("Auto Ball at trench",new AutoBallAtTrench);
+    m_chooser.SetDefaultOption("Default Auto", new AutoDoNothing()    );
+    m_chooser.AddOption("Auto Drive Str8",     new AutoDriveStr8()    );
+    m_chooser.AddOption("Auto Just Shoot",     new AutoJustShoot()    );
+    m_chooser.AddOption("Auto Ball at trench", new AutoBallAtTrench() );
+    m_chooser.AddOption("Auto Trench to line", new AutoTrenchToLine() );
     
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
@@ -103,6 +105,21 @@ void Robot::AutonomousInit()
 {
     std::cout<<"Auto Init"<<std::endl;
 
+    if(m_ds.GetAlliance() == DriverStation::kRed)
+    {
+        m_led.SetAllLEDColor(255, 0, 0);
+    }
+    else if(m_ds.GetAlliance() == DriverStation::kBlue)
+    {
+        m_led.SetAllLEDColor(0,0,255);
+    }
+    else
+    {
+        m_led.SetAllLEDColor(255,255,0);
+    }
+
+
+
     m_autonomousCommand = m_chooser.GetSelected();
     if (m_autonomousCommand != nullptr) { m_autonomousCommand->Start();   }
 }
@@ -114,6 +131,20 @@ void Robot::AutonomousPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 void Robot::TeleopInit() 
 {
     std::cout<<"Teleop Init"<<std::endl;
+
+
+    if(m_ds.GetAlliance() == DriverStation::kRed)
+    {
+        m_led.SetAllLEDColor(255, 0, 0);
+    }
+    else if(m_ds.GetAlliance() == DriverStation::kBlue)
+    {
+        m_led.SetAllLEDColor(0,0,255);
+    }
+    else
+    {
+        m_led.SetAllLEDColor(255,255,0);
+    }
 
 
     //Make sure Auto is not running in Teleop
@@ -188,5 +219,6 @@ void Write2Dashboard(void)
     //frc::SmartDashboard::PutNumber("Timer",      Robot::m_timer->Get() );                //Manual Timer sec
     //LEDS BAYBEE
     frc::SmartDashboard::PutNumber("CAROUSEL CURRENT", Robot::m_pdp.GetCurrent(CAROUSEL_PDP_CHANNEL));
-    frc::SmartDashboard::PutNumber("5v DISTRIBUTOR CURRENT", Robot::m_pdp.GetCurrent(FIVE_VOLT_DISTRIBUTOR));
+    frc::SmartDashboard::PutNumber("12v DISTRIBUTOR CURRENT", Robot::m_pdp.GetCurrent(TWELVE_VOLT_DISTRIBUTOR));
+    frc::SmartDashboard::PutNumber("PDP Voltage", Robot::m_pdp.GetVoltage() );
 }

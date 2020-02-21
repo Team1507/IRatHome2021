@@ -16,8 +16,11 @@
 #include "commands/CmdSetCarouselPower.h"
 #include "commands/CmdSetShooterVelocity.h"
 #include "commands/CmdStopShooter.h"
+#include "commands/CmdExtendRamp.h"
+#include "commands/CmdRetractRamp.h"
 #include "commands/CmdStopFeeder.h"
 #include "commands/CmdStopCarousel.h"
+#include "commands/CmdAdjustHood.h"
 #include "subsystems/Shooter.h"
 
 
@@ -31,9 +34,11 @@ AutoBallAtTrench::AutoBallAtTrench()
     //***************************************************
     AddSequential(new CmdSetIntake( true ));
 
-    AddSequential(new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY));
+    AddSequential(new CmdAdjustHood(TRENCH_HOOD_ANGLE));
 
-    AddSequential(new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER));
+    AddSequential(new CmdSetShooterVelocity(SHOOTER_TRENCH_VELOCITY));
+
+    AddSequential(new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
 
     AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 132, true, 0.0));
 
@@ -46,17 +51,19 @@ AutoBallAtTrench::AutoBallAtTrench()
     
     AddSequential(new CmdTurnToLimelight() );
 
-    AddSequential(new CmdSetShooterVelocity(SHOOTER_TRENCH_VELOCITY));
+    //SHOOT!!!!!!
 
     AddSequential(new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER));
 
-    //AddSequential(new CmdSetFeederVelocity(FEEDER_SHOOTING_VELOCITY));
     AddSequential(new CmdSetFeederPower(FEEDER_SHOOTING_POWER));
 
-    AddSequential(new frc::WaitCommand(3.0));
+    AddSequential(new CmdExtendRamp());
 
+    AddSequential(new frc::WaitCommand(5.0));
+
+    //Done Shooting
     AddSequential(new CmdStopFeeder());
-
+    AddSequential(new CmdRetractRamp());
     AddSequential(new CmdStopShooter());
 
     AddSequential(new CmdStopCarousel());

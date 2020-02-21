@@ -2,8 +2,8 @@
 
 //**********DRIVETRAIN CONSTANTS**********
 #define LEFTDRIVE_FRONT_CAN_ID  1
-#define RIGHTDRIVE_FRONT_CAN_ID 2
-#define LEFTDRIVE_BACK_CAN_ID   3
+#define RIGHTDRIVE_FRONT_CAN_ID 3
+#define LEFTDRIVE_BACK_CAN_ID   2
 #define RIGHTDRIVE_BACK_CAN_ID  4           
 
 //**********SHOOTER CONSTANTS**********
@@ -40,4 +40,4 @@
 
 //**********PDP CONSTANTS**********
 #define CAROUSEL_PDP_CHANNEL    5
-#define FIVE_VOLT_DISTRIBUTOR          8
+#define TWELVE_VOLT_DISTRIBUTOR          8

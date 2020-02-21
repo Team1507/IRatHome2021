@@ -15,6 +15,9 @@
 #define SHOOTER_LOW_GOAL_VELOCITY 200
 #define SHOOTER_IDLE_VELOCITY     100
 
+#define LINE_HOOD_ANGLE           142  //temp number
+#define TRENCH_HOOD_ANGLE         123  //temp number
+
 
 
 class Shooter : public frc::Subsystem {
@@ -44,6 +47,8 @@ class Shooter : public frc::Subsystem {
         void StopFeeder(void);
         void StopShooter(void);
         void SetCarouselPower(double percent);
+        void SetCarouselIdlePower(void);
+        void SetCarouselShootingPower(void);
         void CarouselStop(void);
         void SetHood(int angle);
         
