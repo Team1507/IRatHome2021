@@ -22,7 +22,6 @@
 #include "commands/CmdRetractRamp.h"
 #include "commands/CmdStopCarousel.h"
 #include "commands/CmdAdjustHood.h"
-#include "Commands/CmdDriveClearEncoderV2.h"
 
 AutoTrenchToLine::AutoTrenchToLine() 
 {
@@ -42,17 +41,15 @@ AutoTrenchToLine::AutoTrenchToLine()
     //Hit 'em with that uno reverse card
 
     AddSequential(new CmdDriveFwdGyro(.4, -5.0, 40, false, 0.0));//drive forward at an angle to avoid hitting wall
-    //AddSequential(new CmdDriveTurn2Angle(.15, -45)); //turn to get towards the middle
+
     
-    AddSequential(new CmdDriveClearEncoderV2() );
     AddSequential(new CmdDriveFwdGyro(.4, -82.0, 55, false, 0.0));//drive forward a distance at an angle
    // AddSequential(new CmdDriveTurn2Angle(.2, 0)); //realign facing the thingy
     //Turn2Angle not working.  Why???
     
-    AddSequential(new CmdDriveClearEncoderV2() );
-    AddSequential(new CmdDriveFwdGyro(.4, 10.0, 50, true, 0.0));
+    AddSequential(new CmdDriveFwdGyro(.4, 25.0, 60, true, 0.0));
 
-    AddSequential(new frc::WaitCommand(0.1));
+    AddSequential(new frc::WaitCommand(1.0));
     AddSequential(new CmdTurnToLimelight());
 
     //so anyway i started blastin
@@ -62,12 +59,17 @@ AutoTrenchToLine::AutoTrenchToLine()
     
     AddSequential(new CmdExtendRamp());
 
-    //ok we done blasting now
-    AddSequential(new frc::WaitCommand(5.0));
+    //** SHOOT Time
+    AddSequential(new frc::WaitCommand(6.0));
+
+    //Clean up
+    AddSequential(new CmdSetIntake( false ));
     AddSequential(new CmdRetractRamp());
     AddSequential(new CmdStopFeeder());
     AddSequential(new CmdStopShooter());
     AddSequential(new CmdStopCarousel());
+    AddSequential(new CmdAdjustHood(HOME_HOOD_ANGLE));
 
-    //I think we will still need to extend the ramp?
+    AddSequential(new CmdPrintAutoText("AUTO TRENCH TO LINE DONE"));
+
 }

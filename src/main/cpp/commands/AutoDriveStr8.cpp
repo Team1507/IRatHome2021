@@ -9,4 +9,5 @@ AutoDriveStr8::AutoDriveStr8()
   AddSequential(new CmdPrintAutoText("******AUTO DRIVE STR8******"));
   AddSequential(new CmdDriveClearAll());
   AddSequential(new CmdDriveFwdGyro(0.2, 0.0, 75, true, 0.0));
+  AddSequential(new CmdPrintAutoText("AUTO DONE"));
 }

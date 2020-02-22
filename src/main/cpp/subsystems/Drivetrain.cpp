@@ -95,7 +95,7 @@ double Drivetrain::GetLeftMotor(void)
 
 void Drivetrain::DriveWithGamepad( void )
 {
-	const double DEADBAND = 0.08;
+	const double DEADBAND = 0.05;
 	
 	double yL = Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_Y);
 	double xL = Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_X);
@@ -131,33 +131,47 @@ void Drivetrain::DriveWithGamepad( void )
 //**************** ENCODERS *********************
 int Drivetrain::GetLeftEncoder(void)
 {
-	return -m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
+    return -(m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition()  - m_l1_enc_zero);
+	//return -m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
 }
 
 int Drivetrain::GetLeftEncoder2(void)
 {
-	return -m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
+     return -(m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition() - m_l2_enc_zero);
+	//return -m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
 }
 
 int Drivetrain::GetRightEncoder(void)
 {
-	return m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
+    return m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition() - m_r1_enc_zero;
+	//return m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
 }
 
 int Drivetrain::GetRightEncoder2(void)
 {
-	return m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
+    return m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition() - m_r2_enc_zero;
+	//return m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
 }
 
-void Drivetrain::ResetEncoders(void)
+void Drivetrain::HardResetEncoders(void)
 {
-    std::cout<< "Encoders Reset" << std::endl;
+    std::cout<< "Hard Falcon Encoder Reset" << std::endl;
     m_leftMotorFront.GetSensorCollection().SetIntegratedSensorPosition(0);
     m_leftMotorBack.GetSensorCollection().SetIntegratedSensorPosition(0);
     m_rightMotorFront.GetSensorCollection().SetIntegratedSensorPosition(0);
     m_rightMotorBack.GetSensorCollection().SetIntegratedSensorPosition(0);
 }
 
+
+
+void Drivetrain::ResetEncoders(void)
+{
+    std::cout<< "Local Encoder Reset" << std::endl;
+    m_l1_enc_zero = m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
+    m_l2_enc_zero = m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
+    m_r1_enc_zero = m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
+    m_r2_enc_zero = m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
+}
 
 //**************** AHRS (NavX) *********************
 bool Drivetrain::IsGyroConnected(void)

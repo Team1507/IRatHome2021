@@ -52,9 +52,12 @@ void Robot::RobotInit() {
     m_drivetrain.InitFalcons();
     m_odometry.Reset();
     m_shooter.ShooterInit();
+    m_drivetrain.HardResetEncoders();
+    m_drivetrain.ZeroGyro();
 
     //Auto Chooser
     m_chooser.SetDefaultOption("Default Auto", new AutoDoNothing()    );
+    m_chooser.AddOption("Do Nothing",          new AutoDoNothing()    );
     m_chooser.AddOption("Auto Drive Str8",     new AutoDriveStr8()    );
     m_chooser.AddOption("Auto Just Shoot",     new AutoJustShoot()    );
     m_chooser.AddOption("Auto Ball at trench", new AutoBallAtTrench() );
@@ -78,6 +81,8 @@ void Robot::RobotInit() {
     {
         m_led.SetAllLEDColor(255,255,0);
     }
+
+    frc::SmartDashboard::PutNumber( "LimelightOffset", -1.25 ); //calibrated 2/21
 
 }
 
@@ -190,9 +195,9 @@ void Write2Dashboard(void)
     // frc::SmartDashboard::PutNumber("D_R_Trig",    Robot::m_oi->GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_TRIG)  );
 
 	frc::SmartDashboard::PutNumber("LeftEnc",    Robot::m_drivetrain.GetLeftEncoder());
-    //frc::SmartDashboard::PutNumber("LeftEnc2",    Robot::m_drivetrain.GetLeftEncoder2());
+    frc::SmartDashboard::PutNumber("LeftEnc2",    Robot::m_drivetrain.GetLeftEncoder2());
 	frc::SmartDashboard::PutNumber("RightEnc",   Robot::m_drivetrain.GetRightEncoder());  
-	//frc::SmartDashboard::PutNumber("RightEnc2",    Robot::m_drivetrain.GetRightEncoder2());
+	frc::SmartDashboard::PutNumber("RightEnc2",    Robot::m_drivetrain.GetRightEncoder2());
 
 
 	frc::SmartDashboard::PutBoolean("navx_IsConn", Robot::m_drivetrain.IsGyroConnected() );

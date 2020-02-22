@@ -19,6 +19,13 @@ class Drivetrain : public frc::Subsystem {
 
         AHRS m_ahrs{SPI::Port::kMXP};	    //NavX
 
+
+        //Local Encoders
+        int m_l1_enc_zero;
+        int m_l2_enc_zero;
+        int m_r1_enc_zero;
+        int m_r2_enc_zero;
+
     public:
         Drivetrain();
         void InitDefaultCommand() override;
@@ -39,7 +46,8 @@ class Drivetrain : public frc::Subsystem {
         int GetLeftEncoder2(void);
         int GetRightEncoder(void);
         int GetRightEncoder2(void);
-        void ResetEncoders(void);
+        void HardResetEncoders(void);   //Full Falcon Encoder Reset
+        void ResetEncoders(void);       //Local Reset
 
     //NavX
         bool   IsGyroConnected(void);

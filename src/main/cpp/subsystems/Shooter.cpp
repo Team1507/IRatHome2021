@@ -2,8 +2,8 @@
 #include "Robot.h"
 #include "frc/smartdashboard/SmartDashboard.h"
 
-#define SHOOTER_KF_CONSTANT .0575    //we'll need to fix this and adjust it later or else itll die
-#define FEEDER_KF_CONSTANT  .68      //we'll need to adjust this later too
+//#define SHOOTER_KF_CONSTANT .0575    //we'll need to fix this and adjust it later or else itll die
+//#define FEEDER_KF_CONSTANT  .68      //we'll need to adjust this later too
 #define SHOOTER_PID_SLOT 0
 #define FEEDER_PID_SLOT  0      //BEN L thinks we don't need this anymore since we are just doin power on the shoooter?
 
@@ -14,8 +14,7 @@
 Shooter::Shooter() : Subsystem("ShooterSubsystem") 
 {
     m_isShooting = false;
-    frc::SmartDashboard::PutNumber("HOOD ANGLE", 0);
-
+    m_hood_angle = HOME_HOOD_ANGLE;
 } 
 
 
@@ -38,7 +37,7 @@ void Shooter::ShooterInit()
     //m_feederMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);    //No Encoder
     
     //PID constants
-    m_leftShooterMotor.Config_kF(SHOOTER_PID_SLOT, SHOOTER_KF_CONSTANT, 0);    
+    //m_leftShooterMotor.Config_kF(SHOOTER_PID_SLOT, SHOOTER_KF_CONSTANT, 0);    
     //m_feederMotor.Config_kF(FEEDER_PID_SLOT, FEEDER_KF_CONSTANT, 0);
     
     //right motor following and set inverted
@@ -50,13 +49,20 @@ void Shooter::ShooterInit()
     m_rightShooterMotor.Follow(m_leftShooterMotor);
 
     //*********************************************************
-    // TEMP CODE
-    frc::SmartDashboard::PutNumber("CAROUSEL_IDLE_POWER", 0.0);
-    frc::SmartDashboard::PutNumber("CAROUSEL_SHOOTING_POWER", 0.0);
-    frc::SmartDashboard::PutNumber("FEEDER_POWER", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER_VELOCITY", 0.0);
-    frc::SmartDashboard::PutNumber("SHOOTER Kf", 0);
-    frc::SmartDashboard::PutNumber("SHOOTER Kp", 0);
+    //Shooter Setup TEMP CODE
+    frc::SmartDashboard::PutNumber("CAROUSEL_IDLE_POWER",       CAROUSEL_IDLE_POWER    );
+    frc::SmartDashboard::PutNumber("CAROUSEL_SHOOTING_POWER",   CAROUSEL_SHOOTING_POWER);
+    frc::SmartDashboard::PutNumber("FEEDER_POWER",              FEEDER_SHOOTING_POWER  );
+
+    frc::SmartDashboard::PutNumber("SHOOTER_IDLE_VELOCITY",     SHOOTER_IDLE_VELOCITY    );
+    frc::SmartDashboard::PutNumber("SHOOTER_TRENCH_VELOCITY",   SHOOTER_TRENCH_VELOCITY  );
+    frc::SmartDashboard::PutNumber("SHOOTER_LOW_GOAL_VELOCITY", SHOOTER_LOW_GOAL_VELOCITY);
+    frc::SmartDashboard::PutNumber("SHOOTER_LINE_VELOCITY",     SHOOTER_LINE_VELOCITY    );
+
+    //frc::SmartDashboard::PutNumber("SHOOTER Kf", 0);
+    //frc::SmartDashboard::PutNumber("SHOOTER Kp", 0);
+
+    SmartDashboard::PutNumber("INTAKE_POWER", 0.7);
 
 }
 
@@ -79,25 +85,34 @@ void Shooter::ShooterPeriodic()
     //this is to enable the shooting speed, after we have 5 balls
     if((povAngle == 0) && isPovCenter)
     {
-        SetShooterVelocity(SHOOTER_TRENCH_VELOCITY);
+        //SetShooterVelocity(SHOOTER_TRENCH_VELOCITY);
+        double shootpower = SmartDashboard::GetNumber("SHOOTER_TRENCH_VELOCITY", 0); 
+        SetShooterVelocity(shootpower);
+
         isPovCenter = false;
-        //std::cout<<"trench"<<std::endl;
+        std::cout<<"Shoot Trench "<<std::endl;
         SetHood(0);//THE ZERO WILL CHANGE
+        m_hood_angle = TRENCH_HOOD_ANGLE;
     }
     else if((povAngle == 180)&& isPovCenter)
     {
-        SetShooterVelocity(SHOOTER_LOW_GOAL_VELOCITY);
+        //SetShooterVelocity(SHOOTER_LOW_GOAL_VELOCITY);
+        double shootpower = SmartDashboard::GetNumber("SHOOTER_LOW_GOAL_VELOCITY", 0); 
+        SetShooterVelocity(shootpower);
         isPovCenter = false;
-        //std::cout<<"low goal"<<std::endl;
+        std::cout<<"Shoot low goal"<<std::endl;
         SetHood(0);//THE ZERO WILL CHANGE
-
+        m_hood_angle = LOWGOAL_HOOD_ANGLE;
     }
     else if((povAngle == 270) && isPovCenter)
     {
-        SetShooterVelocity(SHOOTER_LINE_VELOCITY);
+        //SetShooterVelocity(SHOOTER_LINE_VELOCITY);
+        double shootpower = SmartDashboard::GetNumber("SHOOTER_LINE_VELOCITY", 0); 
+        SetShooterVelocity(shootpower);
         isPovCenter = false;
-        //std::cout<<"line"<<std::endl;
+        std::cout<<"Shoot line"<<std::endl;
         SetHood(0);//THE ZERO WILL CHANGE
+        m_hood_angle = LINE_HOOD_ANGLE;
     }
     
     //shooter button, right trigger, this is for after we aim
@@ -108,7 +123,7 @@ void Shooter::ShooterPeriodic()
         SetCarouselShootingPower();
         SetFeederPower(FEEDER_SHOOTING_POWER);
         ExtendRamp();
-        std::cout<<"r trig is working"<<std::endl;
+        std::cout<<"Shoot!"<<std::endl;
         //intake ?
         //deflector deployed for some reason?
         //feeder
@@ -123,19 +138,31 @@ void Shooter::ShooterPeriodic()
         m_isShooting = false; 
     }
 
-    //this will go from aiming to default driving, this is the 'reset' button
-    //done shooting button, back to default
+    //*******   RESET  ******
     if(Robot::m_oi.GetOperatorGamepad()->GetRawButtonPressed(GAMEPADMAP_BUTTON_RBUMP))
     {
-        SetShooterVelocity(SHOOTER_IDLE_VELOCITY);
+        //SetShooterVelocity(SHOOTER_IDLE_VELOCITY);
+        double shootpower = SmartDashboard::GetNumber("SHOOTER_IDLE_VELOCITY", 0); 
+        SetShooterVelocity(shootpower);
         SetCarouselIdlePower();
         StopFeeder();
         RetractRamp();
-        //REENABLE ball intake
+        SetHood(HOME_HOOD_ANGLE);
+        m_hood_angle = HOME_HOOD_ANGLE;
         m_isShooting = false;
-        //std::cout<<"Back to driving"<<std::endl;
+        std::cout<<"Shoot Reset"<<std::endl;
     }
 
+
+    ////*****  SET HOOD AFTER DPAD (after crossing under wheel-of-fortune)
+    if(Robot::m_oi.GetOperatorGamepad()->GetRawButtonPressed(GAMEPADMAP_BUTTON_X))
+    {
+        SetHood(m_hood_angle);
+        std::cout<<"SetHood"<<std::endl;
+    }
+
+
+    //*******   REVERSE to Clear any jams
     bool isBumperPressed  = Robot::m_oi.GetOperatorGamepad()->GetRawButtonPressed(GAMEPADMAP_BUTTON_LBUMP);
     bool isBumperReleased = Robot::m_oi.GetOperatorGamepad()->GetRawButtonReleased(GAMEPADMAP_BUTTON_LBUMP);
     
@@ -155,11 +182,16 @@ void Shooter::ShooterPeriodic()
 
 void Shooter::SetShooterVelocity(double velocityRPM)
 {
-    // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
-    double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
-    //m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600);
-    //m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
-    m_leftShooterMotor.Set(ControlMode::PercentOutput, tempV ); //For Testing Only!
+
+    //**** NOTE ***  THIS IS SHOOTER POWER FOR NOW, not velocity
+    m_leftShooterMotor.Set(ControlMode::PercentOutput, velocityRPM );
+
+
+//    // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
+//    double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
+//    //m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600);
+//    //m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
+//    m_leftShooterMotor.Set(ControlMode::PercentOutput, tempV ); //For Testing Only!
 }
 
 
@@ -248,7 +280,6 @@ void Shooter::CarouselStop()
 void Shooter::SetHood(int angle)
 {
     //max 142, min 40
-    angle = frc::SmartDashboard::GetNumber("HOOD ANGLE", 0);
     m_shooterHood.SetAngle(angle);
     std::cout<<"HOOD ANGLE: "<<angle<<std::endl;
 }

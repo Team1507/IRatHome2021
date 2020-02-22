@@ -3,9 +3,9 @@
 #define INTAKE_PERCENT .7 //can change
 
 
-Intake::Intake() : Subsystem("ExampleSubsystem") 
+Intake::Intake() : Subsystem("IntakeSubsystem") 
 {
-    SmartDashboard::PutNumber("INTAKE_POWER", 0);
+    
 }
 
 
@@ -32,12 +32,6 @@ void Intake::IntakePeriodic()
         IntakeStop();
         m_isIntaking = false;
     }
-
-
-
-
-
-
 }
 
 

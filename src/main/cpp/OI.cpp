@@ -31,14 +31,12 @@ OI::OI() {
     frc::SmartDashboard::PutData("CmdTurnToLimelight", new CmdTurnToLimelight());
     
     
-    
-    //frc::SmartDashboard::PutData("CmdSetShooterVelocity", new CmdSetFeederVelocity())
     //buttons
     //m_spinnerDeployToggle = new frc::JoystickButton(m_operatorgamepad,GAMEPADMAP_BUTTON_A);
     //m_spinnerDeployToggle->WhenPressed(new CmdSpinnerDeploy());
 
-
-
+    m_driverLimelightShoot = new frc::JoystickButton(m_drivergamepad,GAMEPADMAP_BUTTON_RBUMP);
+    m_driverLimelightShoot->WhenPressed(new CmdTurnToLimelight());
 
 }
 

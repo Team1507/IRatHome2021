@@ -10,8 +10,6 @@ CmdTurnToLimelight::CmdTurnToLimelight()
 {
     m_Kp = 0.0015;
     m_minPower = 0.125;
-    // frc::SmartDashboard::PutNumber( "KP", 0.0 );
-    // frc::SmartDashboard::PutNumber( "MinPower", 0.0 );
 
     // Use Requires() here to declare subsystem dependencies
     Requires(&Robot::m_drivetrain);
@@ -20,11 +18,15 @@ CmdTurnToLimelight::CmdTurnToLimelight()
 
 void CmdTurnToLimelight::Initialize() 
 {
-    //Robot::m_drivetrain.GetGyroYaw()
-    // m_Kp = frc::SmartDashboard::GetNumber( "KP", 0.0 );
-    // m_minPower = frc::SmartDashboard::GetNumber( "MinPower", 0.0 );
+
+
+
+    double camera_offset = frc::SmartDashboard::GetNumber( "LimelightOffset", 0.0 );
 
     m_targetAngle = Robot::m_drivetrain.GetGyroYaw() + nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);
+
+m_targetAngle += camera_offset;
+
     // frc::SmartDashboard::PutNumber( "Angle From Camera", 0.0 );
     // nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0) = frc::SmartDashboard::GetNumber( "Angle From Camera", 0.0 );
 

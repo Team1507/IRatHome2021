@@ -6,17 +6,21 @@
 #include <frc/Solenoid.h>
 #include <frc/Servo.h>
 
-#define CAROUSEL_SHOOTING_POWER   0.3  //probably will change later REEEEEEE
-#define CAROUSEL_IDLE_POWER       0.3  //wIlL Be aDjUsTeD
-#define FEEDER_SHOOTING_POWER     0.5  //will change, like kids voices
+#define CAROUSEL_SHOOTING_POWER   0.4  
+#define CAROUSEL_IDLE_POWER       0.3  
+#define FEEDER_SHOOTING_POWER     1.0 
 
-#define SHOOTER_TRENCH_VELOCITY   500  //these will DEFINITELY CHANGE LATER ON, these values are temporary
-#define SHOOTER_LINE_VELOCITY     400
-#define SHOOTER_LOW_GOAL_VELOCITY 200
-#define SHOOTER_IDLE_VELOCITY     100
+//These are actuallty POWER for now...
+#define SHOOTER_TRENCH_VELOCITY   1.0  
+#define SHOOTER_LINE_VELOCITY     1.0
+#define SHOOTER_LOW_GOAL_VELOCITY 0.4
+#define SHOOTER_IDLE_VELOCITY     0.5
+#define SHOOTER_ZERO_VELOCITY     0.0
 
-#define LINE_HOOD_ANGLE           142  //temp number
-#define TRENCH_HOOD_ANGLE         123  //temp number
+#define LINE_HOOD_ANGLE           130  
+#define TRENCH_HOOD_ANGLE         110 
+#define LOWGOAL_HOOD_ANGLE        50  
+#define HOME_HOOD_ANGLE           40  
 
 
 
@@ -30,6 +34,8 @@ class Shooter : public frc::Subsystem {
         bool m_isShooting;
         
         frc::Servo m_shooterHood {SHOOTER_HOOD_PORT};
+
+        int m_hood_angle;
 
     public:
         Shooter();
