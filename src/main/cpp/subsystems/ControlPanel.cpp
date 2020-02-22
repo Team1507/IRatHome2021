@@ -14,7 +14,7 @@
 #define HOLDING_TOP  2
 #define GOING_DOWN   3
 
-static rev::ColorSensorV3 m_ColorsensorV3{frc::I2C::Port::kOnboard};
+
 
 ControlPanel::ControlPanel() : Subsystem("ExampleSubsystem") 
 {
@@ -115,6 +115,11 @@ void ControlPanel::ControlPanelPeriodic()
         StopSpinControl();
         spinFlag = false;
     }
+
+
+    frc::SmartDashboard::PutNumber("Spinner Encoder", GetSpinnerEncoder()  );
+    frc::SmartDashboard::PutNumber("Spinner Color", GetColor()  );
+
 }
 
 
@@ -217,4 +222,10 @@ void ControlPanel::SpinControl(void)
 void ControlPanel::StopSpinControl(void)
 {
     m_spinnerMotor.Set( 0.0 );
+}
+
+
+int ControlPanel::GetSpinnerEncoder(void)
+{
+    return m_spinner_encoder.Get();
 }

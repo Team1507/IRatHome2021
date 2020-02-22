@@ -84,6 +84,9 @@ void Robot::RobotInit() {
 
     frc::SmartDashboard::PutNumber( "LimelightOffset", -1.25 ); //calibrated 2/21
 
+    frc::SmartDashboard::PutNumber( "DF Top LEDs", 0 ); 
+    frc::SmartDashboard::PutNumber( "DF Bot LEDs", 0 ); 
+
 }
 
 
@@ -91,6 +94,13 @@ void Robot::RobotPeriodic()
 {
     m_odometry.OdometryPeriodic();
     Write2Dashboard();
+
+    int dftopled = frc::SmartDashboard::GetNumber( "DF Top LEDs", 0 ); 
+    int dfbotled = frc::SmartDashboard::GetNumber( "DF Bot LEDs", 0 ); 
+
+    m_driverFeedback.UpdateTopLEDs(dftopled & 0xFF,dftopled>>8 & 0xFF,dftopled>>16 & 0xFF);
+    m_driverFeedback.UpdateBotLEDs(dfbotled & 0xFF,dfbotled>>8 & 0xFF,dfbotled>>16 & 0xFF);
+
 }
 
 
