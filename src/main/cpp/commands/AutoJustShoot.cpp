@@ -36,14 +36,13 @@ AutoJustShoot::AutoJustShoot()
     AddSequential( new CmdExtendRamp());
     AddSequential( new frc::WaitCommand(5.0));
 
-    
     //Stop shooter, feeder, retract ramp
     AddSequential( new CmdStopFeeder());    
     AddSequential( new CmdRetractRamp());
     AddSequential( new CmdStopShooter());
+    AddSequential( new CmdAdjustHood(HOME_HOOD_ANGLE));
+    AddSequential( new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
 
-    AddSequential( new CmdStopCarousel());
-
-    AddSequential( new CmdDriveFwdEncoder( 0.4, 60, true, 0.0));
-
+    //move off the line;
+    AddSequential( new CmdDriveFwdEncoder( 0.4, 48, true, 0.0));
 }
