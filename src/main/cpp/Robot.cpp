@@ -66,9 +66,9 @@ void Robot::RobotInit() {
     
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-    m_led.SetAllLEDColor(255,255,0);
 
-    //Get Alliance Color set LED front panel
+    //Set LED's to Yellow initially
+    m_led.SetAllLEDColor(255,255,0);
     
 
     frc::SmartDashboard::PutNumber( "LimelightOffset", -1.25 ); //calibrated 2/21

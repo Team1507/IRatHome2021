@@ -11,6 +11,9 @@
 #include "subsystems/Shooter.h"
 #include "commands/CmdPrintAutoText.h"
 #include "commands/CmdDriveClearAll.h"
+#include "commands/CmdAdjustHood.h"
+#include "commands/CmdStopShooter.h"
+#include "commands/CmdDriveFwdEncoder.h"
 
 
 AutoJustShoot::AutoJustShoot() 
@@ -18,15 +21,13 @@ AutoJustShoot::AutoJustShoot()
     AddSequential( new CmdDriveClearAll());
     AddSequential( new CmdPrintAutoText("****** CMD JUST SHOOT ******"));
 
-    //Spool up shooter
-    AddSequential( new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY)); 
+    //Spool up shooter and get ready to shoot
+    AddSequential( new CmdAdjustHood(LINE_HOOD_ANGLE));
+    AddSequential( new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
+    AddSequential( new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY));
     AddSequential( new frc::WaitCommand(2.0));
-
-        
-    //start shooter, feeder, and extend ramp
     AddSequential( new CmdSetShooterVelocity(SHOOTER_LINE_VELOCITY));
-    AddSequential( new frc::WaitCommand(2.0));
-    
+    AddSequential( new frc::WaitCommand(4.0));
 
     //so anyway, I started blastin'
     AddSequential( new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER)); 
@@ -37,9 +38,12 @@ AutoJustShoot::AutoJustShoot()
 
     
     //Stop shooter, feeder, retract ramp
-    AddSequential( new CmdStopCarousel());
-    AddSequential( new CmdStopFeeder());
-    AddSequential( new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY)); 
+    AddSequential( new CmdStopFeeder());    
     AddSequential( new CmdRetractRamp());
+    AddSequential( new CmdStopShooter());
+
+    AddSequential( new CmdStopCarousel());
+
+    AddSequential( new CmdDriveFwdEncoder( 0.4, 60, true, 0.0));
 
 }
