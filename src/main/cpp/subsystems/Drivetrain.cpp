@@ -60,7 +60,16 @@ void Drivetrain::InitFalcons(void)
     m_rightMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
     m_rightMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
 
-    
+    ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration falconConfig;
+    falconConfig.enable = true;
+    falconConfig.currentLimit = 40;
+    falconConfig.triggerThresholdCurrent = 60;
+    falconConfig.triggerThresholdTime = 0;
+
+    m_rightMotorBack.ConfigSupplyCurrentLimit(falconConfig,0);
+    m_rightMotorFront.ConfigSupplyCurrentLimit(falconConfig,0);
+    m_leftMotorBack.ConfigSupplyCurrentLimit(falconConfig,0);
+    m_leftMotorFront.ConfigSupplyCurrentLimit(falconConfig,0);
 }
 
 
