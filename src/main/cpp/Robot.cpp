@@ -69,7 +69,6 @@ void Robot::RobotInit() {
 
     //Set LED's to Yellow initially
     m_led.SetAllLEDColor(255,255,0);
-    m_led.SetOneLEDColor(9, 0xFF, 0x00, 0xFF);
 
     frc::SmartDashboard::PutNumber( "LimelightOffset", -1.25 ); //calibrated 2/21
 
