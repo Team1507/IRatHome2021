@@ -17,7 +17,7 @@
 #define SHOOTER_IDLE_VELOCITY     0.5
 #define SHOOTER_ZERO_VELOCITY     0.0
 
-#define LINE_HOOD_ANGLE           130  
+#define LINE_HOOD_ANGLE           120  
 #define TRENCH_HOOD_ANGLE         110 
 #define LOWGOAL_HOOD_ANGLE        50  
 #define HOME_HOOD_ANGLE           40  
