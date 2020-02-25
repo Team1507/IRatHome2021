@@ -59,6 +59,8 @@ void Drivetrain::InitFalcons(void)
     m_leftMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
     m_rightMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
     m_rightMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
+
+    
 }
 
 

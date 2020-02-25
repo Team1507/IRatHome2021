@@ -16,6 +16,7 @@
 #include "commands/AutoTrenchToLine.h"
 #include "subsystems/LED.h"
 #include "subsystems/Climber.h"
+#include "subsystems/Drivetrain.h"
 
 
 Drivetrain Robot::m_drivetrain;
@@ -65,22 +66,10 @@ void Robot::RobotInit() {
     
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
+    m_led.SetAllLEDColor(255,255,0);
 
     //Get Alliance Color set LED front panel
-    if(m_ds.GetAlliance() == DriverStation::kRed)
-    {
-        m_led.SetAllLEDColor(255, 0, 0);
-        //std::cout<<"We are on the RED alliance"<<std::endl;
-    }
-    else if(m_ds.GetAlliance() == DriverStation::kBlue)
-    {
-        m_led.SetAllLEDColor(0,0,255);
-        //std::cout<<"We are on the BLUE allinace"<<std::endl;
-    }
-    else
-    {
-        m_led.SetAllLEDColor(255,255,0);
-    }
+    
 
     frc::SmartDashboard::PutNumber( "LimelightOffset", -1.25 ); //calibrated 2/21
 
@@ -99,7 +88,7 @@ void Robot::RobotPeriodic()
     int dfbotled = frc::SmartDashboard::GetNumber( "DF Bot LEDs", 0 ); 
 
     m_driverFeedback.UpdateTopLEDs(dftopled & 0xFF,dftopled>>8 & 0xFF,dftopled>>16 & 0xFF);
-    m_driverFeedback.UpdateBotLEDs(dfbotled & 0xFF,dfbotled>>8 & 0xFF,dfbotled>>16 & 0xFF);
+    m_driverFeedback.UpdateBotLEDs(dfbotled & 0xFF,dfbotled>>8 & 0xFF,dfbotled>>16 & 0xFF);  
 
 }
 

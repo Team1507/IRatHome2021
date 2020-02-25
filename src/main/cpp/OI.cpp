@@ -13,6 +13,7 @@
 #include "commands/CmdSetFeederVelocity.h"
 #include "commands/CmdSpinnerDeploy.h"
 #include "commands/CmdTurnToLimelight.h"
+#include "commands/CmdStopCarousel.h"
 
 
 OI::OI() {
@@ -29,9 +30,10 @@ OI::OI() {
     frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
     frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
     frc::SmartDashboard::PutData("CmdTurnToLimelight", new CmdTurnToLimelight());
+    frc::SmartDashboard::PutData("kill carousel", new CmdStopCarousel());
     
     
-    //buttons
+    //buttons1
     //m_spinnerDeployToggle = new frc::JoystickButton(m_operatorgamepad,GAMEPADMAP_BUTTON_A);
     //m_spinnerDeployToggle->WhenPressed(new CmdSpinnerDeploy());
 
