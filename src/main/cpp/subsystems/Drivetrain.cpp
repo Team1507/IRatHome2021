@@ -1,4 +1,3 @@
-
 #include "Robot.h"
 #include "subsystems/Drivetrain.h"
 #include "GamepadMap.h"
@@ -6,8 +5,8 @@
 
 //Drivetrain Constants
 //Encoder TICKS PER INCH Calibration
-const double Drivetrain::LEFT_ENCODER_TPI  = 961;			//*** Calibrated 2/20/2020
-const double Drivetrain::RIGHT_ENCODER_TPI = 965;			//*** Calibrated 2/20/2020
+const double Drivetrain::LEFT_ENCODER_TPI  = 1126;			//*** Calibrated 2/24/2020
+const double Drivetrain::RIGHT_ENCODER_TPI = 1130;			//*** Calibrated 2/24/2020
 
 
 //Drive limiter

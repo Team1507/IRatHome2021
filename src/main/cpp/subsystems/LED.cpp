@@ -30,13 +30,8 @@ void LED::SetAllLEDColor(int r, int g, int b)
 
 void LED::SetOneLEDColor(int LEDNum, int r, int g, int b)
 {
-    for(int i = 0; i < kLEDLength; i++)
-    {
-        m_ledbuffer[LEDNum].SetRGB( r, g, b);
-    }
-
-        m_led.SetData(m_ledbuffer);
-
+    m_ledbuffer[LEDNum].SetRGB( r, g, b);
+    m_led.SetData(m_ledbuffer);
 }
 
 //wpi::ArrayRef<frc::AddressableLED::LEDData> leddata[24];
