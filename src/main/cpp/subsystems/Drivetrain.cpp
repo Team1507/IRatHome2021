@@ -65,10 +65,10 @@ void Drivetrain::InitFalcons(void)
     falconConfig.triggerThresholdCurrent = 60;
     falconConfig.triggerThresholdTime = 0;
 
-    m_rightMotorBack.ConfigSupplyCurrentLimit(falconConfig,0);
-    m_rightMotorFront.ConfigSupplyCurrentLimit(falconConfig,0);
-    m_leftMotorBack.ConfigSupplyCurrentLimit(falconConfig,0);
-    m_leftMotorFront.ConfigSupplyCurrentLimit(falconConfig,0);
+    // m_rightMotorBack.ConfigSupplyCurrentLimit(falconConfig,0);
+    // m_rightMotorFront.ConfigSupplyCurrentLimit(falconConfig,0);
+    // m_leftMotorBack.ConfigSupplyCurrentLimit(falconConfig,0);
+    // m_leftMotorFront.ConfigSupplyCurrentLimit(falconConfig,0);
 }
 
 

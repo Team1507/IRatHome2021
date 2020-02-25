@@ -13,7 +13,7 @@
 #include "commands/CmdDriveClearAll.h"
 #include "commands/CmdAdjustHood.h"
 #include "commands/CmdStopShooter.h"
-#include "commands/CmdDriveFwdEncoder.h"
+#include "commands/CmdDriveFwdGyro.h"
 
 
 AutoJustShoot::AutoJustShoot() 
@@ -44,5 +44,5 @@ AutoJustShoot::AutoJustShoot()
     AddSequential( new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
 
     //move off the line;
-    AddSequential( new CmdDriveFwdEncoder( 0.4, 48, true, 0.0));
+    AddSequential( new CmdDriveFwdGyro( 0.4 , 0,24 , true , 0.0 ));
 }
