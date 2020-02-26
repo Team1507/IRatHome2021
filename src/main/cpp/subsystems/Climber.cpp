@@ -33,19 +33,23 @@ void Climber::ClimberPeriodic()
     //Climb Motor
     //bool driverClimb = Robot::m_oi.GetDriverGamepad()->GetRawButton(GAMEPADMAP_BUTTON_START);
     bool operatorClimb = Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_START);
+    bool reverseOperatorClimb = Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_BACK);  
 
     if( operatorClimb ) //&& driverClimb)
     {
         m_rightWinchMotor.Set(WINCH_POWER);
         m_leftWinchMotor.Set(WINCH_POWER);
     }
+    else if( reverseOperatorClimb )
+    {
+        m_rightWinchMotor.Set(-WINCH_POWER);
+        m_leftWinchMotor.Set(-WINCH_POWER);
+    }
     else
     {
         m_rightWinchMotor.Set(0.0);
         m_leftWinchMotor.Set(0.0);
     }
-    
-
 }
 
 
