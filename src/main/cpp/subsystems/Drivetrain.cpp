@@ -11,7 +11,7 @@ const double Drivetrain::RIGHT_ENCODER_TPI = 1130;			//*** Calibrated 2/24/2020
 
 //Drive limiter
 #define MAX_DRIVE_POWER		1
-#define MAX_TURN_POWER		0.6
+#define MAX_TURN_POWER		0.65
 
 
 

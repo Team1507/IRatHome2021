@@ -3,7 +3,8 @@
 #define LIGHTSABER_UP_MULTIPLIER   .5
 #define LIGHTSABER_DOWN_MULTIPLIER .25
 
-#define WINCH_POWER .6
+#define WINCH_POWER 1.0
+#define REVERSE_WINCH_POWER 0.4
 
 Climber::Climber() : Subsystem("ExampleSubsystem") {}
 
@@ -42,8 +43,8 @@ void Climber::ClimberPeriodic()
     }
     else if( reverseOperatorClimb )
     {
-        m_rightWinchMotor.Set(-WINCH_POWER);
-        m_leftWinchMotor.Set(-WINCH_POWER);
+        m_rightWinchMotor.Set(-REVERSE_WINCH_POWER);
+        m_leftWinchMotor.Set(-REVERSE_WINCH_POWER);
     }
     else
     {
