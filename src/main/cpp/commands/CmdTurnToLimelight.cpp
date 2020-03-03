@@ -32,6 +32,8 @@ m_targetAngle += camera_offset;
 
     std::cout<< "CmdTurnToLimelight Init" << std::endl;
     std::cout<<"TARGET ANGLE "<<m_targetAngle<<std::endl;
+
+    SetTimeout ( 3.0 );
 }
 
 void CmdTurnToLimelight::Execute() 
@@ -71,6 +73,13 @@ bool CmdTurnToLimelight::IsFinished()
         std::cout<<"Finished, CMDTURN2LIMELIGHT ERROR: "<<m_targetAngle - curr_yaw<<std::endl;
         return true;
     }
+
+    if( IsTimedOut() )
+    {
+        std::cout<< "CmdTurnToLimelight TIMEOUT!!!!" << std::endl;
+        return true;
+    }
+
     return false; 
  }
 

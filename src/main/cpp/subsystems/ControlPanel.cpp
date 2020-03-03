@@ -7,7 +7,7 @@
 #define TURBO_POWER_DEPLOY  0.9
 #define TURBO_POWER_RETRACT 1.0
 
-#define SPINNER_POWER   0.4
+#define SPINNER_POWER   0.6
 
 #define BOTTOM_STATE 0
 #define GOING_UP     1

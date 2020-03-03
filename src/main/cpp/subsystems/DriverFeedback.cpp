@@ -16,9 +16,9 @@ void DriverFeedback::UpdateBotLEDs(float _r, float _g, float _b)
 	//Hardware::
 	//Channel A and B is incorrect in documentation
 	 
-    m_bot_canifier.SetLEDOutput(_g, CANifier::LEDChannel::LEDChannelA);
-	m_bot_canifier.SetLEDOutput(_r, CANifier::LEDChannel::LEDChannelB);
-	m_bot_canifier.SetLEDOutput(_b, CANifier::LEDChannel::LEDChannelC);
+   // m_bot_canifier.SetLEDOutput(_g, CANifier::LEDChannel::LEDChannelA);
+	//m_bot_canifier.SetLEDOutput(_r, CANifier::LEDChannel::LEDChannelB);
+	//m_bot_canifier.SetLEDOutput(_b, CANifier::LEDChannel::LEDChannelC);
     
 }
 
@@ -28,25 +28,25 @@ void DriverFeedback::UpdateTopLEDs(float _r, float _g, float _b)
 	//Hardware::
 	//Channel A and B is incorrect in documentation 
    
-    m_top_canifier.SetLEDOutput(_g, CANifier::LEDChannel::LEDChannelA);
-	m_top_canifier.SetLEDOutput(_r, CANifier::LEDChannel::LEDChannelB);
-	m_top_canifier.SetLEDOutput(_b, CANifier::LEDChannel::LEDChannelC);    
+    // m_top_canifier.SetLEDOutput(_g, CANifier::LEDChannel::LEDChannelA);
+	// m_top_canifier.SetLEDOutput(_r, CANifier::LEDChannel::LEDChannelB);
+	// m_top_canifier.SetLEDOutput(_b, CANifier::LEDChannel::LEDChannelC);    
     
 }
 
 void DriverFeedback::TopLEDsOff(){
 
-    m_top_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelA);
-	m_top_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelB);
-	m_top_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelC);
+    // m_top_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelA);
+	// m_top_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelB);
+	// m_top_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelC);
 
 }
 
 void DriverFeedback::BotLEDsOff(){
 
-    m_bot_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelA);
-	m_bot_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelB);
-	m_bot_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelC);  
+    // m_bot_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelA);
+	// m_bot_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelB);
+	// m_bot_canifier.SetLEDOutput(0, CANifier::LEDChannel::LEDChannelC);  
 
 }
 

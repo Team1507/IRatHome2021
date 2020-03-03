@@ -19,8 +19,8 @@ class DriverFeedback : public frc::Subsystem {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-    CANifier m_top_canifier{CANIFIER_TOP_CAN_ID};
-    CANifier m_bot_canifier{CANIFIER_BOT_CAN_ID};
+   // CANifier m_top_canifier{CANIFIER_TOP_CAN_ID};
+    //CANifier m_bot_canifier{CANIFIER_BOT_CAN_ID};
  public:
   DriverFeedback();
   void InitDefaultCommand() override;

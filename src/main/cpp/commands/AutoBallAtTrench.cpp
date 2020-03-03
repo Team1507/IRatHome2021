@@ -40,11 +40,11 @@ AutoBallAtTrench::AutoBallAtTrench()
 
     AddSequential(new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
 
-    AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 132, true, 0.0));
+    AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 138, true, 0.0));//was 132
 
     AddSequential(new frc::WaitCommand(0.1));
 
-    AddSequential(new CmdDriveFwdGyro( 0.4, -5.0, 28, true, 0.0));
+    AddSequential(new CmdDriveFwdGyro( 0.4, -5.0, 40, true, 0.0));  //was 28
 
     //power, angle
     AddSequential(new CmdDriveTurn2Angle(.15, -10));

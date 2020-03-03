@@ -2,6 +2,11 @@
 #include "Robot.h"
 #include "frc/smartdashboard/SmartDashboard.h"
 
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
+
+#include "subsystems/DriverFeedback.h"
+
 //#define SHOOTER_KF_CONSTANT .0575    //we'll need to fix this and adjust it later or else itll die
 //#define FEEDER_KF_CONSTANT  .68      //we'll need to adjust this later too
 #define SHOOTER_PID_SLOT 0
@@ -177,12 +182,50 @@ void Shooter::ShooterPeriodic()
 
 
 
+    // //Driver Feedback LEDs
+    // const double TOLRENCEZONE = 0.2;
+    // double lmIsTarget = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0);
+    // double lmAngle     = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);  
+    // double camera_offset = frc::SmartDashboard::GetNumber( "LimelightOffset", 0.0 );
+
+    // double m_targetAngle = lmAngle + camera_offset;
+
+    // if(((m_targetAngle <= TOLRENCEZONE) ) && ((m_targetAngle >= -TOLRENCEZONE))) 
+    // {
+    //     Robot::m_driverFeedback.UpdateTopLEDs(GREEN_rgb);
+    // }
+    // else if(lmIsTarget > 0.0)
+    // {
+    //     Robot::m_driverFeedback.UpdateTopLEDs(PURPLE_rgb);
+    // }
+    // else
+    // {
+    //     Robot::m_driverFeedback.UpdateTopLEDs(0,0,0);
+    // }
+    
 }
+
+
+//this was cory's code befpre the comit, but after the comp
+// void Shooter::GetShooterVelocity(void)
+// {
+//     int timer = 0;
+//     double timestamp = Robot::m_timer.GetFPGATimestamp();
+//     double encodertick = m_leftShooterMotor.Get();
+//     for(timer == 100)
+//     {
+
+//     }
+//     double timestamp2 = Robot::m_timer.GetFPGATimestamp();
+//     double encodertick2 = m_leftShooterMotor.Get();
+
+//     timestamp - timestamp2 = double timeDiff;
+//     SHOOTER_WHEEL_DIAMETER / 
+// }
 
 
 void Shooter::SetShooterVelocity(double velocityRPM)
 {
-
     //**** NOTE ***  THIS IS SHOOTER POWER FOR NOW, not velocity
     m_leftShooterMotor.Set(ControlMode::PercentOutput, velocityRPM );
 
