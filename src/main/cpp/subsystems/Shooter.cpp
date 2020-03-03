@@ -70,6 +70,11 @@ void Shooter::ShooterInit()
     SmartDashboard::PutNumber("INTAKE_POWER", 0.7);
 
 }
+int Shooter::GetLeftEncoder(void)
+{
+    return -(m_leftShooterMotor.GetSensorCollection().GetIntegratedSensorPosition()  - m_l1_enc_zero);
+	//return -m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
+}
 
 
 void Shooter::ShooterPeriodic()
@@ -207,21 +212,16 @@ void Shooter::ShooterPeriodic()
 
 
 //this was cory's code befpre the comit, but after the comp
-// void Shooter::GetShooterVelocity(void)
-// {
-//     int timer = 0;
-//     double timestamp = Robot::m_timer.GetFPGATimestamp();
-//     double encodertick = m_leftShooterMotor.Get();
-//     for(timer == 100)
-//     {
+void Shooter::GetShooterVelocity(void)
+{
+    double encoderTickDiff = prevEncoderTick - m_leftMotorFront.GetLeftEncoder();
+    double timeDiff = PrevTimeStamp - Robot::m_timer.GetFPGATimestamp();
 
-//     }
-//     double timestamp2 = Robot::m_timer.GetFPGATimestamp();
-//     double encodertick2 = m_leftShooterMotor.Get();
+    double PrevTimeStamp = Robot::m_timer.GetFPGATimestamp();
+    double prevEncoderTick = m_leftMotorFront.GetLeftEncoder();
 
-//     timestamp - timestamp2 = double timeDiff;
-//     SHOOTER_WHEEL_DIAMETER / 
-// }
+    return encoderTickDiff / timeDiff;
+}
 
 
 void Shooter::SetShooterVelocity(double velocityRPM)
