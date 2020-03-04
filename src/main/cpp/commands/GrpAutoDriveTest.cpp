@@ -17,24 +17,9 @@ GrpAutoDriveTest::GrpAutoDriveTest()
 	AddSequential(new CmdPrintAutoText("GrpAutoDriveTest Begin"));
     AddSequential(new CmdDriveClearAll());
     //***************************************************
-    //AddSequential(new CmdLoggingEnable(true));
 
-                    //CmdDriveRevGyro(double power, double heading, double distance, bool stop, double timeout)
-    AddSequential(new CmdDriveRevGyro(       0.2,            0.0,             150,        true,          0.0));
+    AddSequential(new CmdDriveFwdGyro(       0.2,            0.0,             120,        true,          0.0));
 
-    AddSequential(new frc::WaitCommand(1.0));
-
-    AddSequential(new CmdDriveFwdGyro(       0.2,            0.0,             75,        true,          0.0));
-
-
-    AddSequential(new CmdDriveTurn2Angle( 0.15, -15.0  ));
-
-
-    //AddSequential( new CmdDriveManual( 0.2,  0.2, 3.0 ) );
-
-
-    AddSequential(new frc::WaitCommand(1.0));           //Let it finish whatever it's doing
-    //AddSequential(new CmdLoggingEnable(false));
     //***************************************************
     AddSequential(new CmdDriveManual(0,0,0) );          //Safety.  All Off
     AddSequential(new CmdPrintAutoText("GrpAutoDriveTest Complete"));

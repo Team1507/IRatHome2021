@@ -5,8 +5,8 @@
 
 //Drivetrain Constants
 //Encoder TICKS PER INCH Calibration
-const double Drivetrain::LEFT_ENCODER_TPI  = 1126;			//*** Calibrated 2/24/2020
-const double Drivetrain::RIGHT_ENCODER_TPI = 1130;			//*** Calibrated 2/24/2020
+const double Drivetrain::LEFT_ENCODER_TPI  = 1153;			//*** Calibrated 3/3/2020
+const double Drivetrain::RIGHT_ENCODER_TPI = 1153;			//*** Calibrated 3/3/2020
 
 
 //Drive limiter
@@ -54,10 +54,10 @@ void Drivetrain::InitFalcons(void)
     m_rightMotorBack.SetNeutralMode(NeutralMode::Brake);        
 
     //Setup Encoders
-    m_leftMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
-    m_leftMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
-    m_rightMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
-    m_rightMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,0,0);
+    m_leftMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
+    m_leftMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
+    m_rightMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
+    m_rightMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
 
     ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration falconConfig;
     falconConfig.enable = true;
