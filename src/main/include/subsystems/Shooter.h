@@ -43,7 +43,6 @@ class Shooter : public frc::Subsystem {
 
     public:
         Shooter();
-        int GetLeftEncoder(void);
         void InitDefaultCommand() override;
         void ShooterInit(void);
         void ShooterPeriodic(void);

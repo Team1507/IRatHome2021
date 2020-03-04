@@ -70,11 +70,7 @@ void Shooter::ShooterInit()
     SmartDashboard::PutNumber("INTAKE_POWER", 0.7);
 
 }
-int Shooter::GetLeftEncoder(void)
-{
-    return -(m_leftShooterMotor.GetSensorCollection().GetIntegratedSensorPosition()  - m_l1_enc_zero);
-	//return -m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
-}
+
 
 
 void Shooter::ShooterPeriodic()
@@ -208,19 +204,6 @@ void Shooter::ShooterPeriodic()
     //     Robot::m_driverFeedback.UpdateTopLEDs(0,0,0);
     // }
     
-}
-
-
-//this was cory's code befpre the comit, but after the comp
-void Shooter::GetShooterVelocity(void)
-{
-    double encoderTickDiff = prevEncoderTick - m_leftMotorFront.GetLeftEncoder();
-    double timeDiff = PrevTimeStamp - Robot::m_timer.GetFPGATimestamp();
-
-    double PrevTimeStamp = Robot::m_timer.GetFPGATimestamp();
-    double prevEncoderTick = m_leftMotorFront.GetLeftEncoder();
-
-    return encoderTickDiff / timeDiff;
 }
 
 

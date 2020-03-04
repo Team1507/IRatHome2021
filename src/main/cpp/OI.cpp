@@ -24,11 +24,11 @@ OI::OI() {
     m_operatorgamepad = new frc::Joystick(1);
 
     frc::SmartDashboard::PutData("CmdDriveClearAll", new CmdDriveClearAll());
-    frc::SmartDashboard::PutData("AutoShoot", new AutoJustShoot());
+    //frc::SmartDashboard::PutData("AutoShoot", new AutoJustShoot());
     frc::SmartDashboard::PutData("GrpAutoDriveTest", new GrpAutoDriveTest());
 
-    frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
-    frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
+    //frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
+    //frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
     frc::SmartDashboard::PutData("CmdTurnToLimelight", new CmdTurnToLimelight());
     frc::SmartDashboard::PutData("kill carousel", new CmdStopCarousel());
     
