@@ -224,4 +224,6 @@ void Write2Dashboard(void)
     frc::SmartDashboard::PutNumber("CAROUSEL CURRENT", Robot::m_pdp.GetCurrent(CAROUSEL_PDP_CHANNEL));
     frc::SmartDashboard::PutNumber("12v DISTRIBUTOR CURRENT", Robot::m_pdp.GetCurrent(TWELVE_VOLT_DISTRIBUTOR));
     frc::SmartDashboard::PutNumber("PDP Voltage", Robot::m_pdp.GetVoltage() );
+
+    Robot::m_drivetrain.WriteFalconTemps();
 }

@@ -31,8 +31,8 @@ class Drivetrain : public frc::Subsystem {
         void InitDefaultCommand() override;
 
         //Drivetrain Constants
-        const static double LEFT_ENCODER_TPI;       //"Ticks per inch"
-        const static double RIGHT_ENCODER_TPI;    
+        const static int LEFT_ENCODER_TPI;       //"Ticks per inch"
+        const static int RIGHT_ENCODER_TPI;    
 
         void InitFalcons(void);
         void DriveWithGamepad(void);
@@ -40,6 +40,7 @@ class Drivetrain : public frc::Subsystem {
         void Stop(void);
         double GetRightMotor(void);
         double GetLeftMotor(void);
+        void WriteFalconTemps(void);
 
         //Encoders
         int GetLeftEncoder(void);

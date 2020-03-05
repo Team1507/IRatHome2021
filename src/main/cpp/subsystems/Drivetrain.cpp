@@ -5,8 +5,8 @@
 
 //Drivetrain Constants
 //Encoder TICKS PER INCH Calibration
-const double Drivetrain::LEFT_ENCODER_TPI  = 1153;			//*** Calibrated 3/3/2020
-const double Drivetrain::RIGHT_ENCODER_TPI = 1153;			//*** Calibrated 3/3/2020
+const int Drivetrain::LEFT_ENCODER_TPI  = 1153;			//*** Calibrated 3/3/2020
+const int Drivetrain::RIGHT_ENCODER_TPI = 1153;			//*** Calibrated 3/3/2020
 
 
 //Drive limiter
@@ -93,7 +93,7 @@ void Drivetrain::Stop(void)
 
 double Drivetrain::GetRightMotor(void)
 {
-    return m_rightMotorFront.Get();
+    return -m_rightMotorFront.Get();
 }
 
 
@@ -102,6 +102,14 @@ double Drivetrain::GetLeftMotor(void)
 	return m_leftMotorFront.Get();
 }
 
+
+void Drivetrain::WriteFalconTemps(void)
+{
+    frc::SmartDashboard::PutNumber("FalconTemp LF", m_leftMotorFront.GetTemperature() );
+    frc::SmartDashboard::PutNumber("FalconTemp LR", m_leftMotorBack.GetTemperature() );
+    frc::SmartDashboard::PutNumber("FalconTemp RF", m_rightMotorFront.GetTemperature() );
+    frc::SmartDashboard::PutNumber("FalconTemp RR", m_rightMotorBack.GetTemperature() );
+}
 
 void Drivetrain::DriveWithGamepad( void )
 {
@@ -141,46 +149,63 @@ void Drivetrain::DriveWithGamepad( void )
 //**************** ENCODERS *********************
 int Drivetrain::GetLeftEncoder(void)
 {
-    return -(m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition()  - m_l1_enc_zero);
+
+    return (m_leftMotorFront.GetSelectedSensorPosition(0)  - m_l1_enc_zero);
+    //return -(m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition()  - m_l1_enc_zero);
 	//return -m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
 }
 
 int Drivetrain::GetLeftEncoder2(void)
 {
-     return -(m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition() - m_l2_enc_zero);
+    return (m_leftMotorBack.GetSelectedSensorPosition(0) - m_l2_enc_zero);
+    //return -(m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition() - m_l2_enc_zero);
 	//return -m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
 }
 
 int Drivetrain::GetRightEncoder(void)
 {
-    return m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition() - m_r1_enc_zero;
+    return -(m_rightMotorFront.GetSelectedSensorPosition(0) - m_r1_enc_zero);
+    //return m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition() - m_r1_enc_zero;
 	//return m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
 }
 
 int Drivetrain::GetRightEncoder2(void)
 {
-    return m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition() - m_r2_enc_zero;
+    return -(m_rightMotorBack.GetSelectedSensorPosition(0) - m_r2_enc_zero);
+    //return m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition() - m_r2_enc_zero;
 	//return m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
 }
 
 void Drivetrain::HardResetEncoders(void)
 {
-    std::cout<< "Hard Falcon Encoder Reset" << std::endl;
-    m_leftMotorFront.GetSensorCollection().SetIntegratedSensorPosition(0);
-    m_leftMotorBack.GetSensorCollection().SetIntegratedSensorPosition(0);
-    m_rightMotorFront.GetSensorCollection().SetIntegratedSensorPosition(0);
-    m_rightMotorBack.GetSensorCollection().SetIntegratedSensorPosition(0);
+    std::cout<< "Hard Encoder Reset" << std::endl;
+    // m_leftMotorFront.GetSensorCollection().SetIntegratedSensorPosition(0);
+    // m_leftMotorBack.GetSensorCollection().SetIntegratedSensorPosition(0);
+    // m_rightMotorFront.GetSensorCollection().SetIntegratedSensorPosition(0);
+    // m_rightMotorBack.GetSensorCollection().SetIntegratedSensorPosition(0);
+
+    m_leftMotorFront.SetSelectedSensorPosition(0);
+    m_leftMotorBack.SetSelectedSensorPosition(0);
+    m_rightMotorFront.SetSelectedSensorPosition(0);
+    m_rightMotorBack.SetSelectedSensorPosition(0);
 }
 
 
 
 void Drivetrain::ResetEncoders(void)
 {
-    std::cout<< "Local Encoder Reset" << std::endl;
-    m_l1_enc_zero = m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
-    m_l2_enc_zero = m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
-    m_r1_enc_zero = m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
-    m_r2_enc_zero = m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
+    std::cout<< "Soft Encoder Reset" << std::endl;
+    // m_l1_enc_zero = m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
+    // m_l2_enc_zero = m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
+    // m_r1_enc_zero = m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
+    // m_r2_enc_zero = m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
+
+    m_l1_enc_zero = m_leftMotorFront.GetSelectedSensorPosition(0);
+    m_l2_enc_zero = m_leftMotorBack.GetSelectedSensorPosition(0);
+    m_r1_enc_zero = m_rightMotorFront.GetSelectedSensorPosition(0);
+    m_r2_enc_zero = m_rightMotorBack.GetSelectedSensorPosition(0);
+
+
 }
 
 //**************** AHRS (NavX) *********************

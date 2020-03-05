@@ -210,8 +210,10 @@ void Shooter::ShooterPeriodic()
 void Shooter::SetShooterVelocity(double velocityRPM)
 {
     //**** NOTE ***  THIS IS SHOOTER POWER FOR NOW, not velocity
-    m_leftShooterMotor.Set(ControlMode::PercentOutput, velocityRPM );
+    //m_leftShooterMotor.Set(ControlMode::PercentOutput, velocityRPM );
 
+    //Turn off shooter while debugging
+    m_leftShooterMotor.Set(ControlMode::PercentOutput, 0 );
 
 //    // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
 //    double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
