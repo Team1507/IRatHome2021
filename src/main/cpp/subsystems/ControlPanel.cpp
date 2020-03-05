@@ -118,7 +118,7 @@ void ControlPanel::ControlPanelPeriodic()
 
 
     frc::SmartDashboard::PutNumber("Spinner Encoder", GetSpinnerEncoder()  );
-    frc::SmartDashboard::PutNumber("Spinner Color", GetColor()  );
+    //frc::SmartDashboard::PutNumber("Spinner Color", GetColor()  );
 
 }
 

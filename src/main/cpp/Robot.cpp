@@ -72,22 +72,15 @@ void Robot::RobotInit() {
 
     frc::SmartDashboard::PutNumber( "LimelightOffset", -1.5 ); //calibrated 2/21  was -1.25
 
-    frc::SmartDashboard::PutNumber( "DF Top LEDs", 0 ); 
-    frc::SmartDashboard::PutNumber( "DF Bot LEDs", 0 ); 
 
 }
 
 
 void Robot::RobotPeriodic() 
 {
-    m_odometry.OdometryPeriodic();
+    //m_odometry.OdometryPeriodic();
     Write2Dashboard();
 
-    int dftopled = frc::SmartDashboard::GetNumber( "DF Top LEDs", 0 ); 
-    int dfbotled = frc::SmartDashboard::GetNumber( "DF Bot LEDs", 0 ); 
-
-    m_driverFeedback.UpdateTopLEDs(dftopled & 0xFF,dftopled>>8 & 0xFF,dftopled>>16 & 0xFF);
-    m_driverFeedback.UpdateBotLEDs(dfbotled & 0xFF,dfbotled>>8 & 0xFF,dfbotled>>16 & 0xFF);  
 
 }
 
@@ -184,10 +177,10 @@ void Write2Dashboard(void)
     frc::SmartDashboard::PutNumber("L_Motor",  Robot::m_drivetrain.GetLeftMotor()  );
     frc::SmartDashboard::PutNumber("R_Motor",  Robot::m_drivetrain.GetRightMotor()  );
 
-    frc::SmartDashboard::PutNumber("D_L_Y_axis",  Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_Y)  );
-    frc::SmartDashboard::PutNumber("D_R_Y_axis",  Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_Y)  );
-    frc::SmartDashboard::PutNumber("D_L_X_axis",  Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_X)  );
-    frc::SmartDashboard::PutNumber("D_R_X_axis",  Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_X)  );
+    // frc::SmartDashboard::PutNumber("D_L_Y_axis",  Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_Y)  );
+    // frc::SmartDashboard::PutNumber("D_R_Y_axis",  Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_Y)  );
+    // frc::SmartDashboard::PutNumber("D_L_X_axis",  Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_X)  );
+    // frc::SmartDashboard::PutNumber("D_R_X_axis",  Robot::m_oi.GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_X)  );
 
     // frc::SmartDashboard::PutNumber("D_L_Trig",    Robot::m_oi->GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_L_TRIG)  );
     // frc::SmartDashboard::PutNumber("D_R_Trig",    Robot::m_oi->GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_TRIG)  );
@@ -204,9 +197,9 @@ void Write2Dashboard(void)
  
     // frc::SmartDashboard::PutNumber("navx_Rate",    Robot::m_drivetrain->GetGyroRate() );
 
-    frc::SmartDashboard::PutNumber("Curr_X",    Robot::m_odometry.GetX() );
-    frc::SmartDashboard::PutNumber("Curr_Y",    Robot::m_odometry.GetY() );
-    frc::SmartDashboard::PutNumber("Curr_Vel",  Robot::m_odometry.GetVel() );
+    // frc::SmartDashboard::PutNumber("Curr_X",    Robot::m_odometry.GetX() );
+    // frc::SmartDashboard::PutNumber("Curr_Y",    Robot::m_odometry.GetY() );
+    // frc::SmartDashboard::PutNumber("Curr_Vel",  Robot::m_odometry.GetVel() );
     
     //limit switch
     frc::SmartDashboard::PutBoolean("CP Top LS", Robot::m_controlPanel.isTopSwitchPress());
@@ -221,9 +214,11 @@ void Write2Dashboard(void)
     //frc::SmartDashboard::PutNumber("FPGATime1",  frc::Timer::GetFPGATimestamp() );   //(double) sec
     //frc::SmartDashboard::PutNumber("Timer",      Robot::m_timer->Get() );                //Manual Timer sec
     //LEDS BAYBEE
-    frc::SmartDashboard::PutNumber("CAROUSEL CURRENT", Robot::m_pdp.GetCurrent(CAROUSEL_PDP_CHANNEL));
-    frc::SmartDashboard::PutNumber("12v DISTRIBUTOR CURRENT", Robot::m_pdp.GetCurrent(TWELVE_VOLT_DISTRIBUTOR));
-    frc::SmartDashboard::PutNumber("PDP Voltage", Robot::m_pdp.GetVoltage() );
+
+    //I don't know why - we can't read currents from the PDP.  Phoenix Tuner shows all channels as 0.00
+    // frc::SmartDashboard::PutNumber("CAROUSEL CURRENT", Robot::m_pdp.GetCurrent(CAROUSEL_PDP_CHANNEL));
+    // frc::SmartDashboard::PutNumber("12v DISTRIBUTOR CURRENT", Robot::m_pdp.GetCurrent(TWELVE_VOLT_DISTRIBUTOR));
+    // frc::SmartDashboard::PutNumber("PDP Voltage", Robot::m_pdp.GetVoltage() );
 
     Robot::m_drivetrain.WriteFalconTemps();
 }
