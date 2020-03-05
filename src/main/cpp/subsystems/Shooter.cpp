@@ -7,10 +7,11 @@
 
 #include "subsystems/DriverFeedback.h"
 
-//#define SHOOTER_KF_CONSTANT .0575    //we'll need to fix this and adjust it later or else itll die
-//#define FEEDER_KF_CONSTANT  .68      //we'll need to adjust this later too
+#define SHOOTER_kF_CONSTANT 0.0467    
+#define SHOOTER_kP_CONSTANT 0.00035      //Measured in RPM 
+
 #define SHOOTER_PID_SLOT 0
-#define FEEDER_PID_SLOT  0      //BEN L thinks we don't need this anymore since we are just doin power on the shoooter?
+
 
 
 
@@ -20,6 +21,7 @@ Shooter::Shooter() : Subsystem("ShooterSubsystem")
 {
     m_isShooting = false;
     m_hood_angle = HOME_HOOD_ANGLE;
+    m_shooterRPM = 0;
 } 
 
 
@@ -28,6 +30,7 @@ void Shooter::InitDefaultCommand() {}
 
 void Shooter::ShooterInit()
 {
+    std::cout << "Shooter Init" << std::endl;
     m_leftShooterMotor.ConfigFactoryDefault();
     m_rightShooterMotor.ConfigFactoryDefault();
     m_feederMotor.ConfigFactoryDefault();
@@ -38,12 +41,19 @@ void Shooter::ShooterInit()
     m_feederMotor.SetNeutralMode(NeutralMode::Coast);
 
     //encoder
-    m_leftShooterMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
-    //m_feederMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);    //No Encoder
-    
-    //PID constants
-    //m_leftShooterMotor.Config_kF(SHOOTER_PID_SLOT, SHOOTER_KF_CONSTANT, 0);    
-    //m_feederMotor.Config_kF(FEEDER_PID_SLOT, FEEDER_KF_CONSTANT, 0);
+    m_leftShooterMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
+    m_rightShooterMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
+
+    // m_leftShooterMotor.ConfigNominalOutputForward(0,10);
+    // m_leftShooterMotor.ConfigNominalOutputReverse(0,10);
+    // m_leftShooterMotor.ConfigPeakOutputForward(1,10);
+    // m_leftShooterMotor.ConfigPeakOutputReverse(0,10);
+
+    // //PID constants
+    // m_leftShooterMotor.ConfigNeutralDeadband(0.001);
+    // m_leftShooterMotor.Config_kF(SHOOTER_PID_SLOT, SHOOTER_kF_CONSTANT, 10);    
+    // m_leftShooterMotor.Config_kP(SHOOTER_PID_SLOT, SHOOTER_kP_CONSTANT, 10);    
+ 
     
     //right motor following and set inverted
     m_leftShooterMotor.SetInverted(true);
@@ -204,6 +214,39 @@ void Shooter::ShooterPeriodic()
     //     Robot::m_driverFeedback.UpdateTopLEDs(0,0,0);
     // }
     
+
+    //Shooter Control
+    if(m_shooterRPM == 0 )
+    {
+        //Free spin down to zero
+        m_leftShooterMotor.Set(ControlMode::PercentOutput, 0 ); 
+    }
+    else
+    {
+        const double MAX_POS_ERROR = 1500;
+        const double MAX_NEG_ERROR = -100;
+        
+
+        double curr_vel = GetShooterVelocity();
+        double curr_pow = GetShooterPower();
+
+        double v_error  = m_shooterRPM*1000 - curr_vel;
+
+        if( v_error > MAX_POS_ERROR )   v_error = MAX_POS_ERROR;
+        if( v_error < MAX_NEG_ERROR )   v_error = MAX_NEG_ERROR;   
+        
+        double shoot_power = (m_shooterRPM * SHOOTER_kF_CONSTANT) + ( v_error * SHOOTER_kP_CONSTANT );
+
+        if( shoot_power < curr_pow ) shoot_power-= 0.01;    //Ramp down slowly to prevent belt slip
+
+        if( shoot_power > 1.0 ) shoot_power = 1.0;
+        if( shoot_power < 0.0 ) shoot_power = 0.0;
+
+        m_leftShooterMotor.Set(ControlMode::PercentOutput, shoot_power );
+    }
+    
+
+
 }
 
 
@@ -211,22 +254,19 @@ void Shooter::SetShooterVelocity(double velocityRPM)
 {
     //**** NOTE ***  THIS IS SHOOTER POWER FOR NOW, not velocity
     //m_leftShooterMotor.Set(ControlMode::PercentOutput, velocityRPM );
+    std::cout<<"Here!!! " << velocityRPM << std::endl;
+    m_shooterRPM = velocityRPM;
 
-    //Turn off shooter while debugging
-    m_leftShooterMotor.Set(ControlMode::PercentOutput, 0 );
+//    // rpm --> ticks per 100ms, 2048 ticks/revolution, 600 revs/ 100ms
 
-//    // rpm --> ticks per 100ms, 4096 ticks/revolution, 600 revs/ 100ms
-//    double tempV = SmartDashboard::GetNumber("SHOOTER_VELOCITY", 0); 
+//     double ticks_100ms = velocityRPM * 2098 / 600;
+
 //    //m_leftShooterMotor.Set(ControlMode::Velocity, velocityRPM * 4096 / 600);
 //    //m_leftShooterMotor.Set(ControlMode::Velocity, tempV * 4096 / 600); //targetVelocity is in ticks/100ms
-//    m_leftShooterMotor.Set(ControlMode::PercentOutput, tempV ); //For Testing Only!
+
+//    m_leftShooterMotor.Set(ControlMode::Velocity, ticks_100ms ); 
 }
 
-
-int Shooter::GetShooterEncoder()
-{
-    return m_leftShooterMotor.GetSensorCollection().GetIntegratedSensorPosition();
-}
 
 
 double Shooter::GetShooterVelocity()

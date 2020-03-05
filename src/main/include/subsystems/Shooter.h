@@ -1,7 +1,13 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
+
 #include "ctre/Phoenix.h"
+// #include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
+// #include "ctre/phoenix/motorcontrol/can/VictorSPX.h"
+// #include "ctre/phoenix/motorcontrol/can/TalonFX.h"
+// #include "ctre/phoenix/motorcontrol/ControlMode.h"
+// #include "ctre/phoenix/motorcontrol/FeedbackDevice.h"
 #include "RobotMap.h"
 #include <frc/Solenoid.h>
 #include <frc/Servo.h>
@@ -28,10 +34,12 @@
 
 class Shooter : public frc::Subsystem {
     private:
-        WPI_TalonFX m_leftShooterMotor  {LEFT_SHOOTER_FALCON_ID};
-        WPI_TalonFX m_rightShooterMotor {RIGHT_SHOOTER_FALCON_ID};
-        WPI_TalonSRX m_feederMotor      {FEEDER_CAN_ID};
-        WPI_VictorSPX m_carouselMotor   {CAROUSEL_CAN_ID};
+        TalonFX m_leftShooterMotor  {LEFT_SHOOTER_FALCON_ID};
+        TalonFX m_rightShooterMotor {RIGHT_SHOOTER_FALCON_ID};
+        TalonSRX m_feederMotor      {FEEDER_CAN_ID};
+
+        VictorSPX m_carouselMotor   {CAROUSEL_CAN_ID};
+
         frc::Solenoid m_shooterramp     {PCM_CAN_ID,PCM_RAMP_ID};
      
         bool m_isShooting;
@@ -39,6 +47,8 @@ class Shooter : public frc::Subsystem {
         frc::Servo m_shooterHood {SHOOTER_HOOD_PORT};
 
         int m_hood_angle;
+
+        double m_shooterRPM;
         
 
     public:
@@ -47,7 +57,6 @@ class Shooter : public frc::Subsystem {
         void ShooterInit(void);
         void ShooterPeriodic(void);
         void SetShooterVelocity(double velocityRPM);
-        int GetShooterEncoder(void);
         double GetShooterVelocity(void);
         double GetShooterPower();
         void SetFeederVelocity(double velocityRPM);
