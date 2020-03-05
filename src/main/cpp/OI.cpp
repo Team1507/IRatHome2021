@@ -4,6 +4,8 @@
 #include "commands/AutoJustShoot.h"
 #include "commands/CmdDriveClearAll.h"
 #include "commands/GrpAutoDriveTest.h"
+#include "commands/GrpFwdDriveTest.h"
+#include "commands/GrpRevDriveTest.h"
 
 #include "GamepadMap.h"
 #include "commands/CmdTest1.h"
@@ -25,7 +27,9 @@ OI::OI() {
 
     frc::SmartDashboard::PutData("CmdDriveClearAll", new CmdDriveClearAll());
     //frc::SmartDashboard::PutData("AutoShoot", new AutoJustShoot());
-    frc::SmartDashboard::PutData("GrpAutoDriveTest", new GrpAutoDriveTest());
+    //frc::SmartDashboard::PutData("GrpAutoDriveTest", new GrpAutoDriveTest());
+    frc::SmartDashboard::PutData("GrpFwdDriveTest", new GrpFwdDriveTest());
+    frc::SmartDashboard::PutData("GrpRevDriveTest", new GrpRevDriveTest());
 
     //frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
     //frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));

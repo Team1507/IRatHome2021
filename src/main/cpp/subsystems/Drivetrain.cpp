@@ -178,6 +178,10 @@ int Drivetrain::GetRightEncoder2(void)
 
 void Drivetrain::HardResetEncoders(void)
 {
+
+    //** WARNING ***
+    //It takes several cycles to perform a hard reset on the Falcons
+    //Do not use encoders immediately after a reset
     std::cout<< "Hard Encoder Reset" << std::endl;
     // m_leftMotorFront.GetSensorCollection().SetIntegratedSensorPosition(0);
     // m_leftMotorBack.GetSensorCollection().SetIntegratedSensorPosition(0);
@@ -188,6 +192,11 @@ void Drivetrain::HardResetEncoders(void)
     m_leftMotorBack.SetSelectedSensorPosition(0);
     m_rightMotorFront.SetSelectedSensorPosition(0);
     m_rightMotorBack.SetSelectedSensorPosition(0);
+    //
+    m_l1_enc_zero = 0;
+    m_l2_enc_zero = 0;
+    m_r1_enc_zero = 0;
+    m_r2_enc_zero = 0;
 }
 
 

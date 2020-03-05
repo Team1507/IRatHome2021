@@ -43,7 +43,7 @@ bool CmdDriveFwdGyro::IsFinished()
 	double l_dir = Robot::m_drivetrain.GetLeftEncoder()/Drivetrain::LEFT_ENCODER_TPI;
 	double r_dir = Robot::m_drivetrain.GetRightEncoder()/Drivetrain::RIGHT_ENCODER_TPI;
 
-	if(  (l_dir > m_distance) || (r_dir > m_distance)  )
+	if(  (l_dir >= m_distance) || (r_dir >= m_distance)  )
 	  return true;
 
 	if ((m_timeout>0.0) && IsTimedOut())
@@ -58,14 +58,16 @@ bool CmdDriveFwdGyro::IsFinished()
 // Called once after isFinished returns true
 void CmdDriveFwdGyro::End() 
 {
-  if(m_stop)
+	std::cout<<"CmdDriveFwdGyro: End at  ";
+	std::cout<<"   FL ";
+	std::cout<<int( Robot::m_drivetrain.GetLeftEncoder()/Drivetrain::LEFT_ENCODER_TPI );
+	std::cout<<"   FR ";
+	std::cout<<int( Robot::m_drivetrain.GetRightEncoder()/Drivetrain::RIGHT_ENCODER_TPI );
+	std::cout<<std::endl;
+
+
+  	if(m_stop)
 	{
-		// std::cout<<"GyroAngle ";
-		// std::cout<<Robot::m_drivetrain.GetGyroAngle()<<std::endl;
-		// std::cout<<"EncoderValueL ";
-		// std::cout<<Robot::m_drivetrain.GetLeftEncoder()<<std::endl;
-		// std::cout<<"EncoderValueR ";
-		// std::cout<<Robot::m_drivetrain.GetRightEncoder()<<std::endl;
 		Robot::m_drivetrain.Stop();
 	}
 }
