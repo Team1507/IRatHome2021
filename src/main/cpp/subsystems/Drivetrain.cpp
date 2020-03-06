@@ -8,6 +8,8 @@
 const int Drivetrain::LEFT_ENCODER_TPI  = 1153;			//*** Calibrated 3/3/2020
 const int Drivetrain::RIGHT_ENCODER_TPI = 1153;			//*** Calibrated 3/3/2020
 
+const double Drivetrain::RAMP_FACTOR    = 0.03;         //Auto Ramp Factor
+
 
 //Drive limiter
 #define MAX_DRIVE_POWER		0.85

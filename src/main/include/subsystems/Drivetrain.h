@@ -34,6 +34,8 @@ class Drivetrain : public frc::Subsystem {
         const static int LEFT_ENCODER_TPI;       //"Ticks per inch"
         const static int RIGHT_ENCODER_TPI;    
 
+        const static double RAMP_FACTOR;          //Auto Ramp Factor
+
         void InitFalcons(void);
         void DriveWithGamepad(void);
         void Drive( double left, double right );

@@ -9,6 +9,7 @@
 #include "commands/CmdDriveFwdGyro.h"
 #include "commands/CmdDriveRevEncoder.h"
 #include "commands/CmdDriveRevGyro.h"
+#include "commands/CmdDriveRevGyroV2.h"
 #include "commands/CmdDriveClearAll.h"
 #include "commands/CmdDriveTurn2Angle.h"
 
@@ -18,7 +19,10 @@ GrpRevDriveTest::GrpRevDriveTest()
     AddSequential(new CmdDriveClearAll());
     //***************************************************
 
-    AddSequential(new CmdDriveRevGyro(       0.4,            0.0,             120,        true,          0.0));
+    //AddSequential(new CmdDriveRevGyro(       0.4,            0.0,             120,        true,          0.0));
+
+    AddSequential(new CmdDriveRevGyroV2(       0.4,            0.0,             120,      true,  true,          0.0));
+
 
     //***************************************************
     AddSequential(new CmdDriveManual(0,0,0) );          //Safety.  All Off

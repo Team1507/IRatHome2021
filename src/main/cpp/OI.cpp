@@ -27,7 +27,8 @@ OI::OI() {
 
     frc::SmartDashboard::PutData("CmdDriveClearAll", new CmdDriveClearAll());
     //frc::SmartDashboard::PutData("AutoShoot", new AutoJustShoot());
-    //frc::SmartDashboard::PutData("GrpAutoDriveTest", new GrpAutoDriveTest());
+    
+    frc::SmartDashboard::PutData("GrpAutoDriveTest", new GrpAutoDriveTest());
     frc::SmartDashboard::PutData("GrpFwdDriveTest", new GrpFwdDriveTest());
     frc::SmartDashboard::PutData("GrpRevDriveTest", new GrpRevDriveTest());
 
