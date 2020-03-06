@@ -313,7 +313,8 @@ void Shooter::StopFeeder()
 
 void Shooter::StopShooter()
 {
-    m_leftShooterMotor.Set(ControlMode::PercentOutput, 0);
+    //m_leftShooterMotor.Set(ControlMode::PercentOutput, 0);
+    m_shooterRPM = 0;
 }
 
 

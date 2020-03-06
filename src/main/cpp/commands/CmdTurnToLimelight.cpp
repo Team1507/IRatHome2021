@@ -70,7 +70,7 @@ bool CmdTurnToLimelight::IsFinished()
      
     if(((m_targetAngle - TOLRENCEZONE) <= curr_yaw) && ((m_targetAngle + TOLRENCEZONE) >= curr_yaw)) 
     {
-        std::cout<<"Finished, CMDTURN2LIMELIGHT ERROR: "<<m_targetAngle - curr_yaw<<std::endl;
+        std::cout<<"Finished, CMDTURN2LIMELIGHT: "<<m_targetAngle - curr_yaw<<std::endl;
         return true;
     }
 

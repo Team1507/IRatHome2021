@@ -58,8 +58,7 @@ void Robot::RobotInit() {
 
     //Auto Chooser
     m_chooser.SetDefaultOption("Default Auto", new AutoDoNothing()    );
-    m_chooser.AddOption("Do Nothing",          new AutoDoNothing()    );
-    m_chooser.AddOption("Auto Drive Str8",     new AutoDriveStr8()    );
+  //m_chooser.AddOption("Auto Drive Str8",     new AutoDriveStr8()    );    //untested
     m_chooser.AddOption("Auto Just Shoot",     new AutoJustShoot()    );
     m_chooser.AddOption("Auto Ball at trench", new AutoBallAtTrench() );
     m_chooser.AddOption("Auto Trench to line", new AutoTrenchToLine() );
@@ -79,6 +78,7 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() 
 {
     //m_odometry.OdometryPeriodic();
+    m_shooter.ShooterPeriodic();
     Write2Dashboard();
 
 
@@ -88,6 +88,8 @@ void Robot::RobotPeriodic()
 void Robot::DisabledInit() 
 {
     std::cout<<"Disabled Init"<<std::endl;
+
+    m_shooter.SetShooterVelocity(0);
 }
 
 
@@ -154,7 +156,7 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic() 
 { 
-    m_shooter.ShooterPeriodic();
+
     m_intake.IntakePeriodic();
     m_controlPanel.ControlPanelPeriodic();
     m_climber.ClimberPeriodic();

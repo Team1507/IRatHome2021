@@ -4,10 +4,9 @@
 
 CmdStopShooter::CmdStopShooter() 
 {
-    Robot::m_shooter.StopShooter();
 }
 
-void CmdStopShooter::Initialize() {}
+void CmdStopShooter::Initialize() {Robot::m_shooter.StopShooter();}
 
 void CmdStopShooter::Execute() {}
 

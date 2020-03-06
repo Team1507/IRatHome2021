@@ -1,5 +1,4 @@
 #include "commands/AutoBallAtTrench.h"
-#include "frc/commands/WaitCommand.h"
 #include "commands/CmdDriveManual.h"
 #include "commands/CmdDriveVelRampTest.h"
 #include "commands/CmdPrintAutoText.h"
@@ -23,6 +22,7 @@
 #include "commands/CmdStopFeeder.h"
 #include "commands/CmdStopCarousel.h"
 #include "commands/CmdAdjustHood.h"
+#include "Commands/CmdWaitStopped.h"
 #include "subsystems/Shooter.h"
 
 
@@ -45,7 +45,7 @@ AutoBallAtTrench::AutoBallAtTrench()
     //AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 138, true, 0.0));//was 132
     AddSequential(new CmdDriveRevGyroV2( 0.4, 0.0, 132, true,true, 0.0));//was 132
 
-    AddSequential(new frc::WaitCommand(0.1));
+    AddSequential(new CmdWaitStopped(0.1));
 
     //AddSequential(new CmdDriveFwdGyro( 0.4, -5.0, 40, true, 0.0));  //was 28
     AddSequential(new CmdDriveFwdGyroV2( 0.4, -5.0, 28, true,true, 0.0));  //was 28
@@ -63,14 +63,15 @@ AutoBallAtTrench::AutoBallAtTrench()
 
     AddSequential(new CmdExtendRamp());
 
-    AddSequential(new frc::WaitCommand(5.0));
+    AddSequential(new CmdWaitStopped(5.0));
 
     //Done Shooting
     AddSequential(new CmdStopFeeder());
     AddSequential(new CmdRetractRamp());
     AddSequential(new CmdStopShooter());
+    AddSequential(new CmdAdjustHood(HOME_HOOD_ANGLE));
+    AddSequential(new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
 
-    AddSequential(new CmdStopCarousel());
+    AddSequential(new CmdPrintAutoText("AUTO BALL AT TRENCH DONE"));
 
-    // AddSequential(new CmdDriveTurn2Angle( 0.15, -15.0  ));
 }

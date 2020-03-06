@@ -1,13 +1,14 @@
 #include "commands/AutoTrenchToLine.h"
 
-#include "frc/commands/WaitCommand.h"
 #include "commands/CmdDriveManual.h"
 #include "commands/CmdDriveVelRampTest.h"
 #include "commands/CmdPrintAutoText.h"
 #include "commands/CmdDriveFwdEncoder.h"
 #include "commands/CmdDriveFwdGyro.h"
+#include "commands/CmdDriveFwdGyroV2.h"
 #include "commands/CmdDriveRevEncoder.h"
 #include "commands/CmdDriveRevGyro.h"
+#include "commands/CmdDriveRevGyroV2.h"
 #include "commands/CmdDriveClearAll.h"
 #include "commands/CmdDriveTurn2Angle.h"
 #include "commands/CmdSetIntake.h"
@@ -22,6 +23,7 @@
 #include "commands/CmdRetractRamp.h"
 #include "commands/CmdStopCarousel.h"
 #include "commands/CmdAdjustHood.h"
+#include "Commands/CmdWaitStopped.h"
 
 AutoTrenchToLine::AutoTrenchToLine() 
 {
@@ -33,23 +35,31 @@ AutoTrenchToLine::AutoTrenchToLine()
     //***************************************************
     AddSequential(new CmdSetIntake( true ));
     AddSequential(new CmdAdjustHood(LINE_HOOD_ANGLE));
-    AddSequential(new CmdSetShooterVelocity(SHOOTER_TRENCH_VELOCITY));
+    AddSequential(new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY));
     AddSequential(new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
-    AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 132, true, 0.0));
-    AddSequential(new frc::WaitCommand(0.1));
+
+    //AddSequential(new CmdDriveRevGyro( 0.4, 0.0, 132, true, 0.0));
+    AddSequential(new CmdDriveRevGyroV2( 0.4, 0.0, 132, true, true, 0.0));
+    AddSequential(new CmdWaitStopped(0.1));
 
     //Hit 'em with that uno reverse card
+    //AddSequential(new CmdDriveFwdGyro(.4, -5.0, 40, false, 0.0));         //drive forward at an angle to avoid hitting wall
+    AddSequential(new CmdDriveFwdGyroV2(.4, -5.0, 40, true, false, 0.0));   //drive forward at an angle to avoid hitting wall
+    
 
-    AddSequential(new CmdDriveFwdGyro(.4, -5.0, 40, false, 0.0));//drive forward at an angle to avoid hitting wall
+    //Start spooling up shooter
+    AddSequential(new CmdSetShooterVelocity(SHOOTER_LINE_VELOCITY));
+
+
+    AddSequential(new CmdDriveFwdGyroV2(.4, -82.0, 72, false, false, 0.0));     //Major turn left towards target
 
     
-    AddSequential(new CmdDriveFwdGyro(.4, -82.0, 55, false, 0.0));//drive forward a distance at an angle
-   // AddSequential(new CmdDriveTurn2Angle(.2, 0)); //realign facing the thingy
-    //Turn2Angle not working.  Why???
-    
-    AddSequential(new CmdDriveFwdGyro(.4, 25.0, 60, true, 0.0));
+    //Turn toward target
+    AddSequential(new CmdDriveFwdGyroV2(.4, 25.0, 60, false, false, 0.0));      //Turn towards target
+    AddSequential(new CmdDriveFwdGyroV2(.4, 0,     6, false, true, 0.0));       //Move up a little
 
-    AddSequential(new frc::WaitCommand(1.0));
+
+    AddSequential(new CmdWaitStopped(1.0));
     AddSequential(new CmdTurnToLimelight());
 
     //so anyway i started blastin
@@ -60,15 +70,23 @@ AutoTrenchToLine::AutoTrenchToLine()
     AddSequential(new CmdExtendRamp());
 
     //** SHOOT Time
-    AddSequential(new frc::WaitCommand(6.0));
+    AddSequential(new CmdWaitStopped(6.0));
 
     //Clean up
     AddSequential(new CmdSetIntake( false ));
     AddSequential(new CmdRetractRamp());
     AddSequential(new CmdStopFeeder());
     AddSequential(new CmdStopShooter());
-    AddSequential(new CmdStopCarousel());
+
     AddSequential(new CmdAdjustHood(HOME_HOOD_ANGLE));
+
+    //Done Shooting
+    AddSequential(new CmdStopFeeder());
+    AddSequential(new CmdRetractRamp());
+    AddSequential(new CmdStopShooter());
+    AddSequential(new CmdAdjustHood(HOME_HOOD_ANGLE));
+    AddSequential(new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
+    
 
     AddSequential(new CmdPrintAutoText("AUTO TRENCH TO LINE DONE"));
 

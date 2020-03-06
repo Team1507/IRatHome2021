@@ -16,18 +16,24 @@
 #define CAROUSEL_IDLE_POWER       0.3  
 #define FEEDER_SHOOTING_POWER     1.0 
 
-//These are actuallty POWER for now...
-#define SHOOTER_TRENCH_VELOCITY   1.0  
-#define SHOOTER_LINE_VELOCITY     1.0
-#define SHOOTER_LOW_GOAL_VELOCITY 0.4
-#define SHOOTER_IDLE_VELOCITY     0.5
-#define SHOOTER_ZERO_VELOCITY     0.0
+// //These are actuallty POWER for now...
+// #define SHOOTER_TRENCH_VELOCITY   1.0  
+// #define SHOOTER_LINE_VELOCITY     1.0
+// #define SHOOTER_LOW_GOAL_VELOCITY 0.4
+// #define SHOOTER_IDLE_VELOCITY     0.5
+// #define SHOOTER_ZERO_VELOCITY     0.0
+
+//These are velocities in Falcon (units/100ms)/1000  <<==notice divided by 1000
+#define SHOOTER_TRENCH_VELOCITY   19  
+#define SHOOTER_LINE_VELOCITY     18
+#define SHOOTER_LOW_GOAL_VELOCITY 10
+#define SHOOTER_IDLE_VELOCITY     10
+#define SHOOTER_ZERO_VELOCITY     0
 
 #define LINE_HOOD_ANGLE           129  
 #define TRENCH_HOOD_ANGLE         111 
 #define LOWGOAL_HOOD_ANGLE        50  
 #define HOME_HOOD_ANGLE           40
-#define SHOOTER_WHEEL_DIAMETER    12.5663
 
 
 
