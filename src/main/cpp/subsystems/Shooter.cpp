@@ -107,7 +107,7 @@ void Shooter::ShooterPeriodic()
 
         isPovCenter = false;
         std::cout<<"Shoot Trench "<<std::endl;
-        SetHood(0);//THE ZERO WILL CHANGE
+        //SetHood(0);//THE ZERO WILL CHANGE
         m_hood_angle = TRENCH_HOOD_ANGLE;
     }
     else if((povAngle == 180)&& isPovCenter)
@@ -117,7 +117,7 @@ void Shooter::ShooterPeriodic()
         SetShooterVelocity(shootpower);
         isPovCenter = false;
         std::cout<<"Shoot low goal"<<std::endl;
-        SetHood(0);//THE ZERO WILL CHANGE
+        //SetHood(0);//THE ZERO WILL CHANGE
         m_hood_angle = LOWGOAL_HOOD_ANGLE;
     }
     else if((povAngle == 270) && isPovCenter)
@@ -127,7 +127,7 @@ void Shooter::ShooterPeriodic()
         SetShooterVelocity(shootpower);
         isPovCenter = false;
         std::cout<<"Shoot line"<<std::endl;
-        SetHood(0);//THE ZERO WILL CHANGE
+        //SetHood(0);//THE ZERO WILL CHANGE
         m_hood_angle = LINE_HOOD_ANGLE;
     }
     
