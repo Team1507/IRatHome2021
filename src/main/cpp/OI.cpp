@@ -16,7 +16,7 @@
 #include "commands/CmdSpinnerDeploy.h"
 #include "commands/CmdTurnToLimelight.h"
 #include "commands/CmdStopCarousel.h"
-
+#include "commands/CmdEnableClimb.h"
 
 OI::OI() {
   // Process operator interface input here.
@@ -44,6 +44,9 @@ OI::OI() {
 
     m_driverLimelightShoot = new frc::JoystickButton(m_drivergamepad,GAMEPADMAP_BUTTON_RBUMP);
     m_driverLimelightShoot->WhenPressed(new CmdTurnToLimelight());
+
+    m_driverAllowClimb = new frc::JoystickButton(m_drivergamepad, GAMEPADMAP_BUTTON_START);
+    m_driverAllowClimb->WhenPressed(new CmdEnableClimb());
 
 }
 

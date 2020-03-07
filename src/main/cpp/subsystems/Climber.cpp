@@ -17,18 +17,18 @@ void Climber::ClimberPeriodic()
     static bool isIdle = true;    //flag to prevent 0-spam
 
     //if pressed up, assign power upwards with up multiplier, if pressed downward use downward multiplier
-    climberPower = (gamepadAxis < 0)? (gamepadAxis*LIGHTSABER_UP_MULTIPLIER):(gamepadAxis*LIGHTSABER_DOWN_MULTIPLIER);
-
-    if(Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_Y))
-    {
-        MoveLightsaber(climberPower);
-        isIdle = false;
-    }
-    else if(!isIdle)
-    {
-        isIdle = true;
-        MoveLightsaber(0.0);
-    }
+    climberPower = (gamepadAxis < 0)? (gamepadAxis*LIGHTSABER_UP_MULTIPLIER) : (gamepadAxis*LIGHTSABER_DOWN_MULTIPLIER);
+    
+    if(Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_Y && m_isClimbActivated))
+        {
+            MoveLightsaber(climberPower);
+            isIdle = false;
+        }
+        else if(!isIdle)
+        {
+            isIdle = true;
+            MoveLightsaber(0.0);
+        }
 
     //**************
     //Climb Motor
@@ -36,7 +36,7 @@ void Climber::ClimberPeriodic()
     bool operatorClimb = Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_START);
     bool reverseOperatorClimb = Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_BACK);  
 
-    if( operatorClimb ) //&& driverClimb)
+    if(operatorClimb) //&& driverClimb)
     {
         m_rightWinchMotor.Set(WINCH_POWER);
         m_leftWinchMotor.Set(WINCH_POWER);
@@ -60,4 +60,12 @@ void Climber::MoveLightsaber(double power)
 }
 
 
+void Climber::SetIsClimbActivated(bool state)
+{
+    m_isClimbActivated = state;
+}
 
+void Climber::ClearIsClimbActivated()
+{
+    m_isClimbActivated = false;
+}

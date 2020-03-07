@@ -56,9 +56,12 @@ void Robot::RobotInit() {
     m_drivetrain.HardResetEncoders();
     m_drivetrain.ZeroGyro();
 
+
+    m_climber.ClearIsClimbActivated(); //just to set the value to false before anything haappens
+
     //Auto Chooser
     m_chooser.SetDefaultOption("Default Auto", new AutoDoNothing()    );
-  //m_chooser.AddOption("Auto Drive Str8",     new AutoDriveStr8()    );    //untested
+    //m_chooser.AddOption("Auto Drive Str8",     new AutoDriveStr8()    );    //untested
     m_chooser.AddOption("Auto Just Shoot",     new AutoJustShoot()    );
     m_chooser.AddOption("Auto Ball at trench", new AutoBallAtTrench() );
     m_chooser.AddOption("Auto Trench to line", new AutoTrenchToLine() );

@@ -10,7 +10,7 @@ class OI {
         frc::Joystick *m_drivergamepad;
         frc::Joystick *m_operatorgamepad;
         //frc::JoystickButton *m_spinnerDeployToggle;
-
+        frc::JoystickButton *m_driverAllowClimb;
         frc::JoystickButton *m_driverLimelightShoot;
 
     public:
