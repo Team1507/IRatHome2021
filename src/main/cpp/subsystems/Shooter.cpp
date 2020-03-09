@@ -7,8 +7,8 @@
 
 #include "subsystems/DriverFeedback.h"
 
-#define SHOOTER_kF_CONSTANT 0.0467    
-#define SHOOTER_kP_CONSTANT 0.00035      //Measured in RPM 
+#define SHOOTER_kF_CONSTANT 0.0470          //Slightly highter than calculated 0.0467    
+#define SHOOTER_kP_CONSTANT 0.00035          
 
 #define SHOOTER_PID_SLOT 0
 
@@ -351,4 +351,10 @@ void Shooter::SetHood(int angle)
     //max 142, min 40
     m_shooterHood.SetAngle(angle);
     std::cout<<"HOOD ANGLE: "<<angle<<std::endl;
+}
+
+void Shooter::WriteFalconTemps(void)
+{
+    frc::SmartDashboard::PutNumber("FalconTemp LSM", m_leftShooterMotor.GetTemperature() );
+    frc::SmartDashboard::PutNumber("FalconTemp RSM", m_rightShooterMotor.GetTemperature() );
 }

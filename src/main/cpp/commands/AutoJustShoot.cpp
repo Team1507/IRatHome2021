@@ -14,6 +14,7 @@
 #include "commands/CmdStopShooter.h"
 #include "commands/CmdDriveFwdGyro.h"
 #include "commands/CmdDriveFwdGyroV2.h"
+#include "commands/CmdDriveRevGyroV2.h"
 #include "Commands/CmdWaitStopped.h"
 
 
@@ -26,9 +27,14 @@ AutoJustShoot::AutoJustShoot()
     AddSequential( new CmdAdjustHood(LINE_HOOD_ANGLE));
     AddSequential( new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
     AddSequential( new CmdSetShooterVelocity(SHOOTER_IDLE_VELOCITY));
-    AddSequential( new CmdWaitStopped(1.0));
+
+    //AddSequential( new CmdWaitStopped(1.0));
+    //Back up off line
+    AddSequential( new CmdWaitStopped(0.1));
+    AddSequential(new CmdDriveRevGyroV2( 0.2, 0.0, 18, true,true, 0.0));
+
     AddSequential( new CmdSetShooterVelocity(SHOOTER_LINE_VELOCITY));
-    AddSequential( new CmdWaitStopped(3.0));
+    AddSequential( new CmdWaitStopped(2.0));
 
     //so anyway, I started blastin'
     AddSequential( new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER)); 
@@ -40,13 +46,13 @@ AutoJustShoot::AutoJustShoot()
     AddSequential( new CmdStopFeeder());    
     AddSequential( new CmdRetractRamp());
     AddSequential( new CmdStopShooter());
-    AddSequential(new CmdAdjustHood(HOME_HOOD_ANGLE));
+    AddSequential( new CmdAdjustHood(HOME_HOOD_ANGLE));
     AddSequential( new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
 
 
     //move off the line;
     //AddSequential( new CmdDriveFwdGyro( 0.4 , 0, 48 , true , 0.0 ) );
-    AddSequential( new CmdDriveFwdGyroV2( 0.4 , 0, 48 , true, true , 0.0 ) );
+    AddSequential( new CmdDriveFwdGyroV2( 0.4 , 0, 72 , true, true , 0.0 ) );   //48+24=72
 
 
     AddSequential(new CmdPrintAutoText("AUTO JUST SHOOT DONE"));

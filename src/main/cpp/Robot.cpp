@@ -92,7 +92,7 @@ void Robot::DisabledInit()
 
     m_shooter.SetShooterVelocity(0);
     m_climber.ClearClimbActivated();
-    
+
 }
 
 
@@ -132,6 +132,7 @@ void Robot::AutonomousPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 void Robot::TeleopInit() 
 {
     std::cout<<"Teleop Init"<<std::endl;
+    m_shooter.SetCarouselIdlePower();
 
 
     if(m_ds.GetAlliance() == DriverStation::kRed)
@@ -226,4 +227,5 @@ void Write2Dashboard(void)
     // frc::SmartDashboard::PutNumber("PDP Voltage", Robot::m_pdp.GetVoltage() );
 
     Robot::m_drivetrain.WriteFalconTemps();
+    Robot::m_shooter.WriteFalconTemps();
 }

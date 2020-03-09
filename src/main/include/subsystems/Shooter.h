@@ -76,6 +76,7 @@ class Shooter : public frc::Subsystem {
         void SetCarouselShootingPower(void);
         void CarouselStop(void);
         void SetHood(int angle);
+        void WriteFalconTemps(void);
         
         // ******************************************************
         double m_carouselShootingPower;

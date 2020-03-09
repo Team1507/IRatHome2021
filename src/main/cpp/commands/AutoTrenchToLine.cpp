@@ -44,19 +44,19 @@ AutoTrenchToLine::AutoTrenchToLine()
 
     //Hit 'em with that uno reverse card
     //AddSequential(new CmdDriveFwdGyro(.4, -5.0, 40, false, 0.0));         //drive forward at an angle to avoid hitting wall
-    AddSequential(new CmdDriveFwdGyroV2(.4, -5.0, 40, true, false, 0.0));   //drive forward at an angle to avoid hitting wall
+    AddSequential(new CmdDriveFwdGyroV2(.4, -7.0, 25, true, false, 0.0));   //drive forward at an angle to avoid hitting wall
     
 
     //Start spooling up shooter
     AddSequential(new CmdSetShooterVelocity(SHOOTER_LINE_VELOCITY));
 
 
-    AddSequential(new CmdDriveFwdGyroV2(.4, -82.0, 72, false, false, 0.0));     //Major turn left towards target
+    AddSequential(new CmdDriveFwdGyroV2(.4, -90.0, 72, false, false, 0.0));     //Major turn left towards target
 
     
     //Turn toward target
     AddSequential(new CmdDriveFwdGyroV2(.4, 25.0, 60, false, false, 0.0));      //Turn towards target
-    AddSequential(new CmdDriveFwdGyroV2(.4, 0,     6, false, true, 0.0));       //Move up a little
+    AddSequential(new CmdDriveFwdGyroV2(.4, 0,     2, false, true, 0.0));       //Move up a little
 
 
     AddSequential(new CmdWaitStopped(1.0));
@@ -72,21 +72,14 @@ AutoTrenchToLine::AutoTrenchToLine()
     //** SHOOT Time
     AddSequential(new CmdWaitStopped(6.0));
 
-    //Clean up
-    AddSequential(new CmdSetIntake( false ));
+    //Done Shooting, Clean up
     AddSequential(new CmdRetractRamp());
     AddSequential(new CmdStopFeeder());
-    AddSequential(new CmdStopShooter());
-
-    AddSequential(new CmdAdjustHood(HOME_HOOD_ANGLE));
-
-    //Done Shooting
-    AddSequential(new CmdStopFeeder());
-    AddSequential(new CmdRetractRamp());
     AddSequential(new CmdStopShooter());
     AddSequential(new CmdAdjustHood(HOME_HOOD_ANGLE));
     AddSequential(new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
-    
+
+  
 
     AddSequential(new CmdPrintAutoText("AUTO TRENCH TO LINE DONE"));
 
