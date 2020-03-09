@@ -4,7 +4,7 @@
 #include <math.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
-#define TOLRENCEZONE 0.17
+#define TOLRENCEZONE 0.5               //was 0.17
 
 CmdTurnToLimelight::CmdTurnToLimelight() 
 {
@@ -19,19 +19,30 @@ CmdTurnToLimelight::CmdTurnToLimelight()
 void CmdTurnToLimelight::Initialize() 
 {
 
-
+    std::cout<< "CmdTurnToLimelight Init" << std::endl;
 
     double camera_offset = frc::SmartDashboard::GetNumber( "LimelightOffset", 0.0 );
 
-    m_targetAngle = Robot::m_drivetrain.GetGyroYaw() + nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);
+    bool isTarget = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0);
 
-m_targetAngle += camera_offset;
+    if( isTarget )
+    {
+        m_targetAngle = Robot::m_drivetrain.GetGyroYaw() + nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0);
+        m_targetAngle += camera_offset;
+    }
+    else
+    {
+        std::cout<< "   *** No Target" << std::endl;
+        m_targetAngle = Robot::m_drivetrain.GetGyroYaw();   //Target is at whatever angle we are at
+    }
+    
+
 
     // frc::SmartDashboard::PutNumber( "Angle From Camera", 0.0 );
     // nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0) = frc::SmartDashboard::GetNumber( "Angle From Camera", 0.0 );
 
-    std::cout<< "CmdTurnToLimelight Init" << std::endl;
-    std::cout<<"TARGET ANGLE "<<m_targetAngle<<std::endl;
+    std::cout<<"   CURR ANGLE "   << Robot::m_drivetrain.GetGyroYaw();
+    std::cout<<"   TARGET ANGLE " << m_targetAngle<<std::endl;
 
     SetTimeout ( 3.0 );
 }
@@ -41,14 +52,14 @@ void CmdTurnToLimelight::Execute()
     double error = m_targetAngle - Robot::m_drivetrain.GetGyroYaw();
     double leftDrive = 0;
     double rightDrive = 0;
-    frc::SmartDashboard::PutNumber("ERROR CMDTURN2LIMELIGHT", error);
-    if(error > 0)
+    //frc::SmartDashboard::PutNumber("ERROR CMDTURN2LIMELIGHT", error);
+    if(error > TOLRENCEZONE)
     {
         // right turn
         leftDrive  = -((m_Kp * error) + m_minPower);
         rightDrive =  ((m_Kp * error) + m_minPower);
     }
-    else if(error < 0)
+    else if(error < -TOLRENCEZONE)
     {
         // left turn
         leftDrive  = -((m_Kp * error) - m_minPower);
