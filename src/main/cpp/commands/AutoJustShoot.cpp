@@ -33,7 +33,7 @@ AutoJustShoot::AutoJustShoot()
     AddSequential( new CmdWaitStopped(0.1));
     AddSequential(new CmdDriveRevGyroV2( 0.2, 0.0, 18, true,true, 0.0));
 
-    AddSequential( new CmdSetShooterVelocity(SHOOTER_LINE_VELOCITY));
+    AddSequential( new CmdSetShooterVelocity(SHOOTER_AUTO_LINE_VELOCITY));
     AddSequential( new CmdWaitStopped(2.0));
 
     //so anyway, I started blastin'

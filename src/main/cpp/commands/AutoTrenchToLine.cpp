@@ -48,7 +48,7 @@ AutoTrenchToLine::AutoTrenchToLine()
     
 
     //Start spooling up shooter
-    AddSequential(new CmdSetShooterVelocity(SHOOTER_LINE_VELOCITY));
+    AddSequential(new CmdSetShooterVelocity(SHOOTER_AUTO_LINE_VELOCITY));
 
 
     AddSequential(new CmdDriveFwdGyroV2(.4, -90.0, 72, false, false, 0.0));     //Major turn left towards target
@@ -63,7 +63,6 @@ AutoTrenchToLine::AutoTrenchToLine()
     AddSequential(new CmdTurnToLimelight());
 
     //so anyway i started blastin
-    AddSequential(new CmdSetShooterVelocity(SHOOTER_LINE_VELOCITY));
     AddSequential(new CmdSetCarouselPower(CAROUSEL_SHOOTING_POWER));
     AddSequential(new CmdSetFeederPower(FEEDER_SHOOTING_POWER));
     
