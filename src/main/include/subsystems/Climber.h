@@ -16,6 +16,6 @@ class Climber : public frc::Subsystem {
     void ClimberPeriodic();
     void InitDefaultCommand() override;
     void MoveLightsaber(double power);
-    void SetIsClimbActivated(bool);
-    void ClearIsClimbActivated(void);
+    void SetClimbActivated(void);
+    void ClearClimbActivated(void);
 };

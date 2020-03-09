@@ -55,9 +55,7 @@ void Robot::RobotInit() {
     m_shooter.ShooterInit();
     m_drivetrain.HardResetEncoders();
     m_drivetrain.ZeroGyro();
-
-
-    m_climber.ClearIsClimbActivated(); //just to set the value to false before anything haappens
+    m_climber.ClearClimbActivated();    //just to set the value to false before anything haappens
 
     //Auto Chooser
     m_chooser.SetDefaultOption("Default Auto", new AutoDoNothing()    );
@@ -93,6 +91,8 @@ void Robot::DisabledInit()
     std::cout<<"Disabled Init"<<std::endl;
 
     m_shooter.SetShooterVelocity(0);
+    m_climber.ClearClimbActivated();
+    
 }
 
 

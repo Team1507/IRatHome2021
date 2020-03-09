@@ -4,7 +4,7 @@ CmdEnableClimb::CmdEnableClimb() {}
 
 void CmdEnableClimb::Initialize() 
 {
-    Robot::m_climber.SetIsClimbActivated(true);
+    Robot::m_climber.SetClimbActivated();
 }
 
 void CmdEnableClimb::Execute() {}

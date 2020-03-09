@@ -6,7 +6,10 @@
 #define WINCH_POWER 1.0
 #define REVERSE_WINCH_POWER 0.4
 
-Climber::Climber() : Subsystem("ExampleSubsystem") {}
+Climber::Climber() : Subsystem("ExampleSubsystem") 
+{
+    m_isClimbActivated = false;
+}
 
 void Climber::InitDefaultCommand() {}
 
@@ -19,16 +22,16 @@ void Climber::ClimberPeriodic()
     //if pressed up, assign power upwards with up multiplier, if pressed downward use downward multiplier
     climberPower = (gamepadAxis < 0)? (gamepadAxis*LIGHTSABER_UP_MULTIPLIER) : (gamepadAxis*LIGHTSABER_DOWN_MULTIPLIER);
     
-    if(Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_Y && m_isClimbActivated))
-        {
-            MoveLightsaber(climberPower);
-            isIdle = false;
-        }
-        else if(!isIdle)
-        {
-            isIdle = true;
-            MoveLightsaber(0.0);
-        }
+    if(Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_Y)  && m_isClimbActivated )
+    {
+        MoveLightsaber(climberPower);
+        isIdle = false;
+    }
+    else if(!isIdle)
+    {
+        isIdle = true;
+        MoveLightsaber(0.0);
+    }
 
     //**************
     //Climb Motor
@@ -36,12 +39,12 @@ void Climber::ClimberPeriodic()
     bool operatorClimb = Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_START);
     bool reverseOperatorClimb = Robot::m_oi.GetOperatorGamepad()->GetRawButton(GAMEPADMAP_BUTTON_BACK);  
 
-    if(operatorClimb) //&& driverClimb)
+    if(operatorClimb && m_isClimbActivated) //&& driverClimb)
     {
         m_rightWinchMotor.Set(WINCH_POWER);
         m_leftWinchMotor.Set(WINCH_POWER);
     }
-    else if( reverseOperatorClimb )
+    else if( reverseOperatorClimb && m_isClimbActivated )
     {
         m_rightWinchMotor.Set(-REVERSE_WINCH_POWER);
         m_leftWinchMotor.Set(-REVERSE_WINCH_POWER);
@@ -51,6 +54,10 @@ void Climber::ClimberPeriodic()
         m_rightWinchMotor.Set(0.0);
         m_leftWinchMotor.Set(0.0);
     }
+
+
+    //SmartDashboard
+    frc::SmartDashboard::PutBoolean("ClimbEnabled", m_isClimbActivated );    
 }
 
 
@@ -60,12 +67,12 @@ void Climber::MoveLightsaber(double power)
 }
 
 
-void Climber::SetIsClimbActivated(bool state)
+void Climber::SetClimbActivated()
 {
-    m_isClimbActivated = state;
+    m_isClimbActivated = true;
 }
 
-void Climber::ClearIsClimbActivated()
+void Climber::ClearClimbActivated()
 {
     m_isClimbActivated = false;
 }
