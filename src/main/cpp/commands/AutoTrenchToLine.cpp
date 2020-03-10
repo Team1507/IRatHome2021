@@ -59,7 +59,7 @@ AutoTrenchToLine::AutoTrenchToLine()
     AddSequential(new CmdDriveFwdGyroV2(.4, 0,     2, false, true, 0.0));       //Move up a little
 
 
-    AddSequential(new CmdWaitStopped(1.0));
+    AddSequential(new CmdWaitStopped(3.0));
     AddSequential(new CmdTurnToLimelight());
 
     //so anyway i started blastin
@@ -69,7 +69,7 @@ AutoTrenchToLine::AutoTrenchToLine()
     AddSequential(new CmdExtendRamp());
 
     //** SHOOT Time
-    AddSequential(new CmdWaitStopped(6.0));
+    AddSequential(new CmdWaitStopped(4.0));
 
     //Done Shooting, Clean up
     AddSequential(new CmdRetractRamp());

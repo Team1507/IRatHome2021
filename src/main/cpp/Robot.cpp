@@ -12,6 +12,7 @@
 #include "commands/AutoDoNothing.h"
 #include "commands/AutoDriveStr8.h"
 #include "commands/AutoJustShoot.h"
+#include "commands/AutoJustShootBackOnly.h"
 #include "commands/AutoBallAtTrench.h"
 #include "commands/AutoTrenchToLine.h"
 #include "subsystems/LED.h"
@@ -61,6 +62,7 @@ void Robot::RobotInit() {
     m_chooser.SetDefaultOption("Default Auto", new AutoDoNothing()    );
     //m_chooser.AddOption("Auto Drive Str8",     new AutoDriveStr8()    );    //untested
     m_chooser.AddOption("Auto Just Shoot",     new AutoJustShoot()    );
+    m_chooser.AddOption("Auto Just Shoot Back Only",     new AutoJustShootBackOnly()    );
     m_chooser.AddOption("Auto Ball at trench", new AutoBallAtTrench() );
     m_chooser.AddOption("Auto Trench to line", new AutoTrenchToLine() );
     

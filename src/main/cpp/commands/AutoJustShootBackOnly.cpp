@@ -1,4 +1,4 @@
-#include "commands/AutoJustShoot.h"
+#include "commands/AutoJustShootBackOnly.h"
 #include "commands/CmdSetShooterVelocity.h"
 #include "commands/CmdSetFeederVelocity.h"
 #include "commands/CmdSetFeederPower.h"
@@ -19,10 +19,10 @@
 #include "commands/CmdTurnToLimelight.h"
 
 
-AutoJustShoot::AutoJustShoot() 
+AutoJustShootBackOnly::AutoJustShootBackOnly() 
 {
     AddSequential( new CmdDriveClearAll());
-    AddSequential( new CmdPrintAutoText("****** CMD JUST SHOOT ******"));
+    AddSequential( new CmdPrintAutoText("****** CMD JUST SHOOT Back Only******"));
 
     //Spool up shooter and get ready to shoot
     AddSequential( new CmdAdjustHood(LINE_HOOD_ANGLE));
@@ -52,10 +52,7 @@ AutoJustShoot::AutoJustShoot()
     AddSequential( new CmdSetCarouselPower(CAROUSEL_IDLE_POWER));
 
 
-    //move off the line;
-    //AddSequential( new CmdDriveFwdGyro( 0.4 , 0, 48 , true , 0.0 ) );
-    AddSequential( new CmdDriveFwdGyroV2( 0.4 , 0, 72 , true, true , 0.0 ) );   //48+24=72
 
 
-    AddSequential(new CmdPrintAutoText("AUTO JUST SHOOT DONE"));
+    AddSequential(new CmdPrintAutoText("AUTO JUST SHOOT Back Only DONE"));
 }

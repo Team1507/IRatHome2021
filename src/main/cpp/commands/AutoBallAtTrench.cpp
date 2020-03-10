@@ -53,6 +53,8 @@ AutoBallAtTrench::AutoBallAtTrench()
     //power, angle
     AddSequential(new CmdDriveTurn2Angle(.15, -10));
     
+
+    AddSequential(new CmdWaitStopped(4.0));
     AddSequential(new CmdTurnToLimelight() );
 
     //SHOOT!!!!!!

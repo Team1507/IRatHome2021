@@ -25,7 +25,7 @@
 
 //These are velocities in Falcon (units/100ms)/1000  <<==notice divided by 1000
 
-#define SHOOTER_AUTO_LINE_VELOCITY      18
+#define SHOOTER_AUTO_LINE_VELOCITY      19.5
 #define SHOOTER_AUTO_TRENCH_VELOCITY    17  
 
 #define SHOOTER_LINE_VELOCITY       20
