@@ -17,6 +17,7 @@
 #include "commands/CmdTurnToLimelight.h"
 #include "commands/CmdStopCarousel.h"
 #include "commands/CmdEnableClimb.h"
+#include "commands/GrpSlalomPath.h"
 
 OI::OI() {
   // Process operator interface input here.
@@ -31,6 +32,9 @@ OI::OI() {
     frc::SmartDashboard::PutData("GrpAutoDriveTest", new GrpAutoDriveTest());
     frc::SmartDashboard::PutData("GrpFwdDriveTest", new GrpFwdDriveTest());
     frc::SmartDashboard::PutData("GrpRevDriveTest", new GrpRevDriveTest());
+
+    frc::SmartDashboard::PutData("GrpSlalomPath", new GrpSlalomPath());
+
 
     // //frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
     // //frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
