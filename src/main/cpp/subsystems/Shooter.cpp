@@ -63,21 +63,21 @@ void Shooter::ShooterInit()
     //set follow
     m_rightShooterMotor.Follow(m_leftShooterMotor);
 
-    //*********************************************************
-    //Shooter Setup TEMP CODE
-    frc::SmartDashboard::PutNumber("CAROUSEL_IDLE_POWER",       CAROUSEL_IDLE_POWER    );
-    frc::SmartDashboard::PutNumber("CAROUSEL_SHOOTING_POWER",   CAROUSEL_SHOOTING_POWER);
-    frc::SmartDashboard::PutNumber("FEEDER_POWER",              FEEDER_SHOOTING_POWER  );
+    // //*********************************************************
+    // //Shooter Setup TEMP CODE
+    // frc::SmartDashboard::PutNumber("CAROUSEL_IDLE_POWER",       CAROUSEL_IDLE_POWER    );
+    // frc::SmartDashboard::PutNumber("CAROUSEL_SHOOTING_POWER",   CAROUSEL_SHOOTING_POWER);
+    // frc::SmartDashboard::PutNumber("FEEDER_POWER",              FEEDER_SHOOTING_POWER  );
 
-    frc::SmartDashboard::PutNumber("SHOOTER_IDLE_VELOCITY",     SHOOTER_IDLE_VELOCITY    );
-    frc::SmartDashboard::PutNumber("SHOOTER_TRENCH_VELOCITY",   SHOOTER_TRENCH_VELOCITY  );
-    frc::SmartDashboard::PutNumber("SHOOTER_LOW_GOAL_VELOCITY", SHOOTER_LOW_GOAL_VELOCITY);
-    frc::SmartDashboard::PutNumber("SHOOTER_LINE_VELOCITY",     SHOOTER_LINE_VELOCITY    );
+    // frc::SmartDashboard::PutNumber("SHOOTER_IDLE_VELOCITY",     SHOOTER_IDLE_VELOCITY    );
+    // frc::SmartDashboard::PutNumber("SHOOTER_TRENCH_VELOCITY",   SHOOTER_TRENCH_VELOCITY  );
+    // frc::SmartDashboard::PutNumber("SHOOTER_LOW_GOAL_VELOCITY", SHOOTER_LOW_GOAL_VELOCITY);
+    // frc::SmartDashboard::PutNumber("SHOOTER_LINE_VELOCITY",     SHOOTER_LINE_VELOCITY    );
 
-    //frc::SmartDashboard::PutNumber("SHOOTER Kf", 0);
-    //frc::SmartDashboard::PutNumber("SHOOTER Kp", 0);
+    // //frc::SmartDashboard::PutNumber("SHOOTER Kf", 0);
+    // //frc::SmartDashboard::PutNumber("SHOOTER Kp", 0);
 
-    SmartDashboard::PutNumber("INTAKE_POWER", 0.7);
+    // SmartDashboard::PutNumber("INTAKE_POWER", 0.7);
 
 }
 

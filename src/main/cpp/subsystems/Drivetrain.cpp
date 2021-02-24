@@ -108,9 +108,9 @@ double Drivetrain::GetLeftMotor(void)
 void Drivetrain::WriteFalconTemps(void)
 {
     frc::SmartDashboard::PutNumber("FalconTemp LF", m_leftMotorFront.GetTemperature() );
-    frc::SmartDashboard::PutNumber("FalconTemp LR", m_leftMotorBack.GetTemperature() );
+    //frc::SmartDashboard::PutNumber("FalconTemp LR", m_leftMotorBack.GetTemperature() );
     frc::SmartDashboard::PutNumber("FalconTemp RF", m_rightMotorFront.GetTemperature() );
-    frc::SmartDashboard::PutNumber("FalconTemp RR", m_rightMotorBack.GetTemperature() );
+    //frc::SmartDashboard::PutNumber("FalconTemp RR", m_rightMotorBack.GetTemperature() );
 }
 
 void Drivetrain::DriveWithGamepad( void )
@@ -159,7 +159,8 @@ int Drivetrain::GetLeftEncoder(void)
 
 int Drivetrain::GetLeftEncoder2(void)
 {
-    return (m_leftMotorBack.GetSelectedSensorPosition(0) - m_l2_enc_zero);
+    return 0;
+    //return (m_leftMotorBack.GetSelectedSensorPosition(0) - m_l2_enc_zero);
     //return -(m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition() - m_l2_enc_zero);
 	//return -m_leftMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
 }
@@ -173,7 +174,8 @@ int Drivetrain::GetRightEncoder(void)
 
 int Drivetrain::GetRightEncoder2(void)
 {
-    return -(m_rightMotorBack.GetSelectedSensorPosition(0) - m_r2_enc_zero);
+    return 0;
+    //return -(m_rightMotorBack.GetSelectedSensorPosition(0) - m_r2_enc_zero);
     //return m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition() - m_r2_enc_zero;
 	//return m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
 }

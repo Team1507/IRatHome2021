@@ -61,19 +61,19 @@ void Robot::RobotInit() {
 
     //Auto Chooser
     m_chooser.SetDefaultOption("Default Auto", new AutoDoNothing()    );
-    //m_chooser.AddOption("Auto Drive Str8",     new AutoDriveStr8()    );    //untested
-    m_chooser.AddOption("Auto Just Shoot",     new AutoJustShoot()    );
-    m_chooser.AddOption("Auto Just Shoot Back Only",     new AutoJustShootBackOnly()    );
-    m_chooser.AddOption("Auto Ball at trench", new AutoBallAtTrench() );
-    m_chooser.AddOption("Auto Trench to line", new AutoTrenchToLine() );
+    // //m_chooser.AddOption("Auto Drive Str8",     new AutoDriveStr8()    );    //untested
+    // m_chooser.AddOption("Auto Just Shoot",     new AutoJustShoot()    );
+    // m_chooser.AddOption("Auto Just Shoot Back Only",     new AutoJustShootBackOnly()    );
+    // m_chooser.AddOption("Auto Ball at trench", new AutoBallAtTrench() );
+    // m_chooser.AddOption("Auto Trench to line", new AutoTrenchToLine() );
     
-    frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+    // frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
 
     //Set LED's to Yellow initially
     m_led.SetAllLEDColor(255,255,0);
 
-    frc::SmartDashboard::PutNumber( "LimelightOffset", -1.5 ); //calibrated 2/21  was -1.25
+    //frc::SmartDashboard::PutNumber( "LimelightOffset", -1.5 ); //calibrated 2/21  was -1.25
 
 
 }
@@ -82,7 +82,7 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() 
 {
     //m_odometry.OdometryPeriodic();
-    m_shooter.ShooterPeriodic();
+    //m_shooter.ShooterPeriodic();
     Write2Dashboard();
 
 
@@ -164,9 +164,9 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic() 
 { 
 
-    m_intake.IntakePeriodic();
-    m_controlPanel.ControlPanelPeriodic();
-    m_climber.ClimberPeriodic();
+    //m_intake.IntakePeriodic();
+    //m_controlPanel.ControlPanelPeriodic();
+    //m_climber.ClimberPeriodic();
     
     frc::Scheduler::GetInstance()->Run();
 }
@@ -195,9 +195,9 @@ void Write2Dashboard(void)
     // frc::SmartDashboard::PutNumber("D_R_Trig",    Robot::m_oi->GetDriverGamepad()->GetRawAxis(GAMEPADMAP_AXIS_R_TRIG)  );
 
 	frc::SmartDashboard::PutNumber("LeftEnc",    Robot::m_drivetrain.GetLeftEncoder());
-    frc::SmartDashboard::PutNumber("LeftEnc2",    Robot::m_drivetrain.GetLeftEncoder2());
+    //frc::SmartDashboard::PutNumber("LeftEnc2",    Robot::m_drivetrain.GetLeftEncoder2());
 	frc::SmartDashboard::PutNumber("RightEnc",   Robot::m_drivetrain.GetRightEncoder());  
-	frc::SmartDashboard::PutNumber("RightEnc2",    Robot::m_drivetrain.GetRightEncoder2());
+	//frc::SmartDashboard::PutNumber("RightEnc2",    Robot::m_drivetrain.GetRightEncoder2());
 
 
 	frc::SmartDashboard::PutBoolean("navx_IsConn", Robot::m_drivetrain.IsGyroConnected() );
@@ -210,13 +210,13 @@ void Write2Dashboard(void)
     // frc::SmartDashboard::PutNumber("Curr_Y",    Robot::m_odometry.GetY() );
     // frc::SmartDashboard::PutNumber("Curr_Vel",  Robot::m_odometry.GetVel() );
     
-    //limit switch
-    frc::SmartDashboard::PutBoolean("CP Top LS", Robot::m_controlPanel.isTopSwitchPress());
-    frc::SmartDashboard::PutBoolean("CP Bottom LS", Robot::m_controlPanel.isBottomSwitchPress());
+    // //limit switch
+    // frc::SmartDashboard::PutBoolean("CP Top LS", Robot::m_controlPanel.isTopSwitchPress());
+    // frc::SmartDashboard::PutBoolean("CP Bottom LS", Robot::m_controlPanel.isBottomSwitchPress());
 
-    //Shooter
-    frc::SmartDashboard::PutNumber("DBG Shooter Velocity",  Robot::m_shooter.GetShooterVelocity() );
-    frc::SmartDashboard::PutNumber("DBG Shooter Power",     Robot::m_shooter.GetShooterPower() );
+    // //Shooter
+    // frc::SmartDashboard::PutNumber("DBG Shooter Velocity",  Robot::m_shooter.GetShooterVelocity() );
+    // frc::SmartDashboard::PutNumber("DBG Shooter Power",     Robot::m_shooter.GetShooterPower() );
 
     //Time
     //frc::SmartDashboard::PutNumber("FPGATime2",  Robot::m_timer->GetFPGATimestamp() );   //(double) sec
@@ -230,5 +230,5 @@ void Write2Dashboard(void)
     // frc::SmartDashboard::PutNumber("PDP Voltage", Robot::m_pdp.GetVoltage() );
 
     Robot::m_drivetrain.WriteFalconTemps();
-    Robot::m_shooter.WriteFalconTemps();
+ //   Robot::m_shooter.WriteFalconTemps();
 }

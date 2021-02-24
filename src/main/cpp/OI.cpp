@@ -32,23 +32,23 @@ OI::OI() {
     frc::SmartDashboard::PutData("GrpFwdDriveTest", new GrpFwdDriveTest());
     frc::SmartDashboard::PutData("GrpRevDriveTest", new GrpRevDriveTest());
 
-    //frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
-    //frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
-    frc::SmartDashboard::PutData("CmdTurnToLimelight", new CmdTurnToLimelight());
-    frc::SmartDashboard::PutData("kill carousel", new CmdStopCarousel());
-    frc::SmartDashboard::PutData("Enable Climb", new CmdEnableClimb());
+    // //frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
+    // //frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
+    // frc::SmartDashboard::PutData("CmdTurnToLimelight", new CmdTurnToLimelight());
+    // frc::SmartDashboard::PutData("kill carousel", new CmdStopCarousel());
+    // frc::SmartDashboard::PutData("Enable Climb", new CmdEnableClimb());
     
     
     
-    //buttons1
-    //m_spinnerDeployToggle = new frc::JoystickButton(m_operatorgamepad,GAMEPADMAP_BUTTON_A);
-    //m_spinnerDeployToggle->WhenPressed(new CmdSpinnerDeploy());
+    // // //buttons1
+    // //m_spinnerDeployToggle = new frc::JoystickButton(m_operatorgamepad,GAMEPADMAP_BUTTON_A);
+    // //m_spinnerDeployToggle->WhenPressed(new CmdSpinnerDeploy());
 
-    m_driverLimelightShoot = new frc::JoystickButton(m_drivergamepad,GAMEPADMAP_BUTTON_RBUMP);
-    m_driverLimelightShoot->WhenPressed(new CmdTurnToLimelight());
+    // m_driverLimelightShoot = new frc::JoystickButton(m_drivergamepad,GAMEPADMAP_BUTTON_RBUMP);
+    // m_driverLimelightShoot->WhenPressed(new CmdTurnToLimelight());
 
-    m_driverAllowClimb = new frc::JoystickButton(m_drivergamepad, GAMEPADMAP_BUTTON_START);
-    m_driverAllowClimb->WhenPressed(new CmdEnableClimb());
+    // m_driverAllowClimb = new frc::JoystickButton(m_drivergamepad, GAMEPADMAP_BUTTON_START);
+    // m_driverAllowClimb->WhenPressed(new CmdEnableClimb());
 
 }
 
