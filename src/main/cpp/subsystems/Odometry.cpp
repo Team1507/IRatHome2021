@@ -34,8 +34,8 @@ void Odometry::OdometryPeriodic(void)
     // TIMESTAMP
     double timestamp = Robot::m_timer.GetFPGATimestamp();
 
-    double delta_left_enc  = ( left_enc  - m_prev_left_enc)  / Robot::m_drivetrain.LEFT_ENCODER_TPI;
-    double delta_right_enc = ( right_enc - m_prev_right_enc) / Robot::m_drivetrain.RIGHT_ENCODER_TPI;
+    double delta_left_enc  = ( left_enc  - m_prev_left_enc)  / (double)Robot::m_drivetrain.LEFT_ENCODER_TPI;
+    double delta_right_enc = ( right_enc - m_prev_right_enc) / (double)Robot::m_drivetrain.RIGHT_ENCODER_TPI;
 
     double distance = (delta_left_enc + delta_right_enc) / 2.0;
 

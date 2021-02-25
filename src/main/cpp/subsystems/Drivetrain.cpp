@@ -249,3 +249,27 @@ void Drivetrain::ZeroGyro(void)
   	std::cout<<"ZeroGyro"<<std::endl;
 	m_ahrs.ZeroYaw();
 }
+
+
+
+
+//**************** PATHFINDING *********************
+double Drivetrain::V2P_calc( double velocity )
+{
+	// *** Velocity to power calculator ***
+	// Velocity supplied in inches/sec
+	// Power returned as a percentage output (0 - 1.0)
+	// Calculated by taking a few runs at different powers
+	//    and finding max velocity
+	//  then solving formula for a line (y-mx=b)
+	//  where x=power and y=velocity
+	// *** Calibrated for IncogNeo 10/13/2019
+	const double m = 250.0;		//Slope
+	const double b = 0;		//Y-intercept
+
+	//y=mx+b  ==>  x = (y-b)/m  
+	double power = (velocity - b)/m;	//power calc
+	if(power<0.0) power = 0;			//sanity check
+	if(power>1.0) power = 1.0;			//sanity check
+	return power;
+}

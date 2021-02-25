@@ -59,4 +59,7 @@ class Drivetrain : public frc::Subsystem {
         double GetGyroRate(void);
         void   ZeroGyro(void);    
 
+        //Pathfinding
+        double V2P_calc( double velocity );
+
 };

@@ -30,6 +30,7 @@ ControlPanel Robot::m_controlPanel;
 BallDeflector Robot::m_ballDeflector;
 LED Robot::m_led;
 Climber Robot::m_climber;
+LogFile Robot::m_logfile;
 
 PowerDistributionPanel Robot::m_pdp {PDP_CAN_ID};
 
@@ -81,8 +82,9 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() 
 {
-    //m_odometry.OdometryPeriodic();
+    m_odometry.OdometryPeriodic();
     //m_shooter.ShooterPeriodic();
+    m_logfile.LogFilePeriodic();
     Write2Dashboard();
 
 
@@ -93,8 +95,9 @@ void Robot::DisabledInit()
 {
     std::cout<<"Disabled Init"<<std::endl;
 
-    m_shooter.SetShooterVelocity(0);
-    m_climber.ClearClimbActivated();
+    //m_shooter.SetShooterVelocity(0);
+    //m_climber.ClearClimbActivated();
+    m_logfile.LogFileEnable(false);
 
 }
 
@@ -206,9 +209,9 @@ void Write2Dashboard(void)
  
     // frc::SmartDashboard::PutNumber("navx_Rate",    Robot::m_drivetrain->GetGyroRate() );
 
-    // frc::SmartDashboard::PutNumber("Curr_X",    Robot::m_odometry.GetX() );
-    // frc::SmartDashboard::PutNumber("Curr_Y",    Robot::m_odometry.GetY() );
-    // frc::SmartDashboard::PutNumber("Curr_Vel",  Robot::m_odometry.GetVel() );
+    frc::SmartDashboard::PutNumber("Curr_X",    Robot::m_odometry.GetX() );
+    frc::SmartDashboard::PutNumber("Curr_Y",    Robot::m_odometry.GetY() );
+    frc::SmartDashboard::PutNumber("Curr_Vel",  Robot::m_odometry.GetVel() );
     
     // //limit switch
     // frc::SmartDashboard::PutBoolean("CP Top LS", Robot::m_controlPanel.isTopSwitchPress());
@@ -228,6 +231,7 @@ void Write2Dashboard(void)
     // frc::SmartDashboard::PutNumber("CAROUSEL CURRENT", Robot::m_pdp.GetCurrent(CAROUSEL_PDP_CHANNEL));
     // frc::SmartDashboard::PutNumber("12v DISTRIBUTOR CURRENT", Robot::m_pdp.GetCurrent(TWELVE_VOLT_DISTRIBUTOR));
     // frc::SmartDashboard::PutNumber("PDP Voltage", Robot::m_pdp.GetVoltage() );
+
 
     Robot::m_drivetrain.WriteFalconTemps();
  //   Robot::m_shooter.WriteFalconTemps();
