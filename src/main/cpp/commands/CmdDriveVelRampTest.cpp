@@ -22,7 +22,12 @@ void CmdDriveVelRampTest::Initialize()
 }
 
 
-void CmdDriveVelRampTest::Execute() {}
+void CmdDriveVelRampTest::Execute() 
+{ 
+
+    double power = frc::SmartDashboard::GetNumber("VRTest_Power",0.0);
+    Robot::m_drivetrain.Drive( power,  power );
+    }
 
 
 bool CmdDriveVelRampTest::IsFinished() { 

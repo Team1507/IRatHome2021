@@ -5,33 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/GrpVelocityRampTest.h"
+#include "commands/GrpSlalomPathAuto.h"
 #include "frc/commands/WaitCommand.h"
-
-#include "commands/CmdDriveManual.h"
-#include "commands/CmdDriveVelRampTest.h"
 #include "commands/CmdPrintAutoText.h"
-#include "commands/CmdDriveFwdEncoder.h"
-#include "commands/CmdDriveFwdGyro.h"
 #include "commands/CmdDriveClearAll.h"
-#include "commands/CmdLoggingEnable.h"
+#include "commands/CmdRunPurePursuit.h"
+#include "commands/CmdDriveManual.h"
 
-
-
-GrpVelocityRampTest::GrpVelocityRampTest() 
+GrpSlalomPathAuto::GrpSlalomPathAuto() 
 {
-	AddSequential(new CmdPrintAutoText("GrpVelocityRampTest Begin"));
+
+	  AddSequential(new CmdPrintAutoText("GrpSlalomPathAuto Begin"));
     AddSequential(new CmdDriveClearAll());
     //***************************************************
-    AddSequential(new CmdLoggingEnable(true));
 
+    AddSequential( new CmdRunPurePursuit( "output") );
+    AddSequential( new CmdRunPurePursuit( "output2") );
 
-    AddSequential(new CmdDriveVelRampTest());
-
-
-    AddSequential(new frc::WaitCommand(1.0));           //Let it finish whatever it's doing
-    AddSequential(new CmdLoggingEnable(false));
     //***************************************************
     AddSequential(new CmdDriveManual(0,0,0) );          //Safety.  All Off
-    AddSequential(new CmdPrintAutoText("GrpVelocityRampTest Complete"));
+    AddSequential(new CmdPrintAutoText("GrpSlalomPathAuto Complete"));
+
 }

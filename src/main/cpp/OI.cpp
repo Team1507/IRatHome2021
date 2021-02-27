@@ -6,6 +6,7 @@
 #include "commands/GrpAutoDriveTest.h"
 #include "commands/GrpFwdDriveTest.h"
 #include "commands/GrpRevDriveTest.h"
+#include "commands/GrpVelocityRampTest.h"
 
 #include "GamepadMap.h"
 // #include "commands/CmdTest1.h"
@@ -19,6 +20,7 @@
 // #include "commands/CmdEnableClimb.h"
 #include "commands/GrpSlalomPath.h"
 #include "commands/CmdRunPurePursuit.h"
+#include "commands/GrpSlalomPathAuto.h"
 
 OI::OI() {
   // Process operator interface input here.
@@ -37,6 +39,11 @@ OI::OI() {
     frc::SmartDashboard::PutData("GrpSlalomPath", new GrpSlalomPath());
 
     frc::SmartDashboard::PutData("CmdRunPurePursuit",   new CmdRunPurePursuit( "output") );
+
+    frc::SmartDashboard::PutData("GrpSlalomPathAuto",   new GrpSlalomPathAuto() );
+
+    frc::SmartDashboard::PutData("GrpVelocityRampTest",   new GrpVelocityRampTest() );
+
 
     // //frc::SmartDashboard::PutData("TEST 1", new CmdTest1());
     // //frc::SmartDashboard::PutData("TEST 2", new CmdSetIntake(0));
