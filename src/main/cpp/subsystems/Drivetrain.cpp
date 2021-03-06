@@ -40,8 +40,8 @@ void Drivetrain::InitFalcons(void)
     m_rightMotorBack.ConfigFactoryDefault();
 
     //Setup up Back motors as followers
-    m_leftMotorBack.Follow( m_leftMotorFront );
-    m_rightMotorBack.Follow( m_rightMotorFront );
+    //m_leftMotorBack.Follow( m_leftMotorFront );
+    //m_rightMotorBack.Follow( m_rightMotorFront );
 
     //Set Inverted
     m_leftMotorFront.SetInverted( true );
@@ -57,9 +57,9 @@ void Drivetrain::InitFalcons(void)
 
     //Setup Encoders
     m_leftMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
-    m_leftMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
+    //m_leftMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
     m_rightMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
-    m_rightMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
+    //m_rightMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
 
     ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration falconConfig;
     falconConfig.enable = true;
@@ -71,7 +71,35 @@ void Drivetrain::InitFalcons(void)
     // m_rightMotorFront.ConfigSupplyCurrentLimit(falconConfig,0);
     // m_leftMotorBack.ConfigSupplyCurrentLimit(falconConfig,0);
     // m_leftMotorFront.ConfigSupplyCurrentLimit(falconConfig,0);
+
+
+    m_leftMotorFront.SetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,4,10 );
+    m_rightMotorFront.SetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,4,10);
+
+    std::cout << "LeftStatusPeriod = " << m_leftMotorFront.GetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,10 ) << std::endl;
+    std::cout << "RightStatusPeriod = " << m_rightMotorFront.GetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,10) << std::endl;
+
+    //StatusFrame::
+
 }
+
+
+void Drivetrain::DrivetrainPeriodic( void )
+{
+
+    m_l1_enc = m_leftMotorFront.GetSelectedSensorPosition(0);
+    //m_l2_enc;
+    m_r1_enc = m_rightMotorFront.GetSelectedSensorPosition(0);
+    //m_r2_enc;  
+
+
+    //m_l1_enc = m_leftMotorFront.GetSelectedSensorPosition(0);
+    //m_r1_enc = m_rightMotorFront.GetSelectedSensorPosition(0);
+}
+
+
+
+
 
 
 void Drivetrain::Drive( double left, double right )
@@ -151,8 +179,8 @@ void Drivetrain::DriveWithGamepad( void )
 //**************** ENCODERS *********************
 int Drivetrain::GetLeftEncoder(void)
 {
-
-    return (m_leftMotorFront.GetSelectedSensorPosition(0)  - m_l1_enc_zero);
+    return m_l1_enc - m_l1_enc_zero;
+    //return (m_leftMotorFront.GetSelectedSensorPosition(0)  - m_l1_enc_zero);
     //return -(m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition()  - m_l1_enc_zero);
 	//return -m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
 }
@@ -167,7 +195,8 @@ int Drivetrain::GetLeftEncoder2(void)
 
 int Drivetrain::GetRightEncoder(void)
 {
-    return -(m_rightMotorFront.GetSelectedSensorPosition(0) - m_r1_enc_zero);
+    return -(m_r1_enc - m_r1_enc_zero);
+    //return -(m_rightMotorFront.GetSelectedSensorPosition(0) - m_r1_enc_zero);
     //return m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition() - m_r1_enc_zero;
 	//return m_rightMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
 }
@@ -193,9 +222,9 @@ void Drivetrain::HardResetEncoders(void)
     // m_rightMotorBack.GetSensorCollection().SetIntegratedSensorPosition(0);
 
     m_leftMotorFront.SetSelectedSensorPosition(0);
-    m_leftMotorBack.SetSelectedSensorPosition(0);
+    //m_leftMotorBack.SetSelectedSensorPosition(0);
     m_rightMotorFront.SetSelectedSensorPosition(0);
-    m_rightMotorBack.SetSelectedSensorPosition(0);
+    //m_rightMotorBack.SetSelectedSensorPosition(0);
     //
     m_l1_enc_zero = 0;
     m_l2_enc_zero = 0;
@@ -214,9 +243,9 @@ void Drivetrain::ResetEncoders(void)
     // m_r2_enc_zero = m_rightMotorBack.GetSensorCollection().GetIntegratedSensorPosition();
 
     m_l1_enc_zero = m_leftMotorFront.GetSelectedSensorPosition(0);
-    m_l2_enc_zero = m_leftMotorBack.GetSelectedSensorPosition(0);
+    //m_l2_enc_zero = m_leftMotorBack.GetSelectedSensorPosition(0);
     m_r1_enc_zero = m_rightMotorFront.GetSelectedSensorPosition(0);
-    m_r2_enc_zero = m_rightMotorBack.GetSelectedSensorPosition(0);
+    //m_r2_enc_zero = m_rightMotorBack.GetSelectedSensorPosition(0);
 
 
 }
@@ -263,9 +292,9 @@ double Drivetrain::V2P_calc( double velocity )
 	//    and finding max velocity
 	//  then solving formula for a line (y-mx=b)
 	//  where x=power and y=velocity
-	// *** Calibrated for IncogNeo 10/13/2019
-	const double m = 130.0;		//Slope
-	const double b = 14;		//Y-intercept
+	// *** Calibrated for DotMatrix - 3/4/2021 (Front Motors only)
+	const double m = 150.0;		//Slope  //250
+	const double b = 10;		//Y-intercept
 
 	//y=mx+b  ==>  x = (y-b)/m  
 	double power = (velocity - b)/m;	//power calc

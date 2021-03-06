@@ -21,10 +21,16 @@ class Drivetrain : public frc::Subsystem {
 
 
         //Local Encoders
+        volatile int m_l1_enc;
+        volatile int m_l2_enc;
+        volatile int m_r1_enc;
+        volatile int m_r2_enc;   
+
         int m_l1_enc_zero;
         int m_l2_enc_zero;
         int m_r1_enc_zero;
         int m_r2_enc_zero;
+
 
     public:
         Drivetrain();
@@ -43,6 +49,8 @@ class Drivetrain : public frc::Subsystem {
         double GetRightMotor(void);
         double GetLeftMotor(void);
         void WriteFalconTemps(void);
+
+        void DrivetrainPeriodic(void);
 
         //Encoders
         int GetLeftEncoder(void);

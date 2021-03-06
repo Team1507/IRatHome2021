@@ -82,6 +82,7 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() 
 {
+    m_drivetrain.DrivetrainPeriodic();
     m_odometry.OdometryPeriodic();
     //m_shooter.ShooterPeriodic();
     m_logfile.LogFilePeriodic();

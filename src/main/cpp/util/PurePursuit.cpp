@@ -303,7 +303,8 @@ void PurePursuit::PurePursuitPeriodic(void)
 
     //Calculate FB parameters
     // kP thought -> pick kP to make power at half Max velocity
-    const double kP = 0.004;        //@50 = 0.2
+    //const double kP = 0.004;        //@50 = 0.2
+    const double kP = 0.004;        //@50 = 0.3,  therefore 0.2/50 = 0.004
     double calcLfb = kP * (target_Lv-curr_Lv);
     double calcRfb = kP * (target_Rv-curr_Rv);
 
