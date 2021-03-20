@@ -15,6 +15,7 @@
 #include "commands/CmdDriveFwdGyro.h"
 #include "commands/CmdDriveClearAll.h"
 #include "commands/CmdLoggingEnable.h"
+#include "Commands\CmdDriveFwdGyroV2.h"
 
 
 
@@ -27,6 +28,7 @@ GrpVelocityRampTest::GrpVelocityRampTest()
 
 
     AddSequential(new CmdDriveVelRampTest());
+    AddSequential(new CmdDriveFwdGyroV2(0.1,0,100,0,true,2.0 ));
 
 
     AddSequential(new frc::WaitCommand(1.0));           //Let it finish whatever it's doing

@@ -73,8 +73,8 @@ void Drivetrain::InitFalcons(void)
     // m_leftMotorFront.ConfigSupplyCurrentLimit(falconConfig,0);
 
 
-    m_leftMotorFront.SetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,4,10 );
-    m_rightMotorFront.SetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,4,10);
+    m_leftMotorFront.SetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,2,10 );
+    m_rightMotorFront.SetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,2,10);
 
     std::cout << "LeftStatusPeriod = " << m_leftMotorFront.GetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,10 ) << std::endl;
     std::cout << "RightStatusPeriod = " << m_rightMotorFront.GetStatusFramePeriod(StatusFrame::Status_2_Feedback0_,10) << std::endl;
@@ -179,8 +179,8 @@ void Drivetrain::DriveWithGamepad( void )
 //**************** ENCODERS *********************
 int Drivetrain::GetLeftEncoder(void)
 {
-    return m_l1_enc - m_l1_enc_zero;
-    //return (m_leftMotorFront.GetSelectedSensorPosition(0)  - m_l1_enc_zero);
+    //return m_l1_enc - m_l1_enc_zero;
+    return (m_leftMotorFront.GetSelectedSensorPosition(0)  - m_l1_enc_zero);
     //return -(m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition()  - m_l1_enc_zero);
 	//return -m_leftMotorFront.GetSensorCollection().GetIntegratedSensorPosition();
 }
@@ -298,7 +298,8 @@ double Drivetrain::V2P_calc( double velocity )
 
 	//y=mx+b  ==>  x = (y-b)/m  
 	double power = (velocity - b)/m;	//power calc
-	if(power<0.0) power = 0;			//sanity check
+	//if(power<0.0) power = 0;			//sanity check
+    if(power<0.06) power = 0.06;		//sanity check
 	if(power>1.0) power = 1.0;			//sanity check
 	return power;
 }

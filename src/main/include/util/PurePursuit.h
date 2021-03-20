@@ -21,8 +21,8 @@ class PurePursuit
 
         //Private functions
         void LoadProfile( std::string profile_filename );
-        unsigned int FindClosestPoint(void);
-        coord_t FindLookaheadPoint(void);
+        unsigned int FindClosestPoint( unsigned int curr_index );
+        coord_t FindLookaheadPoint( unsigned int curr_index );
         double  CalcCurvature( coord_t aim_pt );
 
 

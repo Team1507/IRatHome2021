@@ -30,6 +30,8 @@ using namespace std;
 #define LOOKAHEAD_DISTANCE      25.0          //inches (radius)
 #define ROBOT_TRACK_WIDTH       26
 
+#define PROFILE_PT_WINDOW        10              // Number of points to look ahead
+
 const double PI = 3.14159;
 
 //MACROS
@@ -241,9 +243,9 @@ void PurePursuit::PurePursuitPeriodic(void)
     }
 
     //Running Pure Pursuit Algorithm
-    unsigned int ppindex = FindClosestPoint();
+    unsigned int ppindex = FindClosestPoint( m_curr_ppindex );
 
-    coord_t lookahead_pt = FindLookaheadPoint();
+    coord_t lookahead_pt = FindLookaheadPoint( m_curr_ppindex );
 
 
     //Sanity check that we are finding increasing path profiles points
@@ -278,7 +280,9 @@ void PurePursuit::PurePursuitPeriodic(void)
     double curr_velocity = Robot::m_odometry.GetVel(); //current
 
     //Velocity Rate Limiter
-    const double VEL_RAMP_LIMIT = 20;    //(500/50);      //500 in/sec @ 50hz
+    //const double VEL_RAMP_LIMIT = 20;    //(500/50);      //500 in/sec @ 50hz    //Velocity Rate Limiter
+    //const double VEL_RAMP_LIMIT = 12.5;    //(500/50);      //500 in/sec @ 50hz
+    const double VEL_RAMP_LIMIT = 11.25;    //(500/50);      //500 in/sec @ 50hz
     if( req_velocity > (curr_velocity + VEL_RAMP_LIMIT) )   req_velocity = curr_velocity + VEL_RAMP_LIMIT;
 
     //Calculate Left and Right target velocities
@@ -295,16 +299,27 @@ void PurePursuit::PurePursuitPeriodic(void)
     double calcLVff = Robot::m_drivetrain.V2P_calc(target_Lv);
     double calcRVff = Robot::m_drivetrain.V2P_calc(target_Rv);
 
+
+
+    if( m_curr_ppindex == 0)
+    {
+        calcRVff = 25.0; 
+        calcLVff = 25.0;
+    }
+
+
+
+
     //Calc FF Power for accleration
     //This was good for damping ocillations
-    const double kA = 0.002;        //a Guess
+    const double kA = 0.002;        //a Guess  0.002
     double calcLAff = (target_Lv - m_prev_target_Lv) * kA;
     double calcRAff = (target_Rv - m_prev_target_Rv) * kA;
 
     //Calculate FB parameters
     // kP thought -> pick kP to make power at half Max velocity
     //const double kP = 0.004;        //@50 = 0.2
-    const double kP = 0.004;        //@50 = 0.3,  therefore 0.2/50 = 0.004
+    const double kP = 0.004;        //@50 = 0.3,  therefore 0.2/50 = 0.006
     double calcLfb = kP * (target_Lv-curr_Lv);
     double calcRfb = kP * (target_Rv-curr_Rv);
 
@@ -346,7 +361,7 @@ void PurePursuit::PurePursuitPeriodic(void)
 
     *m_logfile << ppindex                                  << ","; // G:   index
     *m_logfile <<  lookahead_pt.x <<","<< lookahead_pt.y   << ","; // HI:  lookahead x,y
-    *m_logfile << curvature                                << ","; // J:   curve
+    *m_logfile << (1.0/curvature )                         << ","; // J:   curve
     *m_logfile << target_Lv  <<","<< target_Rv             << ","; // KL:  target vel
     *m_logfile << calcLdrive <<","<< calcRdrive                  ; // MN:  calc drive
 
@@ -363,7 +378,7 @@ void PurePursuit::PurePursuitPeriodic(void)
  ** Find the closest point on the profile
  ** and return it's index
  *******************************/
-unsigned int PurePursuit::FindClosestPoint(void)
+unsigned int PurePursuit::FindClosestPoint( unsigned int curr_index )
 {
     double x = Robot::m_odometry.GetX();
     double y = Robot::m_odometry.GetY();
@@ -372,9 +387,14 @@ unsigned int PurePursuit::FindClosestPoint(void)
     double min_dist  = 1000000.0;    //Init very far
 
 
+    unsigned int start_index = curr_index;
+    unsigned int end_index   = curr_index + PROFILE_PT_WINDOW;
+
+    if( end_index > m_profile.size() )  { end_index = m_profile.size(); }
+
     //Find the distance to each point in the profile and store the shortest
     //Distance = sqrt(  (x1-x2)^2 + (y1-y2)^2 )
-    for(unsigned int i=0; i< m_profile.size();i++)
+    for(unsigned int i=start_index; i < end_index ;i++)
     {
         double dist = sqrt( SQUARE(x-m_profile[i].x) + SQUARE(y-m_profile[i].y) );
         if( dist < min_dist )
@@ -395,7 +415,7 @@ unsigned int PurePursuit::FindClosestPoint(void)
  ** Work backwards from end point so we always know first point found is forwards
  ** Returns (x,y) of point!!!?????
  *******************************/
-coord_t PurePursuit::FindLookaheadPoint(void)
+coord_t PurePursuit::FindLookaheadPoint( unsigned int curr_index )
 {
 
     coord_t d,f;
@@ -404,7 +424,11 @@ coord_t PurePursuit::FindLookaheadPoint(void)
     double curr_x = Robot::m_odometry.GetX();
     double curr_y = Robot::m_odometry.GetY();
 
-    for(unsigned int i = m_profile.size()-2;  i>0;  i-- )
+    unsigned int start_index = curr_index + PROFILE_PT_WINDOW;
+    unsigned int end_index   = curr_index;
+    if( start_index > m_profile.size() -2 )  { start_index = m_profile.size() -2; }
+
+    for(unsigned int i = start_index;  i>end_index;  i-- )
     {
 
         //Sanity check - check for rolled over count
@@ -547,7 +571,8 @@ void PurePursuit::LogfileOpen(void)
     *m_logfile << "Lv,Rv"       << ","; // EF: Vel
     *m_logfile << "ppindex"     << ","; // G:  index
     *m_logfile << "lapX,lapY"   << ","; // HI: lookahead x,y
-    *m_logfile << "curve"       << ","; // J:  curve
+    //*m_logfile << "curve"       << ","; // J:  curve
+    *m_logfile << "radius"       << ","; // J:  radius
     *m_logfile << "tLv,tRv"     << ","; // KL: target vel
     *m_logfile << "LD,RD"             ; // MN: calc drive
 

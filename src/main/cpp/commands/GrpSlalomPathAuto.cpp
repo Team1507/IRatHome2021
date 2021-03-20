@@ -20,7 +20,7 @@ GrpSlalomPathAuto::GrpSlalomPathAuto()
     //***************************************************
 
     AddSequential( new CmdRunPurePursuit( "output") );
-    AddSequential( new CmdRunPurePursuit( "output2") );
+    //AddSequential( new CmdRunPurePursuit( "output2") );
 
     //***************************************************
     AddSequential(new CmdDriveManual(0,0,0) );          //Safety.  All Off
