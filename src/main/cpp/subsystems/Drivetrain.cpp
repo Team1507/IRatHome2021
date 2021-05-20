@@ -40,8 +40,8 @@ void Drivetrain::InitFalcons(void)
     m_rightMotorBack.ConfigFactoryDefault();
 
     //Setup up Back motors as followers
-    //m_leftMotorBack.Follow( m_leftMotorFront );
-    //m_rightMotorBack.Follow( m_rightMotorFront );
+    m_leftMotorBack.Follow( m_leftMotorFront );
+    m_rightMotorBack.Follow( m_rightMotorFront );
 
     //Set Inverted
     m_leftMotorFront.SetInverted( true );
@@ -57,9 +57,9 @@ void Drivetrain::InitFalcons(void)
 
     //Setup Encoders
     m_leftMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
-    //m_leftMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
+    m_leftMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
     m_rightMotorFront.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
-    //m_rightMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
+    m_rightMotorBack.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor,0,10);
 
     ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration falconConfig;
     falconConfig.enable = true;
@@ -136,9 +136,9 @@ double Drivetrain::GetLeftMotor(void)
 void Drivetrain::WriteFalconTemps(void)
 {
     frc::SmartDashboard::PutNumber("FalconTemp LF", m_leftMotorFront.GetTemperature() );
-    //frc::SmartDashboard::PutNumber("FalconTemp LR", m_leftMotorBack.GetTemperature() );
+    frc::SmartDashboard::PutNumber("FalconTemp LR", m_leftMotorBack.GetTemperature() );
     frc::SmartDashboard::PutNumber("FalconTemp RF", m_rightMotorFront.GetTemperature() );
-    //frc::SmartDashboard::PutNumber("FalconTemp RR", m_rightMotorBack.GetTemperature() );
+    frc::SmartDashboard::PutNumber("FalconTemp RR", m_rightMotorBack.GetTemperature() );
 }
 
 void Drivetrain::DriveWithGamepad( void )
